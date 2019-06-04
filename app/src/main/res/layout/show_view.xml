@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="25dp"
+    android:orientation="horizontal"
+    android:layout_marginLeft="@dimen/marginSize"
+    android:layout_marginRight="@dimen/marginSize">
+
+    <TextView
+        android:id="@+id/sw_head"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/itemTextSize"
+        android:text="号牌号码："/>
+
+    <TextView
+        android:id="@+id/sw_val"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/itemTextSize"
+        android:text="粤A00000"
+        />
+
+</LinearLayout>

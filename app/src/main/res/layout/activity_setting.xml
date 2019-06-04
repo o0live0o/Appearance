@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activitys.SettingActivity">
+
+    <include layout="@layout/nav_bar"></include>
+
+    <com.o0live0o.app.appearance.views.InputView
+        android:id="@+id/set_server"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/inputViewHeight"
+        android:layout_marginTop="@dimen/marginSize"
+        app:input_icon="@drawable/server"
+        app:input_hint="服务器IP"
+        app:is_pwd="false"
+        >
+    </com.o0live0o.app.appearance.views.InputView>
+
+    <View
+        style="@style/line"></View>
+    <com.o0live0o.app.appearance.views.InputView
+        android:id="@+id/set_database"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/inputViewHeight"
+        android:layout_marginTop="@dimen/marginSize"
+        app:input_icon="@drawable/database"
+        app:input_hint="数据库名称"
+        app:is_pwd="false"
+        >
+    </com.o0live0o.app.appearance.views.InputView>
+
+    <View
+        style="@style/line"></View>
+    <com.o0live0o.app.appearance.views.InputView
+        android:id="@+id/set_dbuser"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/inputViewHeight"
+        android:layout_marginTop="@dimen/marginSize"
+        app:input_icon="@drawable/user"
+        app:input_hint="用户名"
+        app:is_pwd="false"
+        >
+    </com.o0live0o.app.appearance.views.InputView>
+
+    <View
+        style="@style/line"></View>
+    <com.o0live0o.app.appearance.views.InputView
+        android:id="@+id/set_dbpwd"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/inputViewHeight"
+        android:layout_marginTop="@dimen/marginSize"
+        app:input_icon="@drawable/dbpassword"
+        app:input_hint="密码"
+        app:is_pwd="true"
+        >
+    </com.o0live0o.app.appearance.views.InputView>
+
+    <View
+        style="@style/line"></View>
+
+
+    <Button
+        style="@style/loginBtn"
+        android:background="@color/lightblue"
+        android:text="保 存"
+        android:onClick="onSaveSettingClick"/>
+
+
+
+</LinearLayout>

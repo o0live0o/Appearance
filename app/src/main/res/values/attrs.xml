@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="inputView">
+        <attr name="input_icon" format="reference"></attr>
+        <attr name="input_hint" format="string"></attr>
+        <attr name="is_pwd" format="boolean"></attr>
+    </declare-styleable>
+
+    <declare-styleable name="labelView">
+        <attr name="head_text" format="string"></attr>
+        <attr name="val_text" format="string"></attr>
+    </declare-styleable>
+</resources>

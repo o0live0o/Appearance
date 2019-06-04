@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/itemTextSize"
+        android:id="@+id/check_name"
+        android:layout_marginLeft="@dimen/marginSize"
+        android:text="号牌号码"
+        />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/chk_group">
+
+            <RadioButton
+                style="@style/checkItem"
+                android:id="@+id/chk_pass"
+                android:text="合格"/>
+            <RadioButton
+                style="@style/checkItem"
+                android:id="@+id/chk_fail"
+                android:text="不合格"/>
+            <RadioButton
+                style="@style/checkItem"
+                android:id="@+id/chk_none"
+                android:text="不判定"/>
+
+        </RadioGroup>
+    <View
+       style="@style/line"></View>
+
+
+</LinearLayout>

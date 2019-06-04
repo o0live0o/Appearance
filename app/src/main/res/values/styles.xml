@@ -1,0 +1,47 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/skyblue</item>
+        <item name="colorPrimaryDark">@color/skyblue</item>
+        <item name="colorAccent">@color/skyblue</item>
+    </style>
+
+
+    <!--分割线-->
+    <style name="line">
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/lightgray</item>
+        <item name="android:layout_margin">@dimen/marginSize</item>
+    </style>
+
+    <!--按钮-->
+    <style name="loginBtn">
+        <item name="android:layout_height">@dimen/btnHeight</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/navBarTitleSize</item>
+        <item name="android:layout_marginLeft">@dimen/marginSize</item>
+        <item name="android:layout_marginRight">@dimen/marginSize</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <!--Item-->
+    <style name="itemText">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textSize">@dimen/itemTextSize</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">@dimen/itemMargin</item>
+    </style>
+
+    <!--RadioButton-->
+    <style name="checkItem">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/itemTextSize</item>
+        <item name="android:layout_marginLeft">@dimen/marginSize</item>
+    </style>
+</resources>

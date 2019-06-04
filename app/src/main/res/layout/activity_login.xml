@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activitys.LoginActivity">
+
+    <include layout="@layout/nav_bar"></include>
+
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/logomin"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/marginSize"/>
+
+    <com.o0live0o.app.appearance.views.InputView
+        android:id="@+id/input_name"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/inputViewHeight"
+        android:layout_marginTop="@dimen/marginSize"
+        app:input_icon="@drawable/phone"
+        app:input_hint="用户名"
+        app:is_pwd="false"
+        >
+    </com.o0live0o.app.appearance.views.InputView>
+
+    <View
+        style="@style/line"></View>
+
+    <com.o0live0o.app.appearance.views.InputView
+        android:id="@+id/input_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/inputViewHeight"
+        android:layout_marginTop="@dimen/marginSize"
+        app:input_icon="@drawable/password"
+        app:input_hint="密码"
+        app:is_pwd="true"
+        >
+    </com.o0live0o.app.appearance.views.InputView>
+
+    <View
+      style="@style/line" ></View>
+
+    <Button
+        style="@style/loginBtn"
+        android:background="@color/skyblue"
+        android:text="登 录"
+        android:onClick="onLoginClick"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="系统设置"
+        android:layout_margin="@dimen/marginSize"
+        android:textColor="@color/skyblue"
+        android:gravity="center_horizontal"
+        android:onClick="onSettingClick" />
+
+</LinearLayout>

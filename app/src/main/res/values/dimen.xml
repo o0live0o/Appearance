@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="navBarH">56dp</dimen>
+    <dimen name="marginSize">16dp</dimen>
+    <dimen name="navBarTitleSize">22sp</dimen>
+
+
+    <!-- InputView -->
+    <dimen name="inputViewHeight">44dp</dimen>
+
+
+    <!--btn-->
+    <dimen name="btnHeight">44dp</dimen>
+
+    <!--item-->
+    <dimen name="itemTextSize">18sp</dimen>
+    <dimen name="itemMargin">3dp</dimen>
+    <dimen name="itemPicSize">100dp</dimen>
+
+    <!--nav_item-->
+    <dimen name="nav_item_height">70dp</dimen>
+    <dimen name="nav_item_titlesize">25sp</dimen>
+</resources>
