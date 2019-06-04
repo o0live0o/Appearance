@@ -18,21 +18,21 @@
         android:layout_marginTop="@dimen/marginSize"/>
 
     <com.o0live0o.app.appearance.views.InputView
-        android:id="@+id/input_name"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/inputViewHeight"
-        android:layout_marginTop="@dimen/marginSize"
-        app:input_icon="@drawable/phone"
-        app:input_hint="用户名"
-        app:is_pwd="false"
-        >
-    </com.o0live0o.app.appearance.views.InputView>
+    android:id="@+id/login_name"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/inputViewHeight"
+    android:layout_marginTop="@dimen/marginSize"
+    app:input_icon="@drawable/phone"
+    app:input_hint="用户名"
+    app:is_pwd="false"
+    >
+</com.o0live0o.app.appearance.views.InputView>
 
     <View
         style="@style/line"></View>
 
     <com.o0live0o.app.appearance.views.InputView
-        android:id="@+id/input_pwd"
+        android:id="@+id/login__pwd"
         android:layout_width="match_parent"
         android:layout_height="@dimen/inputViewHeight"
         android:layout_marginTop="@dimen/marginSize"

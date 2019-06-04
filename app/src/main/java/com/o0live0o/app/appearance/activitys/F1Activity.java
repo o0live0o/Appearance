@@ -57,7 +57,14 @@ public class F1Activity extends BaseActivity {
         lvPlateNo.setValTxt(mCar.getPlateNo());
         lvTestId.setValTxt(mCar.getTestId());
         lvOperator.setValTxt(FinalData.getOperator());
+        initRcView();
 
+    }
+
+    /*
+    * 初始化RecycleView
+    */
+    private void initRcView(){
         mList = ExteriorList.getExteriorList();
         mChekItemAdapter = new ChekItemAdapter(this,mList);
         mChekItemAdapter.setExteriorChangeListener(new ExteriorChangeListener() {
@@ -65,7 +72,7 @@ public class F1Activity extends BaseActivity {
             public void onChange(int poison, CheckState checkState) {
                 try {
                     if(mRV.getScrollState() == RecyclerView.SCROLL_STATE_IDLE
-                        && !mRV.isComputingLayout()) {
+                            && !mRV.isComputingLayout()) {
                         mList.get(poison).setItemState(checkState);
                         mChekItemAdapter.notifyItemChanged(poison);
                     }
@@ -84,26 +91,9 @@ public class F1Activity extends BaseActivity {
     public void onSubmit(View view) {
         mCar.setEndTime(getTime());
         new SubmitAsyncTask().execute(mCar,mList);
-//        Thread thread = new Thread(new Runnable() {
-////            @Override
-////            public void run() {
-////                CURDHelper.saveF1(mList,mCar);
-////                Message message = new Message();
-////                handler.sendMessage(message);
-////            }
-////        });
-////        thread.start();
     }
 
-    Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            toDC();
-
-        }
-    };
-
+//如果检验项目有DC，则跳转到动态底盘检测界面
     private void toDC()
     {
         try {

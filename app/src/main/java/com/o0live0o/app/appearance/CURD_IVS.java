@@ -8,6 +8,7 @@ import com.o0live0o.app.dbutils.SSMSHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CURD_IVS implements ICURD {
 
@@ -15,7 +16,10 @@ public class CURD_IVS implements ICURD {
 
     @Override
     public DbResult login( String user,String pwd ) {
-        return  null;
+        String sql = "SELECT COUNT(*) AS ct FROM EMPLOYEE_USER WHERE EMPLOYEE_ID = ?";
+        List<Object> params = new ArrayList<>();
+        params.add(user);
+        return  ssmsHelper.exist(sql,params);
     }
 
     @Override
@@ -68,15 +72,12 @@ public class CURD_IVS implements ICURD {
         params.add(FinalData.getOperator());
         params.add(car.getTestId());
 
-        //TODO 判断数据是否存在
         String searchSql = "SELECT COUNT(*) AS ct FROM RESULT_CHASISS_MANUAL WHERE JCLSH = '"+car.getTestId()+"'";
         String sql = "";
         if (ssmsHelper.exist(searchSql).isSucc()){
-            //TODO 更新数据
              sql = "UPDATE RESULT_CHASISS_MANUAL SET RGJYBJCX = ?,RGJYBHGX = ?,WGJCCZY=? WHERE JCLSH = ?";
 
         }else {
-            //TODO 插入数据
              sql = "INSERT INTO RESULT_CHASISS_MANUAL (RGJYBJCX,RGJYBHGX,WGJCCZY,JCLSH) VALUES (?,?,?,?)";
         }
         DbResult dbResult = ssmsHelper.insertAndUpdateWithPara(sql,params);
@@ -89,16 +90,78 @@ public class CURD_IVS implements ICURD {
 
     @Override
     public DbResult saveDC(List<ExteriorBean> list,CarBean car) {
+        String c1_pd = "0";
+        String c1_bhgx = "-";
+        String c1_jyxm = "";
 
-        for (ExteriorBean bean:list
-             ) {
+        List<ExteriorBean> failList = list.stream().filter((ExteriorBean bean)->bean.getItemState().equals(CheckState.FAIL)).collect(Collectors.toList());
+        List<ExteriorBean> passList = list.stream().filter((ExteriorBean bean)->bean.getItemState().equals(CheckState.PASS)).collect(Collectors.toList());
 
+        if (passList.size() > 0){
+            c1_pd = "1";
         }
-        return null;
+
+        if (failList.size() > 0){
+            c1_pd = "2";
+        }
+
+        c1_bhgx = failList.stream().map(item->item.getItemId()+"-1").collect(Collectors.joining(","));
+
+        List<Object> params = new ArrayList<>();
+        params.add(c1_pd);
+        params.add(FinalData.getOperator());
+        params.add(c1_bhgx);
+        params.add(car.getStartTime());
+        params.add(car.getEndTime());
+        params.add(car.getTestId());
+
+        String searchSql = "SELECT COUNT(*) AS ct FROM RESULT_CHASISS_MANUAL WHERE JCLSH = '"+car.getTestId()+"'";
+        String sql = "";
+        if (ssmsHelper.exist(searchSql).isSucc()){
+            sql = "UPDATE RESULT_CHASISS_MANUAL SET DPBJ_PD = ?,DPBJCZY = ?,DGJYBHGX = ?,KSSJ = ?,JSSJ = ? WHERE JCLSH = ?";
+
+        }else {
+            sql = "INSERT INTO RESULT_CHASISS_MANUAL (DPBJ_PD,DPBJCZY,DGJYBHGX,KSSJ,JSSJ,JCLSH) VALUES (?,?,?,?,?,?)";
+        }
+        DbResult dbResult = ssmsHelper.insertAndUpdateWithPara(sql,params);
+        return dbResult;
     }
 
     @Override
     public DbResult saveC1(List<ExteriorBean> list,CarBean car) {
-        return null;
+        String dc_pd = "0";
+        String dc_bhgx = "-";
+        String dc_jyxm = "";
+
+        List<ExteriorBean> failList = list.stream().filter((ExteriorBean bean)->bean.getItemState().equals(CheckState.FAIL)).collect(Collectors.toList());
+        List<ExteriorBean> passList = list.stream().filter((ExteriorBean bean)->bean.getItemState().equals(CheckState.PASS)).collect(Collectors.toList());
+
+        if (passList.size() > 0){
+            dc_pd = "1";
+        }
+
+        if (failList.size() > 0){
+            dc_pd = "2";
+        }
+
+        dc_bhgx = failList.stream().map(item->item.getItemId()+"-1").collect(Collectors.joining(","));
+
+        List<Object> params = new ArrayList<>();
+        params.add(dc_pd);
+        params.add(FinalData.getOperator());
+        params.add(car.getStartTime());
+        params.add(car.getEndTime());
+        params.add(car.getTestId());
+
+        String searchSql = "SELECT COUNT(*) AS ct FROM RESULT_CHASISS_MANUAL WHERE JCLSH = '"+car.getTestId()+"'";
+        String sql = "";
+        if (ssmsHelper.exist(searchSql).isSucc()){
+            sql = "UPDATE RESULT_CHASISS_MANUAL SET DTDP_PD = ?,DTDPCZY = ?,KSSJ = ?,JSSJ = ? WHERE JCLSH = ?";
+
+        }else {
+            sql = "INSERT INTO RESULT_CHASISS_MANUAL (DTDP_PD,DTDPCZY,KSSJ,JSSJ,JCLSH) VALUES (?,?,?,?,?,?)";
+        }
+        DbResult dbResult = ssmsHelper.insertAndUpdateWithPara(sql,params);
+        return dbResult;
     }
 }

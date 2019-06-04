@@ -105,7 +105,6 @@ public class SSMSHelper {
         return result;
     }
 
-
     public DbResult insertAndUpdate(String sql) {
         DbResult result = new DbResult();
         int count = 0;
@@ -181,6 +180,39 @@ public class SSMSHelper {
             e.printStackTrace();
             result.setMsg(e.getMessage());
             count = -1;
+        } finally {
+            try {
+                preparedStatement.close();
+                mConn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        result.setSucc(count > 0 ? true : false);
+        result.setCount(count);
+        return result;
+    }
+
+    public DbResult exist(String sql,List<Object> params){
+        DbResult result = new DbResult();
+        int count = 0;
+        try {
+            Class.forName(JTDS_DRIVER);
+            mConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + DIP + ":1433/" + DName, DUser, DPwd);
+
+            preparedStatement = mConn.prepareStatement(sql);
+            if (params != null && !params.equals("")) {
+                for (int i = 0; i < params.size(); i++) {
+                    preparedStatement.setObject(i + 1, params.get(i));
+                }
+            }
+            ResultSet judge = preparedStatement.executeQuery();
+            judge.next();
+            count = judge.getInt("ct");
+        } catch (Exception e) {
+            e.printStackTrace();
+            count = -1;
+            result.setMsg(e.getMessage());
         } finally {
             try {
                 preparedStatement.close();

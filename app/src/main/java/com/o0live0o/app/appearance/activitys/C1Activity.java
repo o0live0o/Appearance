@@ -1,11 +1,13 @@
 package com.o0live0o.app.appearance.activitys;
 
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.o0live0o.app.appearance.CURDHelper;
 import com.o0live0o.app.appearance.ExteriorList;
 import com.o0live0o.app.appearance.FinalData;
 import com.o0live0o.app.appearance.ICURD;
@@ -17,6 +19,7 @@ import com.o0live0o.app.appearance.bean.ExteriorBean;
 import com.o0live0o.app.appearance.enums.CheckState;
 import com.o0live0o.app.appearance.listener.ExteriorChangeListener;
 import com.o0live0o.app.appearance.views.LabelView;
+import com.o0live0o.app.dbutils.DbResult;
 
 import java.util.List;
 
@@ -79,5 +82,31 @@ public class C1Activity extends BaseActivity {
 
     public void onSubmit(View view) {
         mCar.setEndTime(getTime());
+    }
+
+    class SubmitTask extends AsyncTask<Void,Void, DbResult>{
+
+        @Override
+        protected DbResult doInBackground(Void... voids) {
+            return CURDHelper.saveC1(mList,mCar);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgressDialog("","正在保存……");
+        }
+
+        @Override
+        protected void onPostExecute(DbResult dbResult) {
+            super.onPostExecute(dbResult);
+            hideProgressDialog();
+            if(dbResult.isSucc()){
+                showToast("保存成功");
+                finish();
+            }else {
+                showToast("保存失败:"+dbResult.getMsg());
+            }
+        }
     }
 }
