@@ -1,25 +1,17 @@
 package com.o0live0o.app.appearance.activitys;
 
-import android.graphics.Paint;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Message;
-import android.os.Parcelable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.o0live0o.app.appearance.CURDHelper;
-import com.o0live0o.app.appearance.CURD_IVS;
-import com.o0live0o.app.appearance.FinalData;
-import com.o0live0o.app.appearance.ICURD;
+import com.o0live0o.app.appearance.service.CURDHelper;
+import com.o0live0o.app.appearance.data.FinalData;
 import com.o0live0o.app.appearance.MyApplication;
 import com.o0live0o.app.appearance.R;
 import com.o0live0o.app.appearance.adapters.CarListAdapter;
@@ -27,15 +19,9 @@ import com.o0live0o.app.appearance.bean.CarBean;
 import com.o0live0o.app.appearance.views.LabelView;
 import com.o0live0o.app.dbutils.DbResult;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-
-import javax.xml.transform.Result;
 
 
 public class MainActivity extends BaseActivity {
@@ -90,7 +76,7 @@ public class MainActivity extends BaseActivity {
 
             CarBean car = (CarBean) objects[0];
             String type = (String)objects[1];
-            return CURDHelper.getCarList_F1(car,type);
+            return CURDHelper.getCarList(car,type);
 
         }
 

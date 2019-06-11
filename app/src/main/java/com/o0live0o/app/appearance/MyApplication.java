@@ -36,6 +36,6 @@ public class MyApplication extends Application {
                 dataBase,
                 server,
                 user,
-                pwd);
+                pwd,context);
     }
 }

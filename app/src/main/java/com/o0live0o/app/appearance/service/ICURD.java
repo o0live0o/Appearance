@@ -1,4 +1,4 @@
-package com.o0live0o.app.appearance;
+package com.o0live0o.app.appearance.service;
 
 import com.o0live0o.app.appearance.bean.CarBean;
 import com.o0live0o.app.appearance.bean.ExteriorBean;
@@ -10,11 +10,13 @@ public interface ICURD {
 
      DbResult login(String user,String pwd);
 
-     DbResult getCarList_F1(CarBean car,String type);
+     DbResult getCarList(CarBean car,String type);
 
      DbResult saveF1(List<ExteriorBean> list,CarBean car);
 
      DbResult saveDC(List<ExteriorBean> list,CarBean car);
 
      DbResult saveC1(List<ExteriorBean> list,CarBean car);
+
+     DbResult sendStatus(String str,CarBean car,String status);
 }

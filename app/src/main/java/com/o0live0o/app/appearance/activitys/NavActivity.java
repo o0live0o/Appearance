@@ -1,13 +1,12 @@
 package com.o0live0o.app.appearance.activitys;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 
-import com.o0live0o.app.appearance.ExteriorList;
+import com.o0live0o.app.appearance.data.ExteriorList;
 import com.o0live0o.app.appearance.R;
 import com.o0live0o.app.appearance.adapters.NavAdapter;
 import com.o0live0o.app.appearance.bean.NavBean;

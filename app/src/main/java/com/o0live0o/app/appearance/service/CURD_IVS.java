@@ -1,5 +1,7 @@
-package com.o0live0o.app.appearance;
+package com.o0live0o.app.appearance.service;
 
+import com.o0live0o.app.appearance.data.FinalData;
+import com.o0live0o.app.appearance.log.L;
 import com.o0live0o.app.appearance.bean.CarBean;
 import com.o0live0o.app.appearance.bean.ExteriorBean;
 import com.o0live0o.app.appearance.enums.CheckState;
@@ -8,6 +10,7 @@ import com.o0live0o.app.dbutils.SSMSHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class CURD_IVS implements ICURD {
@@ -16,16 +19,25 @@ public class CURD_IVS implements ICURD {
 
     @Override
     public DbResult login( String user,String pwd ) {
+        DbResult dbResult = new DbResult();
+        dbResult.setSucc(false);
         String sql = "SELECT COUNT(*) AS ct FROM EMPLOYEE_USER WHERE EMPLOYEE_ID = ?";
+        sql = "SELECT EMPLOYEE_NAME FROM EMPLOYEE_USER WHERE EMPLOYEE_ID = ? ";
         List<Object> params = new ArrayList<>();
         params.add(user);
-        return  ssmsHelper.exist(sql,params);
+        Map<String,String> map = ssmsHelper.searchSet(sql, params);
+        if (map != null && map.size() > 0 && map.containsKey("EMPLOYEE_NAME"))
+        {
+            dbResult.setSucc(true);
+            dbResult.setMsg(map.get("EMPLOYEE_NAME"));
+        }
+        return dbResult;
     }
 
     @Override
-    public DbResult getCarList_F1(CarBean car,String type) {
+    public DbResult getCarList(CarBean car,String type) {
         String sql = "SELECT TOP 20 HPHM AS plateNo,JCLSH AS testId," +
-                "VIN AS vin,HPZL AS plateType,JYXM AS checkItem FROM VEHICLE_DISPATCH WHERE 1 = 1 AND JYXM LIKE '%"+type+"%'";
+                "VIN AS vin,HPZL AS plateType,JYXM AS checkItem FROM VEHICLE_DISPATCH WHERE 1 = 1 AND (JCZT_STATUS = 0 or JCZT_STATUS = 1 or JCZT_STATUS = 2)  AND JYXM LIKE '%"+type+"%'";
         if (car != null) {
             if (car.getPlateNo().length() > 0) {
                 sql += " AND HPHM LIKE '%"+car.getPlateNo()+"%'";
@@ -74,7 +86,7 @@ public class CURD_IVS implements ICURD {
 
         String searchSql = "SELECT COUNT(*) AS ct FROM RESULT_CHASISS_MANUAL WHERE JCLSH = '"+car.getTestId()+"'";
         String sql = "";
-        if (ssmsHelper.exist(searchSql).isSucc()){
+        if (ssmsHelper.exist(searchSql,null)){
              sql = "UPDATE RESULT_CHASISS_MANUAL SET RGJYBJCX = ?,RGJYBHGX = ?,WGJCCZY=? WHERE JCLSH = ?";
 
         }else {
@@ -89,7 +101,7 @@ public class CURD_IVS implements ICURD {
     }
 
     @Override
-    public DbResult saveDC(List<ExteriorBean> list,CarBean car) {
+    public DbResult saveC1(List<ExteriorBean> list,CarBean car) {
         String c1_pd = "0";
         String c1_bhgx = "-";
         String c1_jyxm = "";
@@ -117,18 +129,28 @@ public class CURD_IVS implements ICURD {
 
         String searchSql = "SELECT COUNT(*) AS ct FROM RESULT_CHASISS_MANUAL WHERE JCLSH = '"+car.getTestId()+"'";
         String sql = "";
-        if (ssmsHelper.exist(searchSql).isSucc()){
+        if (ssmsHelper.exist(searchSql,null)){
             sql = "UPDATE RESULT_CHASISS_MANUAL SET DPBJ_PD = ?,DPBJCZY = ?,DGJYBHGX = ?,KSSJ = ?,JSSJ = ? WHERE JCLSH = ?";
 
         }else {
             sql = "INSERT INTO RESULT_CHASISS_MANUAL (DPBJ_PD,DPBJCZY,DGJYBHGX,KSSJ,JSSJ,JCLSH) VALUES (?,?,?,?,?,?)";
         }
         DbResult dbResult = ssmsHelper.insertAndUpdateWithPara(sql,params);
+
+        //保存完后更新调度表状态
+        if (dbResult.isSucc()){
+             sql = "UPDATE VEHICLE_DISPATCH SET ZDGWBH = ? , LED = ? WHERE JCLSH = ?";
+             List params1 = new ArrayList();
+             params1.add(1002);
+             params1.add(car.getPlateNo()+"@"+ (c1_pd == "1" ?"合格":"不合格"));
+            params1.add(car.getTestId());
+            dbResult = ssmsHelper.insertAndUpdateWithPara(sql,params1);
+        }
         return dbResult;
     }
 
     @Override
-    public DbResult saveC1(List<ExteriorBean> list,CarBean car) {
+    public DbResult saveDC(List<ExteriorBean> list,CarBean car) {
         String dc_pd = "0";
         String dc_bhgx = "-";
         String dc_jyxm = "";
@@ -155,12 +177,27 @@ public class CURD_IVS implements ICURD {
 
         String searchSql = "SELECT COUNT(*) AS ct FROM RESULT_CHASISS_MANUAL WHERE JCLSH = '"+car.getTestId()+"'";
         String sql = "";
-        if (ssmsHelper.exist(searchSql).isSucc()){
+        if (ssmsHelper.exist(searchSql,null)){
             sql = "UPDATE RESULT_CHASISS_MANUAL SET DTDP_PD = ?,DTDPCZY = ?,KSSJ = ?,JSSJ = ? WHERE JCLSH = ?";
 
         }else {
             sql = "INSERT INTO RESULT_CHASISS_MANUAL (DTDP_PD,DTDPCZY,KSSJ,JSSJ,JCLSH) VALUES (?,?,?,?,?,?)";
         }
+        DbResult dbResult = ssmsHelper.insertAndUpdateWithPara(sql,params);
+        return dbResult;
+    }
+
+    @Override
+    public DbResult sendStatus(String str, CarBean car,String status) {
+        List<Object> params = new ArrayList<>();
+        String sql = "UPDATE VEHICLE_DISPATCH SET LED = ? ";
+        params.add(str);
+        if (status.length() >0){
+            sql += ",ZDGWBH = ? ";
+            params.add(status);
+        }
+        sql += " WHERE JCLSH = ?";
+        params.add(car.getTestId());
         DbResult dbResult = ssmsHelper.insertAndUpdateWithPara(sql,params);
         return dbResult;
     }

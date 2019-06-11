@@ -1,17 +1,17 @@
 package com.o0live0o.app.appearance.activitys;
 
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 
-import com.o0live0o.app.appearance.CURDHelper;
-import com.o0live0o.app.appearance.ExteriorList;
-import com.o0live0o.app.appearance.FinalData;
-import com.o0live0o.app.appearance.ICURD;
-import com.o0live0o.app.appearance.L;
+import com.o0live0o.app.appearance.service.CURDHelper;
+import com.o0live0o.app.appearance.data.ExteriorList;
+import com.o0live0o.app.appearance.data.FinalData;
+import com.o0live0o.app.appearance.service.ICURD;
+import com.o0live0o.app.appearance.log.L;
 import com.o0live0o.app.appearance.R;
 import com.o0live0o.app.appearance.adapters.ChekItemAdapter;
 import com.o0live0o.app.appearance.bean.CarBean;
@@ -20,6 +20,7 @@ import com.o0live0o.app.appearance.enums.CheckState;
 import com.o0live0o.app.appearance.listener.ExteriorChangeListener;
 import com.o0live0o.app.appearance.views.LabelView;
 import com.o0live0o.app.dbutils.DbResult;
+import com.o0live0o.app.dbutils.SSMSHelper;
 
 import java.util.List;
 
@@ -78,10 +79,44 @@ public class C1Activity extends BaseActivity {
         mRV.setLayoutManager(linearLayoutManager);
         mRV.setAdapter(mChekItemAdapter);
 
+        new StatusTask().execute("人工检查","1001");
+
     }
 
     public void onSubmit(View view) {
         mCar.setEndTime(getTime());
+        new SubmitTask().execute();
+    }
+
+    public void onPre(View view) {
+        new StatusTask().execute(((Button)view).getText().toString(),"");
+    }
+
+    class StatusTask extends AsyncTask<String,Void,DbResult>{
+
+        @Override
+        protected DbResult doInBackground(String... strings) {
+            String led= strings[0];
+            String status = strings[1];
+            return CURDHelper.sendStatus(mCar.getPlateNo()+"@"+led,mCar,status);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgressDialog("","更新状态……");
+        }
+
+        @Override
+        protected void onPostExecute(DbResult dbResult) {
+            super.onPostExecute(dbResult);
+            hideProgressDialog();
+            if(dbResult.isSucc()){
+                showToast("状态更新成功");
+            }else {
+                showToast("状态更新失败:"+dbResult.getMsg());
+            }
+        }
     }
 
     class SubmitTask extends AsyncTask<Void,Void, DbResult>{

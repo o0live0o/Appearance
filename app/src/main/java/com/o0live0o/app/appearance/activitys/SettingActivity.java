@@ -2,12 +2,11 @@ package com.o0live0o.app.appearance.activitys;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import com.o0live0o.app.appearance.L;
+import com.o0live0o.app.appearance.log.L;
 import com.o0live0o.app.appearance.MyApplication;
 import com.o0live0o.app.appearance.R;
 import com.o0live0o.app.appearance.views.InputView;
@@ -39,7 +38,7 @@ public class SettingActivity extends BaseActivity {
 
         pref = PreferenceManager.getDefaultSharedPreferences(MyApplication.getContext());
 
-        String dataBase = pref.getString("database", "SXDL");
+        String dataBase = pref.getString("database", "IVS30");
         String user = pref.getString("db_user", "sa");
         String pwd = pref.getString("db_pwd", "123456");
         String server = pref.getString("db_server", "192.168.2.233");
@@ -61,7 +60,7 @@ public class SettingActivity extends BaseActivity {
                     dataBase,
                     server,
                     user,
-                    pwd);
+                    pwd,MyApplication.getContext());
 
             editor = pref.edit();
             editor.putString("database",dataBase);

@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+
+
     tools:context=".activitys.F1Activity">
     <include layout="@layout/nav_bar"></include>
 
@@ -39,7 +41,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/marginSize"
-        android:layout_marginRight="@dimen/marginSize">
+        android:layout_marginRight="@dimen/marginSize"
+        >
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

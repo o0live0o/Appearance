@@ -2,11 +2,13 @@ package com.o0live0o.app.appearance.activitys;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.o0live0o.app.appearance.MyApplication;
 import com.o0live0o.app.appearance.R;
 
 import java.text.SimpleDateFormat;
@@ -30,6 +32,14 @@ public class BaseActivity extends Activity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        mNav_Me.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MyApplication.getContext(),HelpActivity.class);
+                startActivity(intent);
             }
         });
     }

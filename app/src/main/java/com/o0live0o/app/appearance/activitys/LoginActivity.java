@@ -2,24 +2,14 @@ package com.o0live0o.app.appearance.activitys;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
-import com.o0live0o.app.appearance.CURDHelper;
-import com.o0live0o.app.appearance.FinalData;
-import com.o0live0o.app.appearance.MyApplication;
+import com.o0live0o.app.appearance.service.CURDHelper;
+import com.o0live0o.app.appearance.data.FinalData;
 import com.o0live0o.app.appearance.R;
 import com.o0live0o.app.appearance.views.InputView;
 import com.o0live0o.app.dbutils.DbResult;
-import com.o0live0o.app.dbutils.SSMSHelper;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 public class LoginActivity extends  BaseActivity{
 
@@ -72,6 +62,7 @@ public class LoginActivity extends  BaseActivity{
             hideProgressDialog();
             if (dbResult.isSucc()) {
                 showToast("登陆成功！");
+                FinalData.setOperator(dbResult.getMsg());
                 Intent intent = new Intent(LoginActivity.this, NavActivity.class);
                 startActivity(intent);
                 finish();

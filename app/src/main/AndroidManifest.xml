@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activitys.C1Activity"></activity>
+        <activity android:name=".activitys.HelpActivity"></activity>
+        <activity android:name=".activitys.C1Activity" />
         <activity android:name=".activitys.NavActivity" />
         <activity android:name=".activitys.SettingActivity" />
         <activity android:name=".activitys.DCActivity" />

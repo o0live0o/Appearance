@@ -1,6 +1,11 @@
 package com.o0live0o.app.dbutils;
 
+import android.content.Context;
+import android.net.MacAddress;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,44 +33,30 @@ public class SSMSHelper {
     private static Connection mConn;
     private PreparedStatement preparedStatement;
 
+    private Context mContext;
+
     private final static SSMSHelper ssmsHelper = new SSMSHelper();
 
-    private SSMSHelper(){ }
+    private SSMSHelper() {
+    }
 
-    public static SSMSHelper GetInstance(){
+    public static SSMSHelper GetInstance() {
         return ssmsHelper;
     }
 
-    private void connectDB(){
-        try {
-            Class.forName(JTDS_DRIVER);
-            mConn = DriverManager.getConnection("jdbc:jtds:sqlserver://"+DIP+":1433/" + DName, DUser, DPwd);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }catch (Exception ex){
-            Log.d("SSMSHelper",ex.getMessage());
-        }
-    }
 
-    public void CloseDB() {
-        try {
-            if (mConn != null)
-                mConn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void init(String dbname,String ip,String user,String pwd){
+    public void init(String dbname, String ip, String user, String pwd,Context context) {
         DName = dbname;
         DIP = ip;
         DUser = user;
         DPwd = pwd;
+        mContext = context;
         //connectDB();
     }
 
+    /*
+     *根据查询条件返回数据集的json字符串
+     */
     public DbResult search(String sql) {
         DbResult result = new DbResult();
         JSONArray jsonArray = new JSONArray();
@@ -105,32 +96,7 @@ public class SSMSHelper {
         return result;
     }
 
-    public DbResult insertAndUpdate(String sql) {
-        DbResult result = new DbResult();
-        int count = 0;
-        try {
-            Class.forName(JTDS_DRIVER);
-            mConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + DIP + ":1433/" + DName, DUser, DPwd);
-            preparedStatement = mConn.prepareStatement(sql);
-            count = preparedStatement.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-            count = -1;
-            result.setMsg(e.getMessage());
-        } finally {
-            try {
-                preparedStatement.close();
-                mConn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        result.setCount(count);
-        result.setSucc(count > 0 ? true : false);
-        return result;
-    }
-
-    public DbResult insertAndUpdateWithPara(String sql, List<Object> params){
+    public DbResult insertAndUpdateWithPara(String sql, List<Object> params) {
         DbResult result = new DbResult();
         int count = 0;
         try {
@@ -162,39 +128,7 @@ public class SSMSHelper {
         return result;
     }
 
-    public void insert(){
-
-    }
-
-    public DbResult exist(String sql){
-        DbResult result = new DbResult();
-        int count = 0;
-        try {
-            Class.forName(JTDS_DRIVER);
-            mConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + DIP + ":1433/" + DName, DUser, DPwd);
-            preparedStatement = mConn.prepareStatement(sql);
-            ResultSet judge = preparedStatement.executeQuery();
-            judge.next();
-            count = judge.getInt("ct");
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setMsg(e.getMessage());
-            count = -1;
-        } finally {
-            try {
-                preparedStatement.close();
-                mConn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        result.setSucc(count > 0 ? true : false);
-        result.setCount(count);
-        return result;
-    }
-
-    public DbResult exist(String sql,List<Object> params){
-        DbResult result = new DbResult();
+    public boolean exist(String sql, List<Object> params) {
         int count = 0;
         try {
             Class.forName(JTDS_DRIVER);
@@ -212,17 +146,95 @@ public class SSMSHelper {
         } catch (Exception e) {
             e.printStackTrace();
             count = -1;
-            result.setMsg(e.getMessage());
+            showToast(e.getMessage());
         } finally {
             try {
                 preparedStatement.close();
                 mConn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
+                showToast(e.getMessage());
             }
         }
-        result.setSucc(count > 0 ? true : false);
-        result.setCount(count);
-        return result;
+        return count > 0 ? true : false;
     }
+
+    public Map<String, String> searchSet(String sql, List<Object> params) {
+        ResultSet resultSet = null;
+        try {
+            Class.forName(JTDS_DRIVER);
+            mConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + DIP + ":1433/" + DName, DUser, DPwd);
+            preparedStatement = mConn.prepareStatement(sql);
+            if (params != null && !params.equals("")) {
+                for (int i = 0; i < params.size(); i++) {
+                    preparedStatement.setObject(i + 1, params.get(i));
+                }
+            }
+            Map<String, String> map = new HashMap<>();
+            resultSet = preparedStatement.executeQuery();
+            return rowToMap(resultSet);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showToast(e.getMessage());
+        } finally {
+            try {
+                if (preparedStatement != null)
+                    preparedStatement.close();
+                if (mConn != null)
+                    mConn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    private HashMap rowToMap(ResultSet rs) {
+        try {
+            if (rs.next()) {
+                ResultSetMetaData rsm = rs.getMetaData();
+                int size = rsm.getColumnCount();                           //每行列数
+                HashMap row = new HashMap();
+                for (int j = 1; j <= size; j++) {
+                    row.put(rsm.getColumnLabel(j), rs.getObject(j));
+                }
+                return row;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private void connectDB() {
+        try {
+            Class.forName(JTDS_DRIVER);
+            mConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + DIP + ":1433/" + DName, DUser, DPwd);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception ex) {
+            Log.d("SSMSHelper", ex.getMessage());
+        }
+    }
+
+    private void showToast(final String s){
+        new Thread(){
+            @Override
+            public void run(){
+                Looper.prepare();
+                new Handler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(mContext,s,Toast.LENGTH_LONG).show();
+                    }
+                });
+                Looper.loop();
+            }
+        }.start();
+    }
+
+
 }
+

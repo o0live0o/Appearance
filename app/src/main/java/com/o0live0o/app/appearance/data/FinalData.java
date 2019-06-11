@@ -1,4 +1,4 @@
-package com.o0live0o.app.appearance;
+package com.o0live0o.app.appearance.data;
 
 public class FinalData {
 

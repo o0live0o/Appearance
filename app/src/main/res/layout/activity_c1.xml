@@ -35,6 +35,58 @@
         android:text="提 交"
         android:background="@color/skyblue"
         android:onClick="onSubmit"/>
+
+  <HorizontalScrollView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="20dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/lightblue"
+            android:onClick="onPre"
+            android:text="前进"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/lightblue"
+            android:onClick="onPre"
+            android:text="后退"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/lightblue"
+            android:onClick="onPre"
+            android:text="停车"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/lightblue"
+            android:onClick="onPre"
+            android:text="熄火"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/lightblue"
+            android:onClick="onPre"
+            android:text="左打方向盘"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/lightblue"
+            android:onClick="onPre"
+            android:text="回正"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/lightblue"
+            android:onClick="onPre"
+            android:text="右打方向盘"/>
+    </LinearLayout>
+  </HorizontalScrollView>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

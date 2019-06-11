@@ -1,4 +1,4 @@
-package com.o0live0o.app.appearance;
+package com.o0live0o.app.appearance.service;
 
 import com.o0live0o.app.appearance.bean.CarBean;
 import com.o0live0o.app.appearance.bean.ExteriorBean;
@@ -14,8 +14,8 @@ public class CURDHelper  {
       return  mCurd.login(user,pwd);
     }
 
-    public static DbResult getCarList_F1(CarBean car,String type) {
-        return mCurd.getCarList_F1(car,type);
+    public static DbResult getCarList(CarBean car,String type) {
+        return mCurd.getCarList(car,type);
     }
 
     public static DbResult saveF1(List<ExteriorBean> list, CarBean car) {
@@ -27,6 +27,10 @@ public class CURDHelper  {
     }
 
     public static DbResult saveC1(List<ExteriorBean> list,CarBean car) {
-        return saveC1(list,car);
+        return mCurd.saveC1(list,car);
+    }
+
+    public static DbResult sendStatus(String s,CarBean car,String status){
+        return mCurd.sendStatus(s,car,status);
     }
 }

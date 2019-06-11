@@ -2,18 +2,16 @@ package com.o0live0o.app.appearance.activitys;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Message;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.o0live0o.app.appearance.CURDHelper;
-import com.o0live0o.app.appearance.ExteriorList;
-import com.o0live0o.app.appearance.FinalData;
-import com.o0live0o.app.appearance.ICURD;
-import com.o0live0o.app.appearance.L;
+import com.o0live0o.app.appearance.service.CURDHelper;
+import com.o0live0o.app.appearance.data.ExteriorList;
+import com.o0live0o.app.appearance.data.FinalData;
+import com.o0live0o.app.appearance.service.ICURD;
+import com.o0live0o.app.appearance.log.L;
 import com.o0live0o.app.appearance.R;
 import com.o0live0o.app.appearance.adapters.ChekItemAdapter;
 import com.o0live0o.app.appearance.bean.CarBean;
@@ -66,6 +64,7 @@ public class F1Activity extends BaseActivity {
     */
     private void initRcView(){
         mList = ExteriorList.getExteriorList();
+        mList.stream().forEach(item->{if(ExteriorList.getCheckItem().contains(item.getItemId())){item.setItemState(CheckState.PASS);}});
         mChekItemAdapter = new ChekItemAdapter(this,mList);
         mChekItemAdapter.setExteriorChangeListener(new ExteriorChangeListener() {
             @Override

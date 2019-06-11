@@ -5,16 +5,16 @@ import com.o0live0o.app.appearance.enums.CheckState;
 public class ExteriorBean {
 
     private String itemName;
-    private String itemId;
+    private int itemId;
     private CheckState itemState;
 
-    public ExteriorBean(String itemId,String itemName){
+    public ExteriorBean(int itemId,String itemName){
         this.itemName = itemName;
         this.itemId = itemId;
         itemState = CheckState.NOJUDGE;
     }
 
-    public ExteriorBean(String itemId,String itemName,CheckState state){
+    public ExteriorBean(int itemId,String itemName,CheckState state){
         this.itemName = itemName;
         this.itemId = itemId;
         itemState = state;
@@ -28,11 +28,11 @@ public class ExteriorBean {
         this.itemName = itemName;
     }
 
-    public String getItemId() {
+    public int getItemId() {
         return itemId;
     }
 
-    public void setItemId(String itemId) {
+    public void setItemId(int itemId) {
         this.itemId = itemId;
     }
 
