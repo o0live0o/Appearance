@@ -11,26 +11,26 @@ public class CURDHelper  {
     private static ICURD mCurd = new CURD_IVS();
 
     public static DbResult login(String user,String pwd) {
-      return  mCurd.login(user,pwd);
+      return  mCurd.<String>login(user,pwd,"");
     }
 
     public static DbResult getCarList(CarBean car,String type) {
-        return mCurd.getCarList(car,type);
+        return mCurd.getCarList(car,type,"");
     }
 
     public static DbResult saveF1(List<ExteriorBean> list, CarBean car) {
-        return mCurd.saveF1(list,car);
+        return mCurd.saveF1(list,car,"");
     }
 
     public static DbResult saveDC(List<ExteriorBean> list,CarBean car) {
-        return mCurd.saveDC(list,car);
+        return mCurd.saveDC(list,car,"");
     }
 
     public static DbResult saveC1(List<ExteriorBean> list,CarBean car) {
-        return mCurd.saveC1(list,car);
+        return mCurd.saveC1(list,car,"");
     }
 
     public static DbResult sendStatus(String s,CarBean car,String status){
-        return mCurd.sendStatus(s,car,status);
+        return mCurd.sendStatus(s,car,status,"");
     }
 }

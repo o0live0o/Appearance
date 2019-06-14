@@ -38,10 +38,10 @@ public class SettingActivity extends BaseActivity {
 
         pref = PreferenceManager.getDefaultSharedPreferences(MyApplication.getContext());
 
-        String dataBase = pref.getString("database", "IVS30");
-        String user = pref.getString("db_user", "sa");
-        String pwd = pref.getString("db_pwd", "123456");
-        String server = pref.getString("db_server", "192.168.2.233");
+        String dataBase = pref.getString("database",  this.getString(R.string.db_name));
+        String user = pref.getString("db_user",  this.getString(R.string.db_user));
+        String pwd = pref.getString("db_pwd",  this.getString(R.string.db_pwd));
+        String server = pref.getString("db_server",  this.getString(R.string.db_ip));
 
         mIvDatabase.setInputStr(dataBase);
         mIvUser.setInputStr(user);

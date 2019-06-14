@@ -8,15 +8,15 @@ import java.util.List;
 
 public interface ICURD {
 
-     DbResult login(String user,String pwd);
+     <T>DbResult login(String user,String pwd,T t);
 
-     DbResult getCarList(CarBean car,String type);
+     <T>DbResult getCarList(CarBean car,String type,T t);
 
-     DbResult saveF1(List<ExteriorBean> list,CarBean car);
+     <T>DbResult saveF1(List<ExteriorBean> list,CarBean car,T t);
 
-     DbResult saveDC(List<ExteriorBean> list,CarBean car);
+     <T>DbResult saveDC(List<ExteriorBean> list,CarBean car,T t);
 
-     DbResult saveC1(List<ExteriorBean> list,CarBean car);
+     <T>DbResult saveC1(List<ExteriorBean> list,CarBean car,T t);
 
-     DbResult sendStatus(String str,CarBean car,String status);
+     <T>DbResult sendStatus(String str,CarBean car,String status,T t);
 }

@@ -18,24 +18,26 @@ public class CURD_IVS implements ICURD {
     private static SSMSHelper ssmsHelper = SSMSHelper.GetInstance();
 
     @Override
-    public DbResult login( String user,String pwd ) {
+    public <T> DbResult login(String user, String pwd, T t) {
         DbResult dbResult = new DbResult();
         dbResult.setSucc(false);
         String sql = "SELECT COUNT(*) AS ct FROM EMPLOYEE_USER WHERE EMPLOYEE_ID = ?";
         sql = "SELECT EMPLOYEE_NAME FROM EMPLOYEE_USER WHERE EMPLOYEE_ID = ? ";
         List<Object> params = new ArrayList<>();
         params.add(user);
-        Map<String,String> map = ssmsHelper.searchSet(sql, params);
-        if (map != null && map.size() > 0 && map.containsKey("EMPLOYEE_NAME"))
-        {
+        Map<String, String> map = ssmsHelper.searchSet(sql, params);
+        if (map != null && map.size() > 0 && map.containsKey("EMPLOYEE_NAME")) {
             dbResult.setSucc(true);
             dbResult.setMsg(map.get("EMPLOYEE_NAME"));
+        } else {
+            dbResult.setSucc(false);
+            dbResult.setMsg(map.get("没找到对应的人员！"));
         }
         return dbResult;
     }
 
     @Override
-    public DbResult getCarList(CarBean car,String type) {
+    public <T> DbResult getCarList(CarBean car,String type, T t) {
         String sql = "SELECT TOP 20 HPHM AS plateNo,JCLSH AS testId," +
                 "VIN AS vin,HPZL AS plateType,JYXM AS checkItem FROM VEHICLE_DISPATCH WHERE 1 = 1 AND (JCZT_STATUS = 0 or JCZT_STATUS = 1 or JCZT_STATUS = 2)  AND JYXM LIKE '%"+type+"%'";
         if (car != null) {
@@ -52,7 +54,7 @@ public class CURD_IVS implements ICURD {
     }
 
     @Override
-    public DbResult saveF1(List<ExteriorBean> list,CarBean car) {
+    public <T> DbResult saveF1(List<ExteriorBean> list,CarBean car, T t) {
 
         //TODO 处理数据
         //外检检验项目
@@ -101,7 +103,7 @@ public class CURD_IVS implements ICURD {
     }
 
     @Override
-    public DbResult saveC1(List<ExteriorBean> list,CarBean car) {
+    public <T> DbResult saveC1(List<ExteriorBean> list,CarBean car, T t) {
         String c1_pd = "0";
         String c1_bhgx = "-";
         String c1_jyxm = "";
@@ -150,7 +152,7 @@ public class CURD_IVS implements ICURD {
     }
 
     @Override
-    public DbResult saveDC(List<ExteriorBean> list,CarBean car) {
+    public <T> DbResult saveDC(List<ExteriorBean> list,CarBean car, T t) {
         String dc_pd = "0";
         String dc_bhgx = "-";
         String dc_jyxm = "";
@@ -165,9 +167,7 @@ public class CURD_IVS implements ICURD {
         if (failList.size() > 0){
             dc_pd = "2";
         }
-
         dc_bhgx = failList.stream().map(item->item.getItemId()+"-1").collect(Collectors.joining(","));
-
         List<Object> params = new ArrayList<>();
         params.add(dc_pd);
         params.add(FinalData.getOperator());
@@ -188,7 +188,7 @@ public class CURD_IVS implements ICURD {
     }
 
     @Override
-    public DbResult sendStatus(String str, CarBean car,String status) {
+    public <T> DbResult sendStatus(String str, CarBean car,String status, T t) {
         List<Object> params = new ArrayList<>();
         String sql = "UPDATE VEHICLE_DISPATCH SET LED = ? ";
         params.add(str);

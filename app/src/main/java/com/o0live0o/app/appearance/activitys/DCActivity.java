@@ -77,6 +77,7 @@ public class DCActivity extends BaseActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRV.setLayoutManager(linearLayoutManager);
         mRV.setAdapter(mChekItemAdapter);
+        new StatusTask().execute("动态底盘检查","1001");
     }
 
     public void onSubmit(View view) {
@@ -105,6 +106,33 @@ public class DCActivity extends BaseActivity {
                 finish();
             }else {
                 showToast("保存失败:"+dbResult.getMsg());
+            }
+        }
+    }
+
+    class StatusTask extends AsyncTask<String,Void,DbResult>{
+
+        @Override
+        protected DbResult doInBackground(String... strings) {
+            String led= strings[0];
+            String status = strings[1];
+            return CURDHelper.sendStatus(mCar.getPlateNo()+"@"+led,mCar,status);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgressDialog("","更新状态……");
+        }
+
+        @Override
+        protected void onPostExecute(DbResult dbResult) {
+            super.onPostExecute(dbResult);
+            hideProgressDialog();
+            if(dbResult.isSucc()){
+                showToast("状态更新成功");
+            }else {
+                showToast("状态更新失败:"+dbResult.getMsg());
             }
         }
     }
