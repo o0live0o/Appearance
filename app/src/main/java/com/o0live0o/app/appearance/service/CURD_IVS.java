@@ -31,7 +31,7 @@ public class CURD_IVS implements ICURD {
             dbResult.setMsg(map.get("EMPLOYEE_NAME"));
         } else {
             dbResult.setSucc(false);
-            dbResult.setMsg(map.get("没找到对应的人员！"));
+            dbResult.setMsg("登录失败");
         }
         return dbResult;
     }
@@ -181,7 +181,7 @@ public class CURD_IVS implements ICURD {
             sql = "UPDATE RESULT_CHASISS_MANUAL SET DTDP_PD = ?,DTDPCZY = ?,KSSJ = ?,JSSJ = ? WHERE JCLSH = ?";
 
         }else {
-            sql = "INSERT INTO RESULT_CHASISS_MANUAL (DTDP_PD,DTDPCZY,KSSJ,JSSJ,JCLSH) VALUES (?,?,?,?,?,?)";
+            sql = "INSERT INTO RESULT_CHASISS_MANUAL (DTDP_PD,DTDPCZY,KSSJ,JSSJ,JCLSH) VALUES (?,?,?,?,?)";
         }
         DbResult dbResult = ssmsHelper.insertAndUpdateWithPara(sql,params);
         return dbResult;

@@ -6,7 +6,7 @@
     <!--车辆列表基本信息-->
     <string name="operator">操作员:</string>
 
-    <string name="grzx">个人中心</string>
+    <string name="grzx">参数设置</string>
     <string name="logout">退 出</string>
 
     <!--数据库连接默认参数-->

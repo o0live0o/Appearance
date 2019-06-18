@@ -132,7 +132,7 @@ public class F1Activity extends BaseActivity {
 
             hideProgressDialog();
             showToast(String.valueOf(dbResult.isSucc()));
-            if (mCar.getCheckItem().contains("DC")){
+            if (mCar.getCheckItem().contains(FinalData.DC)){
                 Intent intent = new Intent(F1Activity.this,DCActivity.class);
                 intent.putExtra("carInfo",mCar);
                 startActivity(intent);

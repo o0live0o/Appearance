@@ -58,9 +58,6 @@ public class MainActivity extends BaseActivity {
         //loadCarList(null);
     }
 
-
-
-
     public void main_btn_search(View view) {
         CarBean car = new CarBean();
         car.setPlateNo(tvPlateNo.getText().toString().trim());

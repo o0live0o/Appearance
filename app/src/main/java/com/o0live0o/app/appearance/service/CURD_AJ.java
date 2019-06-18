@@ -8,6 +8,7 @@ import com.o0live0o.app.appearance.log.L;
 import com.o0live0o.app.dbutils.DbResult;
 import com.o0live0o.app.dbutils.SSMSHelper;
 
+import java.sql.SQLClientInfoException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collector;
@@ -27,7 +28,11 @@ public class CURD_AJ implements ICURD {
 
     @Override
     public <T> DbResult getCarList(CarBean car, String type, T t) {
-        String sql = "SELECT TOP 20  plate_number AS plateNo,PID AS testId,'' AS vin,plate_type AS plateType,test_item AS checkItem FROM cartest_vehicle WHERE (test_flag = 0 OR test_flag = 1) AND wg_flag = 0 AND test_item LIKE '%"+type+"%' ";
+        String sql = "SELECT TOP 20  plate_number AS plateNo,PID AS testId,'' AS vin,plate_type AS plateType,test_item AS checkItemROM cartest_vehicle WHERE 1 = 1 ";
+        if(type != FinalData.C1) {
+          sql +=  " AND (test_flag = 0 OR test_flag = 1) AND wg_flag = 0  ";
+        }
+        sql += " AND test_item LIKE '%" + type + "%'";
         if (car != null) {
             if (car.getPlateNo().length() > 0) {
                 sql += " AND plate_number LIKE '%"+car.getPlateNo()+"%'";

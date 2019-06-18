@@ -10,4 +10,8 @@
         <attr name="head_text" format="string"></attr>
         <attr name="val_text" format="string"></attr>
     </declare-styleable>
+
+    <declare-styleable name="inputHeadView">
+        <attr name="head_text" format="string"></attr>
+    </declare-styleable>
 </resources>
