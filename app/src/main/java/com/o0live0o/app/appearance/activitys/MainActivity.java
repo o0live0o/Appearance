@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.o0live0o.app.appearance.ActivityStack;
 import com.o0live0o.app.appearance.service.CURDHelper;
 import com.o0live0o.app.appearance.data.FinalData;
 import com.o0live0o.app.appearance.MyApplication;
@@ -45,6 +46,10 @@ public class MainActivity extends BaseActivity {
         init();
     }
 
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+    }
 
 
     private void init() {

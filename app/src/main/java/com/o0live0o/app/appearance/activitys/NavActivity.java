@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.KeyEvent;
 
+import com.o0live0o.app.appearance.ActivityStack;
 import com.o0live0o.app.appearance.data.ExteriorList;
 import com.o0live0o.app.appearance.R;
 import com.o0live0o.app.appearance.adapters.NavAdapter;
@@ -24,7 +25,13 @@ public class NavActivity extends BaseActivity {
         setContentView(R.layout.activity_nav);
         initNavBar(false,"功能列表",true);
         init();
+        ActivityStack.getInstance().attach(this);
+    }
 
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        ActivityStack.getInstance().detach(this);
     }
 
     private void init()

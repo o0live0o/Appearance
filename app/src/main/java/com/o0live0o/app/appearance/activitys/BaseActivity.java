@@ -1,16 +1,22 @@
 package com.o0live0o.app.appearance.activitys;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.o0live0o.app.appearance.ActivityStack;
 import com.o0live0o.app.appearance.MyApplication;
 import com.o0live0o.app.appearance.R;
 import com.o0live0o.app.appearance.data.FinalData;
+import com.o0live0o.app.appearance.log.L;
 import com.o0live0o.app.appearance.views.LabelView;
 
 import java.text.SimpleDateFormat;
@@ -24,8 +30,15 @@ public class BaseActivity extends Activity {
 
     //基本信息公告栏
     private LabelView lvHPHM,lvTestId,lvLineNo,lvOperator;
+    private TextView tvSecond;
+    private int iSecond = 0;
+    public static boolean RunThread = true;
+
+    private static Thread mThread = null;
+    private static boolean bRun = true;
 
     private ProgressDialog progressDialog;
+
 
     protected void initNavBar(boolean isShowBack, String title, boolean isShowMe) {
         mNav_Back = findViewById(R.id.nav_back);
@@ -50,6 +63,18 @@ public class BaseActivity extends Activity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState){
+       super.onCreate(savedInstanceState);
+        //ActivityStack.getInstance().attach(this);
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        //ActivityStack.getInstance().detach(this);
     }
 
     protected void showProgressDialog(String title, String message) {
@@ -79,16 +104,53 @@ public class BaseActivity extends Activity {
         return simpleDateFormat.format(date);
     }
 
-    protected void initBoard(String hphm,String testId,String lineNo){
+    protected void showDialog(String msg){
+        AlertDialog alertDialog = new AlertDialog.Builder(this).setMessage(msg).create();
+        alertDialog.show();
+    }
+
+    protected void initBoard(String hphm,String testId,String lineNo) {
         lvHPHM = findViewById(R.id.board_lv_plateno);
         lvLineNo = findViewById(R.id.board_lv_line);
         lvTestId = findViewById(R.id.board_lv_testid);
         lvOperator = findViewById(R.id.board_lv_operator);
+        tvSecond = findViewById(R.id.board_second);
 
         lvOperator.setValTxt(FinalData.getOperator());
         lvTestId.setValTxt(testId);
         lvLineNo.setValTxt(lineNo);
         lvHPHM.setValTxt(hphm);
+
+        iSecond = 0;
+        RunThread = true;
+        mThread = new Thread(new MyThread());
+        mThread.start();
+        bRun = false;
     }
+
+    Handler handler = new Handler(){
+        public void handleMessage(Message msg){
+            tvSecond.setText(String.valueOf(msg.obj));
+            super.handleMessage(msg);
+        }
+    };
+
+
+    public class MyThread implements Runnable{
+        @Override
+        public void run() {
+            while (RunThread){
+                try {
+                    Thread.sleep(1000);
+                    Message msg = new Message();
+                    msg.obj = iSecond;
+                    iSecond ++;
+                    handler.sendMessage(msg);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
 
 }

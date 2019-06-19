@@ -25,9 +25,6 @@ import java.util.List;
 public class DCActivity extends BaseActivity {
 
     private RecyclerView mRV;
-    private LabelView lvPlateNo;
-    private LabelView lvTestId;
-    private LabelView lvOperator;
 
     private ChekItemAdapter mChekItemAdapter;
     private List<ExteriorBean> mList;
@@ -42,19 +39,21 @@ public class DCActivity extends BaseActivity {
         init();
     }
 
+    @Override
+    protected void onDestroy(){
+        BaseActivity.RunThread = false;
+        super.onDestroy();
+    }
+
     private void init(){
         initNavBar(true,"动态底盘",false);
 
         mRV = findViewById(R.id.dc_rv_item);
-        lvPlateNo = findViewById(R.id.dc_lv_plateno);
-        lvTestId = findViewById(R.id.dc_lv_testid);
-        lvOperator = findViewById(R.id.dc_lv_operator);
+
 
         mCar = getIntent().getParcelableExtra("carInfo");
         mCar.setStartTime(getTime());
-        lvPlateNo.setValTxt(mCar.getPlateNo());
-        lvTestId.setValTxt(mCar.getTestId());
-        lvOperator.setValTxt(FinalData.getOperator());
+        initBoard(mCar.getPlateNo(),mCar.getTestId(),"1");
 
         mList = ExteriorList.getDCList();
         mChekItemAdapter = new ChekItemAdapter(this,mList);

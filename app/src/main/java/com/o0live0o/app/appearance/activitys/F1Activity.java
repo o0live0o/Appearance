@@ -26,9 +26,7 @@ import java.util.List;
 public class F1Activity extends BaseActivity {
 
     private RecyclerView mRV;
-    private LabelView lvPlateNo;
-    private LabelView lvTestId;
-    private LabelView lvOperator;
+
 
     private ChekItemAdapter mChekItemAdapter;
     private List<ExteriorBean> mList;
@@ -43,18 +41,20 @@ public class F1Activity extends BaseActivity {
         init();
     }
 
+    @Override
+    protected void onDestroy(){
+        BaseActivity.RunThread = false;
+        super.onDestroy();
+    }
+
     private void init(){
 
         mRV = findViewById(R.id.rv_checklist);
-        lvPlateNo = findViewById(R.id.f1_lv_plateno);
-        lvTestId = findViewById(R.id.f1_lv_testid);
-        lvOperator = findViewById(R.id.f1_lv_operator);
+
 
         mCar = getIntent().getParcelableExtra("carInfo");
         mCar.setStartTime(getTime());
-        lvPlateNo.setValTxt(mCar.getPlateNo());
-        lvTestId.setValTxt(mCar.getTestId());
-        lvOperator.setValTxt(FinalData.getOperator());
+        initBoard(mCar.getPlateNo(),mCar.getTestId(),"1");
         initRcView();
 
     }
@@ -92,19 +92,6 @@ public class F1Activity extends BaseActivity {
         new SubmitAsyncTask().execute(mCar,mList);
     }
 
-//如果检验项目有DC，则跳转到动态底盘检测界面
-    private void toDC()
-    {
-        try {
-            Intent intent = new Intent(F1Activity.this,DCActivity.class);
-            startActivity(intent);
-            finish();
-        }catch (Exception ex){
-            L.d(ex.getMessage());
-        }
-
-    }
-
     class SubmitAsyncTask extends AsyncTask<Object,Void, DbResult>{
 
         @Override
@@ -132,7 +119,7 @@ public class F1Activity extends BaseActivity {
 
             hideProgressDialog();
             showToast(String.valueOf(dbResult.isSucc()));
-            if (mCar.getCheckItem().contains(FinalData.DC)){
+            if (FinalData.isCheckDC() && FinalData.isF1_To_DC() && mCar.getCheckItem().contains(FinalData.DC)){
                 Intent intent = new Intent(F1Activity.this,DCActivity.class);
                 intent.putExtra("carInfo",mCar);
                 startActivity(intent);

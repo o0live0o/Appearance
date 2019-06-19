@@ -10,27 +10,7 @@
     <include layout="@layout/nav_bar"></include>
 
 
-    <com.o0live0o.app.appearance.views.LabelView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/dc_lv_plateno"
-        app:head_text="号牌号码:"
-        ></com.o0live0o.app.appearance.views.LabelView>
-
-    <com.o0live0o.app.appearance.views.LabelView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/dc_lv_testid"
-        app:head_text="流水号:"
-        ></com.o0live0o.app.appearance.views.LabelView>
-
-    <com.o0live0o.app.appearance.views.LabelView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/dc_lv_operator"
-        app:head_text="操作员:"
-        ></com.o0live0o.app.appearance.views.LabelView>
-
+   <include layout="@layout/head_board"></include>
 
     <Button
         style="@style/loginBtn"

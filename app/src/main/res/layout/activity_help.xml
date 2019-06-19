@@ -8,17 +8,69 @@
     tools:context=".activitys.HelpActivity">
     <include layout="@layout/nav_bar"></include>
 
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="42sp"
+        android:textSize="25sp"
+        android:textColor="@color/blueviolet"
+        android:text="底盘检验"
+        android:gravity="center"
+        android:background="@color/ivory"/>
+    <CheckBox
+        android:id="@+id/chkc1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="支持底盘检验"
+        android:textSize="22sp"/>
+
     <com.o0live0o.app.appearance.views.InputWithHeadView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/help_c1_no"
         app:input_headtext="底盘工位号：">
 
     </com.o0live0o.app.appearance.views.InputWithHeadView>
     <View
         style="@style/line"></View>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="42sp"
+        android:textSize="25sp"
+        android:textColor="@color/blueviolet"
+        android:text="外观检验"
+        android:gravity="center"
+        android:background="@color/ivory"/>
+    <CheckBox
+        android:id="@+id/help_chkf1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="支持外观检验"
+        android:textSize="22sp"/>
+    <CheckBox
+        android:id="@+id/help_chkf1_to_dc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="外观检验完成后检查动态底盘"
+        android:textSize="22sp"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="42sp"
+        android:textSize="25sp"
+        android:textColor="@color/blueviolet"
+        android:text="动态底盘检验"
+        android:gravity="center"
+        android:background="@color/ivory"/>
+    <CheckBox
+        android:id="@+id/help_chkdc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="支持动态底盘检验"
+        android:textSize="22sp"/>
     <Button
         style="@style/loginBtn"
+        android:layout_marginTop="10dp"
         android:background="@color/lightblue"
         android:onClick="onSaveClick"
         android:text="@string/save"

@@ -75,8 +75,11 @@ public class ExteriorList {
 
     public static List<NavBean> getNavList(){
         List<NavBean> list = new ArrayList<>();
+        if (FinalData.isCheckF1())
         list.add(new NavBean("外观检查","MainActivity",FinalData.F1));
+        if (FinalData.isCheckDC())
         list.add(new NavBean("动态底盘检查","DCActivity",FinalData.DC));
+        if (FinalData.isCheckC1())
         list.add(new NavBean("底盘检查","DCActivity",FinalData.C1));
         return list;
     }

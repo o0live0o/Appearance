@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.o0live0o.app.appearance.data.FinalData;
 import com.o0live0o.app.dbutils.SSMSHelper;
 
 public class MyApplication extends Application {
@@ -31,6 +32,12 @@ public class MyApplication extends Application {
         String user = pref.getString("db_user",  this.getString(R.string.db_user));
         String pwd = pref.getString("db_pwd",  this.getString(R.string.db_pwd));
         String server = pref.getString("db_server",  this.getString(R.string.db_ip));
+
+        FinalData.setCheckC1(pref.getBoolean("chkc1",true));
+        FinalData.setCheckDC(pref.getBoolean("chkdc",true));
+        FinalData.setCheckF1(pref.getBoolean("chkf1",true));
+        FinalData.setF1_To_DC(pref.getBoolean("chkf1_to_dc",true));
+        FinalData.setDcStationNo(pref.getString("c1_no","1"));
 
         SSMSHelper.GetInstance().init(
                 dataBase,

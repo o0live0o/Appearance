@@ -32,17 +32,11 @@ import java.util.TimerTask;
 public class C1Activity extends BaseActivity {
 
     private RecyclerView mRV;
-    private LabelView lvPlateNo;
-    private LabelView lvTestId;
-    private LabelView lvOperator;
-    private TextView tvSecond;
 
     private ChekItemAdapter mChekItemAdapter;
     private List<ExteriorBean> mList;
-    private ICURD mCurd;
     private CarBean mCar;
     private Timer mTimer;
-
     private  int iSecond = 0;
 
     @Override
@@ -56,15 +50,10 @@ public class C1Activity extends BaseActivity {
         initNavBar(true,"底盘检查",false);
 
         mRV = findViewById(R.id.c1_rv_checklist);
-        lvPlateNo = findViewById(R.id.c1_lv_plateno);
-        lvTestId = findViewById(R.id.c1_lv_testid);
-        lvOperator = findViewById(R.id.c1_lv_operator);
-        tvSecond = findViewById(R.id.c1_second);
         mCar = getIntent().getParcelableExtra("carInfo");
         mCar.setStartTime(getTime());
-        lvPlateNo.setValTxt(mCar.getPlateNo());
-        lvTestId.setValTxt(mCar.getTestId());
-        lvOperator.setValTxt(FinalData.getOperator());
+
+        initBoard(mCar.getPlateNo(),mCar.getTestId(),"1");
 
         mList = ExteriorList.getC1List();
         mChekItemAdapter = new ChekItemAdapter(this,mList);
@@ -89,35 +78,13 @@ public class C1Activity extends BaseActivity {
         mRV.setAdapter(mChekItemAdapter);
 
         new StatusTask().execute("人工检查","1001");
-        new Thread(new MyThread()).start();
-
-
     }
 
-    Handler handler = new Handler(){
-        public void handleMessage(Message msg){
-            tvSecond.setText(String.valueOf(msg.obj));
-            super.handleMessage(msg);
-        }
-    };
-
-
-    public class MyThread implements Runnable{
-        @Override
-        public void run() {
-            while (true){
-                try {
-                    Thread.sleep(1000);
-                    Message msg = new Message();
-                    msg.obj = iSecond;
-                    iSecond ++;
-                    handler.sendMessage(msg);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    };
+    @Override
+    protected void onDestroy() {
+        BaseActivity.RunThread = false;
+        super.onDestroy();
+    }
 
     public void onSubmit(View view) {
         mCar.setEndTime(getTime());
