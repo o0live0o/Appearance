@@ -41,7 +41,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initNavBar(true, this.getString(R.string.main_title),true);
+        initNavBar(true, this.getString(R.string.main_title),false);
         init();
     }
 

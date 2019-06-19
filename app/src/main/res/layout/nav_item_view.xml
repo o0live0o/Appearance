@@ -5,8 +5,8 @@
     android:background="@drawable/backgroud_shap"
 
     android:layout_marginTop="10dp"
-    android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
     android:orientation="horizontal"
     >
 

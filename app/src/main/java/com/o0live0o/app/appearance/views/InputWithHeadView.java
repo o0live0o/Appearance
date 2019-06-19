@@ -43,7 +43,7 @@ public class InputWithHeadView extends FrameLayout {
     public void init(Context context,AttributeSet attrs){
         if(attrs == null) return;
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.inputHeadView);
-        headText = typedArray.getString(R.styleable.inputHeadView_head_text);
+        headText = typedArray.getString(R.styleable.inputHeadView_input_headtext);
         typedArray.recycle();
 
         mView = LayoutInflater.from(context).inflate(R.layout.input_head_view,this,false);

@@ -2,10 +2,13 @@ package com.o0live0o.app.appearance.activitys;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.o0live0o.app.appearance.service.CURDHelper;
 import com.o0live0o.app.appearance.data.ExteriorList;
@@ -23,6 +26,8 @@ import com.o0live0o.app.dbutils.DbResult;
 import com.o0live0o.app.dbutils.SSMSHelper;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class C1Activity extends BaseActivity {
 
@@ -30,11 +35,15 @@ public class C1Activity extends BaseActivity {
     private LabelView lvPlateNo;
     private LabelView lvTestId;
     private LabelView lvOperator;
+    private TextView tvSecond;
 
     private ChekItemAdapter mChekItemAdapter;
     private List<ExteriorBean> mList;
     private ICURD mCurd;
     private CarBean mCar;
+    private Timer mTimer;
+
+    private  int iSecond = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +59,7 @@ public class C1Activity extends BaseActivity {
         lvPlateNo = findViewById(R.id.c1_lv_plateno);
         lvTestId = findViewById(R.id.c1_lv_testid);
         lvOperator = findViewById(R.id.c1_lv_operator);
-
+        tvSecond = findViewById(R.id.c1_second);
         mCar = getIntent().getParcelableExtra("carInfo");
         mCar.setStartTime(getTime());
         lvPlateNo.setValTxt(mCar.getPlateNo());
@@ -80,8 +89,35 @@ public class C1Activity extends BaseActivity {
         mRV.setAdapter(mChekItemAdapter);
 
         new StatusTask().execute("人工检查","1001");
+        new Thread(new MyThread()).start();
+
 
     }
+
+    Handler handler = new Handler(){
+        public void handleMessage(Message msg){
+            tvSecond.setText(String.valueOf(msg.obj));
+            super.handleMessage(msg);
+        }
+    };
+
+
+    public class MyThread implements Runnable{
+        @Override
+        public void run() {
+            while (true){
+                try {
+                    Thread.sleep(1000);
+                    Message msg = new Message();
+                    msg.obj = iSecond;
+                    iSecond ++;
+                    handler.sendMessage(msg);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
 
     public void onSubmit(View view) {
         mCar.setEndTime(getTime());

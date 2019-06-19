@@ -8,9 +8,30 @@
     tools:context=".activitys.HelpActivity">
     <include layout="@layout/nav_bar"></include>
 
+    <com.o0live0o.app.appearance.views.InputWithHeadView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:input_headtext="底盘工位号：">
+
+    </com.o0live0o.app.appearance.views.InputWithHeadView>
+    <View
+        style="@style/line"></View>
+
     <Button
         style="@style/loginBtn"
         android:background="@color/lightblue"
-        android:text="@string/logout"
-        android:onClick="onLoginClick"/>
+        android:onClick="onSaveClick"
+        android:text="@string/save"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"></LinearLayout>
+
+    <Button
+        style="@style/loginBtn"
+        android:layout_marginBottom="20dp"
+        android:background="@color/lightblue"
+        android:onClick="onLoginClick"
+        android:text="@string/logout" />
 </LinearLayout>

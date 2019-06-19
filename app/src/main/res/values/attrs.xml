@@ -12,6 +12,6 @@
     </declare-styleable>
 
     <declare-styleable name="inputHeadView">
-        <attr name="head_text" format="string"></attr>
+        <attr name="input_headtext" format="string"></attr>
     </declare-styleable>
 </resources>

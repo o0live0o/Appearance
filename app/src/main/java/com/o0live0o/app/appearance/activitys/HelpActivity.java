@@ -27,4 +27,7 @@ public class HelpActivity extends BaseActivity {
         finish();
 
     }
+
+    public void onSaveClick(View view) {
+    }
 }
