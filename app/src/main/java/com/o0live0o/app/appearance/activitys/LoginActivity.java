@@ -5,11 +5,23 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 
+import com.o0live0o.app.appearance.bean.Vehicle_18C55;
 import com.o0live0o.app.appearance.service.CURDHelper;
 import com.o0live0o.app.appearance.data.FinalData;
 import com.o0live0o.app.appearance.R;
+import com.o0live0o.app.appearance.service.WebServiceHelper;
 import com.o0live0o.app.appearance.views.InputView;
 import com.o0live0o.app.dbutils.DbResult;
+
+
+import org.xmlpull.v1.XmlPullParserException;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
+
+
+
 
 public class LoginActivity extends  BaseActivity{
 
@@ -25,6 +37,26 @@ public class LoginActivity extends  BaseActivity{
     }
 
     public void onLoginClick(View view) {
+//        Vehicle_18C55 vehicle_18C55 = new Vehicle_18C55();
+//          XStream xStream = new XStream(new DomDriver());
+//        xStream.ignoreUnknownElements();
+//        xStream.processAnnotations(vehicle_18C55.getClass());
+//
+//        String xml = xStream.toXML(vehicle_18C55);
+//        showDialog(xml);
+////
+//        try {
+//
+//            JAXBContext jaxbContext = JAXBContext.newInstance(Vehicle_18C55.class);
+//            Marshaller marshaller = jaxbContext.createMarshaller();
+//            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,true);
+//            StringWriter sw = new StringWriter();
+//            marshaller.marshal(vehicle_18C55,sw);
+//            showDialog(sw.toString());
+//        } catch (JAXBException e) {
+//            e.printStackTrace();
+//        }
+//
         String user =ivUser.getInputStr();
         String pwd = ivPwd.getInputStr();
         new LoginTask().execute(new String[]{user,pwd});
@@ -39,6 +71,9 @@ public class LoginActivity extends  BaseActivity{
         ivUser = findViewById(R.id.login_name);
         ivPwd = findViewById(R.id.login__pwd);
     }
+
+
+
 
     class LoginTask extends AsyncTask<String,Void, DbResult>{
 

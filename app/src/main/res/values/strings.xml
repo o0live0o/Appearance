@@ -11,8 +11,8 @@
     <string name="save">保 存</string>
 
     <!--数据库连接默认参数-->
-    <string name="db_name">IVS30</string>
-    <string name="db_pwd">123456</string>
+    <string name="db_name">CARTEST_AJ</string>
+    <string name="db_pwd">cdjy</string>
     <string name="db_user">sa</string>
-    <string name="db_ip">192.168.2.233</string>
+    <string name="db_ip">192.168.2.246</string>
 </resources>

@@ -18,6 +18,7 @@ import com.o0live0o.app.appearance.listener.ExteriorChangeListener;
 
 import java.util.List;
 
+
 public class ChekItemAdapter extends RecyclerView.Adapter<ChekItemAdapter.ViewHoler> {
 
     private View mView;

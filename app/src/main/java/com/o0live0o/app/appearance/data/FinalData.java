@@ -6,6 +6,7 @@ public class FinalData {
     public final static String DC = "DC";
     public final static String C1 = "C1";
 
+
     private static String DC_STATION_NO;
     private static boolean CheckF1;
     private static boolean CheckC1;

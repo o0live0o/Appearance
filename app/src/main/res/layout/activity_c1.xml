@@ -14,11 +14,17 @@
         ></include>
 
     <Button
-        style="@style/loginBtn"
-        android:text="提 交"
-        android:layout_marginTop="10dp"
-        android:background="@color/skyblue"
-        android:onClick="onSubmit"/>
+    style="@style/loginBtn"
+    android:text="拍 照"
+    android:layout_marginTop="10dp"
+    android:background="@color/skyblue"
+    android:onClick="onSubmit"/>
+    <Button
+    style="@style/loginBtn"
+    android:text="提 交"
+    android:layout_marginTop="10dp"
+    android:background="@color/skyblue"
+    android:onClick="onSubmit"/>
 
   <HorizontalScrollView
       android:layout_width="wrap_content"

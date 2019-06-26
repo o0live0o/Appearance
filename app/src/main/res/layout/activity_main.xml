@@ -35,15 +35,37 @@
         android:layout_marginRight="@dimen/marginSize"
         android:textSize="@dimen/itemTextSize"
         android:hint="VIN"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/marginSize"
+    android:gravity="center_vertical"
+    android:text="检测线号："/>
+    <Spinner
+        android:id="@+id/main_select_line"
+        android:layout_width="200dp"
+        android:layout_height="30dp"
+        android:background="@drawable/rectangel"
+        android:layout_marginLeft="@dimen/marginSize"
+        android:layout_marginRight="@dimen/marginSize"
+        ></Spinner>
+    </LinearLayout>
     <Button
        style="@style/loginBtn"
         android:background="@color/skyblue"
         android:text="查 询"
+        android:layout_marginTop="5dp"
         android:onClick="main_btn_search"/>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
         android:layout_marginLeft="@dimen/marginSize"
         android:layout_marginRight="@dimen/marginSize">
         <android.support.v7.widget.RecyclerView

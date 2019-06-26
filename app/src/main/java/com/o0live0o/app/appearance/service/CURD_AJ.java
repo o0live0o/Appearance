@@ -28,9 +28,11 @@ public class CURD_AJ implements ICURD {
 
     @Override
     public <T> DbResult getCarList(CarBean car, String type, T t) {
-        String sql = "SELECT TOP 20  plate_number AS plateNo,PID AS testId,'' AS vin,plate_type AS plateType,test_item AS checkItemROM cartest_vehicle WHERE 1 = 1 ";
-        if(type != FinalData.C1) {
-          sql +=  " AND (test_flag = 0 OR test_flag = 1) AND wg_flag = 0  ";
+        String sql = "SELECT TOP 20  plate_number AS plateNo,PID AS testId,'' AS vin,plate_type AS plateType,test_item AS checkItem FROM cartest_vehicle WHERE 1 = 1 ";
+        if(!type.equals(FinalData.C1)) {
+          sql +=  " AND test_flag = 0  AND  isnull(wg_flag,0) = 0 ";
+        }else{
+            sql+=" AND test_flag = '" +FinalData.getDcStationNo()+"'";
         }
         sql += " AND test_item LIKE '%" + type + "%'";
         if (car != null) {

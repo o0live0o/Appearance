@@ -16,6 +16,7 @@ import com.o0live0o.app.appearance.bean.CarBean;
 
 import java.util.List;
 
+
 public class CarListAdapter extends RecyclerView.Adapter<CarListAdapter.ViewHolder> {
 
 

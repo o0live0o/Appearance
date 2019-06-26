@@ -8,7 +8,7 @@ import java.util.List;
 
 public class CURDHelper  {
 
-    private static ICURD mCurd = new CURD_IVS();
+    private static ICURD mCurd = new CURD_AJ();
 
     public static DbResult login(String user,String pwd) {
       return  mCurd.<String>login(user,pwd,"");

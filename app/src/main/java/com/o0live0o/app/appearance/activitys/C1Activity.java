@@ -53,7 +53,7 @@ public class C1Activity extends BaseActivity {
         mCar = getIntent().getParcelableExtra("carInfo");
         mCar.setStartTime(getTime());
 
-        initBoard(mCar.getPlateNo(),mCar.getTestId(),"1");
+        initBoard(mCar.getPlateNo(),mCar.getTestId(),mCar.getLineNo());
 
         mList = ExteriorList.getC1List();
         mChekItemAdapter = new ChekItemAdapter(this,mList);

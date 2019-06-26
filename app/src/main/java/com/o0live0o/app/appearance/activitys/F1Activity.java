@@ -18,10 +18,12 @@ import com.o0live0o.app.appearance.bean.CarBean;
 import com.o0live0o.app.appearance.bean.ExteriorBean;
 import com.o0live0o.app.appearance.enums.CheckState;
 import com.o0live0o.app.appearance.listener.ExteriorChangeListener;
+import com.o0live0o.app.appearance.utils.GenerateItem;
 import com.o0live0o.app.appearance.views.LabelView;
 import com.o0live0o.app.dbutils.DbResult;
 
 import java.util.List;
+
 
 public class F1Activity extends BaseActivity {
 
@@ -64,7 +66,10 @@ public class F1Activity extends BaseActivity {
     */
     private void initRcView(){
         mList = ExteriorList.getExteriorList();
-        mList.stream().forEach(item->{if(ExteriorList.getCheckItem().contains(item.getItemId())){item.setItemState(CheckState.PASS);}});
+
+        GenerateItem generateItem = new GenerateItem();
+        List<Integer> defaultList =   generateItem.generate(mCar);
+        mList.stream().forEach(item->{if(defaultList.contains(item.getItemId())){item.setItemState(CheckState.PASS);}});
         mChekItemAdapter = new ChekItemAdapter(this,mList);
         mChekItemAdapter.setExteriorChangeListener(new ExteriorChangeListener() {
             @Override
@@ -82,7 +87,7 @@ public class F1Activity extends BaseActivity {
         });
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         mRV.setLayoutManager(linearLayoutManager);
         mRV.setAdapter(mChekItemAdapter);
     }

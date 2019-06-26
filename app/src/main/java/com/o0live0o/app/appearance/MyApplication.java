@@ -8,6 +8,9 @@ import android.preference.PreferenceManager;
 import com.o0live0o.app.appearance.data.FinalData;
 import com.o0live0o.app.dbutils.SSMSHelper;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class MyApplication extends Application {
 
     private static Context context;
@@ -26,6 +29,7 @@ public class MyApplication extends Application {
     }
 
     private void init() {
+
         pref = PreferenceManager.getDefaultSharedPreferences(MyApplication.context);
 
         String dataBase = pref.getString("database", this.getString(R.string.db_name));

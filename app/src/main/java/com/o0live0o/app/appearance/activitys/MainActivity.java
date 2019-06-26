@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,10 +22,13 @@ import com.o0live0o.app.appearance.bean.CarBean;
 import com.o0live0o.app.appearance.views.LabelView;
 import com.o0live0o.app.dbutils.DbResult;
 
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpTransportSE;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class MainActivity extends BaseActivity {
 
@@ -33,8 +38,12 @@ public class MainActivity extends BaseActivity {
     private LabelView labView;
     private TextView tvPlateNo;
     private TextView tvVin;
+    private Spinner lineSpinner;
 
     private List<CarBean> mCarList = new ArrayList<>();
+
+    private List<String> lineList = new ArrayList<>();
+    private ArrayAdapter<String> lineAdapter;
 
     private String mCheckType;
 
@@ -44,6 +53,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         initNavBar(true, this.getString(R.string.main_title),false);
         init();
+
     }
 
     @Override
@@ -59,14 +69,26 @@ public class MainActivity extends BaseActivity {
         labView.setValTxt(FinalData.getOperator());
         tvPlateNo = findViewById(R.id.main_tv_palteno);
         tvVin = findViewById(R.id.main_tv_vin);
+        lineSpinner = findViewById(R.id.main_select_line);
         new SearchAsyncTask().execute(null,mCheckType);
         //loadCarList(null);
+
+        lineList.add("全部");
+        //初始化下拉列表
+        for (int i = 1;i<6;i++){
+            lineList.add(String.valueOf(i));
+        }
+        lineAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,lineList);
+        lineAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        lineSpinner.setAdapter(lineAdapter);
     }
 
     public void main_btn_search(View view) {
         CarBean car = new CarBean();
         car.setPlateNo(tvPlateNo.getText().toString().trim());
         car.setVin(tvVin.getText().toString().trim());
+        car.setLineNo(lineSpinner.getSelectedItem().toString());
         new SearchAsyncTask().execute(car, mCheckType);
     }
 
@@ -75,11 +97,9 @@ public class MainActivity extends BaseActivity {
 
         @Override
         protected DbResult doInBackground(Object... objects) {
-
             CarBean car = (CarBean) objects[0];
             String type = (String)objects[1];
             return CURDHelper.getCarList(car,type);
-
         }
 
         @Override
