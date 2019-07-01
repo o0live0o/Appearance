@@ -109,6 +109,15 @@ public class BaseActivity extends Activity {
         alertDialog.show();
     }
 
+    protected void showDialog1(){
+        AlertDialog alertDialog =   new AlertDialog.Builder(this)
+                .setTitle("")
+                .setMultiChoiceItems(new String[]{"苹果","番茄","香蕉"},null,null)
+                .setPositiveButton("确定",null).create();
+        alertDialog.show();
+
+    }
+
     protected void initBoard(String hphm,String testId,String lineNo) {
         lvHPHM = findViewById(R.id.board_lv_plateno);
         lvLineNo = findViewById(R.id.board_lv_line);
@@ -120,7 +129,9 @@ public class BaseActivity extends Activity {
         lvTestId.setValTxt(testId);
         lvLineNo.setValTxt(lineNo);
         lvHPHM.setValTxt(hphm);
+    }
 
+    protected void startTimes(){
         iSecond = 0;
         RunThread = true;
         mThread = new Thread(new MyThread());

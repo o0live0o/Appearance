@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.o0live0o.app.appearance.R;
+import com.o0live0o.app.appearance.bean.CarBean;
 import com.o0live0o.app.appearance.bean.ExteriorBean;
 import com.o0live0o.app.appearance.enums.CheckState;
 import com.o0live0o.app.appearance.listener.ExteriorChangeListener;
@@ -26,6 +27,7 @@ public class ChekItemAdapter extends RecyclerView.Adapter<ChekItemAdapter.ViewHo
     private Context mContext;
 
     private ExteriorChangeListener exteriorChangeListener;
+    private CheckUnpassItem checkUnpassItem = null;
 
     public ChekItemAdapter(Context context, List<ExteriorBean> list){
         mContext = context;
@@ -50,31 +52,42 @@ public class ChekItemAdapter extends RecyclerView.Adapter<ChekItemAdapter.ViewHo
         } else if (bean.getItemState() == CheckState.NOJUDGE) {
             viewHoler.rdBtn.check(R.id.chk_none);
         }
+
+
+
         viewHoler.rdBtn.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+
                 if (exteriorChangeListener != null) {
                     switch (checkedId) {
                         case R.id.chk_pass:
                             exteriorChangeListener.onChange(viewHoler.getAdapterPosition(),CheckState.PASS);
                             break;
                         case R.id.chk_fail:
+
                             exteriorChangeListener.onChange(viewHoler.getAdapterPosition(),CheckState.FAIL);
+                            if (checkUnpassItem != null){
+                                checkUnpassItem.onCheck(viewHoler.getAdapterPosition());
+                            }
                             break;
                         case R.id.chk_none:
                             exteriorChangeListener.onChange(viewHoler.getAdapterPosition(),CheckState.NOJUDGE);
                             break;
                     }
                 }
+
             }
         });
-
     }
 
     public void setExteriorChangeListener(ExteriorChangeListener ex){
         this.exteriorChangeListener = ex;
     }
 
+    public void setCheckUnpassItem(CheckUnpassItem checkUnpassItem){
+        this.checkUnpassItem = checkUnpassItem;
+    }
 
     @Override
     public int getItemCount() {
@@ -94,4 +107,8 @@ public class ChekItemAdapter extends RecyclerView.Adapter<ChekItemAdapter.ViewHo
             rdBtn = itemView.findViewById(R.id.chk_group);
         }
     }
+    public interface  CheckUnpassItem{
+         void onCheck(int i);
+    }
 }
+

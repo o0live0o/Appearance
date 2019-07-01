@@ -1,4 +1,7 @@
 <resources>
+    <!--hint-->
+    <string name="check_remark">检验员意见</string>
+
     <string name="app_name">外观检查</string>
     <string name="login_title">登录</string>
     <string name="main_title">车辆列表</string>
@@ -15,4 +18,487 @@
     <string name="db_pwd">cdjy</string>
     <string name="db_user">sa</string>
     <string name="db_ip">192.168.2.246</string>
+
+    <!--外观检查默认不合格项目-->
+    <string-array name="f1_1">
+        <item>车辆类型与行驶证不一致</item>
+        <item>车辆类型与合格证不一致</item>
+        <item>车辆类型与合格证不一致</item>
+    </string-array>
+
+    <string-array name="f1_2">
+        <item>品牌与合格证不一致</item>
+        <item>型号与合格证不一致</item>
+        <item>品牌与行驶证不一致</item>
+        <item>型号与行驶证不一致</item>
+    </string-array>
+
+    <string-array name="f1_3">
+        <item>VIN码与合格证不一致</item>
+        <item>VIN码与拓印膜不一致</item>
+        <item>VIN码内容和构成不合规定</item>
+        <item>VIN码打刻部位不符合规定</item>
+        <item>VIN码打刻深度不符合规定</item>
+        <item>VIN码组成字母不符合规定</item>
+        <item>VIN码字高不符合规定</item>
+        <item>VIN码有被凿改现象</item>
+        <item>VIN码有挖补现象</item>
+        <item>VIN码有打磨现象</item>
+        <item>VIN码有重新打刻现象</item>
+        <item>VIN码风窗位置标识不合格</item>
+    </string-array>
+
+    <string-array name="f1_4">
+        <item>发动机号码与合格证不一致</item>
+        <item>发动机号码与行驶证不一致</item>
+        <item>发动机号码打刻不符合规定</item>
+    </string-array>
+
+    <string-array name="f1_5">
+        <item>外形与公告照片不符</item>
+        <item>外形与行驶证照片不符</item>
+        <item>颜色与行驶证照片不符</item>
+        <item>外形有改变车厢形状情形</item>
+        <item>外形有改变结构情形</item>
+    </string-array>
+
+    <string-array name="f1_6">
+        <item>外廓尺寸超出标准限值</item>
+        <item>外廓尺寸与产品公告不符</item>
+        <item>外廓尺寸与合格证不符</item>
+        <item>外廓尺寸与行驶证不符</item>
+        <item>车辆长度不符合要求</item>
+        <item>车辆宽度不符合要求</item>
+        <item>车辆高度不符合要求</item>
+    </string-array>
+
+    <string-array name="f1_7">
+        <item>轴距与合格证不符</item>
+        <item>轴距与公告不符</item>
+        <item>轴距与登记信息不符</item>
+    </string-array>
+
+    <string-array name="f1_8">
+        <item>整备质量与合格证不符</item>
+        <item>整备质量与公告不符</item>
+    </string-array>
+
+    <string-array name="f1_9">
+        <item>核定载人数不符合规定</item>
+        <item>核定载人数与公告不符</item>
+        <item>核定载人数与合格证不符</item>
+        <item>座位数与行驶证不一致</item>
+        <item>辅位数与行驶证不一致</item>
+    </string-array>
+
+    <string-array name="f1_10">
+    </string-array>
+
+    <string-array name="f1_11">
+        <item>栏板高超出标准限值</item>
+        <item>栏板高与公告不符</item>
+        <item>栏板高与合格证不符</item>
+        <item>栏板高与登记信息不符</item>
+        <item>栏板高与喷涂数值不符</item>
+    </string-array>
+
+    <string-array name="f1_12">
+        <item>弹簧片数与公告不符</item>
+        <item>弹簧片数与合格证不符</item>
+        <item>弹簧片数与登记信息不符</item>
+        <item>钢板弹簧明显增宽增厚</item>
+        <item>钢板弹簧有裂纹等损坏</item>
+    </string-array>
+
+    <string-array name="f1_13">
+        <item>应急出口数量不符合规定</item>
+        <item>应急出口标志不符合规定</item>
+        <item>应急出口尺寸不符合规定</item>
+        <item>公共汽车应急窗不符合规定</item>
+    </string-array>
+
+    <string-array name="f1_14">
+        <item>通道尺寸不符合规定</item>
+        <item>引道尺寸不符合规定</item>
+        <item>通道有明显障碍</item>
+    </string-array>
+
+    <string-array name="f1_15">
+        <item>货厢有加宽现象</item>
+        <item>货厢有加长现象</item>
+        <item>货厢有加高现象</item>
+        <item>厢式货车有顶盖拆除情形</item>
+        <item>仓栅货车有顶棚杆拆除情形</item>
+    </string-array>
+
+    <string-array name="f1_16">
+        <item>保险杠不符合要求</item>
+        <item>后视镜不符合要求</item>
+        <item>下视镜不符合要求</item>
+        <item>风窗玻璃缺失</item>
+        <item>风窗玻璃有裂纹破损</item>
+        <item>风窗玻璃张贴镜面反光膜</item>
+        <item>车体不周正</item>
+        <item>车身外部有尖锐凸起物</item>
+        <item>车身明显锈蚀破损</item>
+        <item>标识广告影响安全驾驶</item>
+        <item>货厢固定不牢固</item>
+        <item>危险品罐车倾覆保护装置不符合规定</item>
+        <item>车外顶行李架不符合要求</item>
+        <item>校车玻璃透射比不符合要求</item>
+        <item>公路客车玻璃透射比不符合要求</item>
+        <item>旅游客车玻璃透射比不符合要求</item>
+        <item>广角后视镜不符合要求</item>
+        <item>补盲后视镜不符合要求</item>
+        <item>前下视镜不符合要求</item>
+        <item>教练车辅助后视镜不符合要求</item>
+        <item>载货部分带有可伸缩结构</item>
+        <item>载货部分设有乘客座椅</item>
+        <item>自行加装部件影响安全</item>
+        <item>三轮汽车车身外观不符合要求</item>
+        <item>摩托车车身外观不符合要求</item>
+        <item>商标或厂标不符合要求</item>
+        <item>货厢安全架不符合要求</item>
+        <item>厢式货车货厢违规设有车窗</item>
+        <item>封闭式货车货厢违规设有车窗</item>
+        <item>前后保险杠设置不符合要求</item>
+        <item>正三轮摩托车转向系统不符合要求</item>
+    </string-array>
+
+    <string-array name="f1_17">
+        <item>货车总质量喷涂不符合要求</item>
+        <item>专项作业车总质量喷涂不符合要求</item>
+        <item>牵引车准牵总质量喷涂不符合要求</item>
+        <item>栏板高度喷涂不符合要求</item>
+        <item>罐车喷涂的货物种类与公告不符</item>
+        <item>罐车喷涂的货物种类与合格证不符</item>
+        <item>罐车喷涂的容积与公告不符</item>
+        <item>罐车喷涂的容积与合格证不符</item>
+        <item>放大号喷涂不符合要求</item>
+        <item>客车座位数喷涂不符合要求</item>
+        <item>教练车喷涂字样不符合要求</item>
+        <item>燃料汽车喷涂不符合要求</item>
+        <item>消防车颜色不符合要求</item>
+        <item>救护车颜色不符合要求</item>
+        <item>工程救险车颜色不符合要求</item>
+        <item>警车颜色不符合要求</item>
+        <item>消防车灯具不符合要求</item>
+        <item>救护车灯具不符合要求</item>
+        <item>工程救险车灯具不符合要求</item>
+        <item>警车灯具不符合要求</item>
+        <item>普通车辆喷涂安装特种车辆标识灯具</item>
+        <item>残疾人机动车专用标识不符合要求</item>
+        <item>标牌不符合要求</item>
+        <item>非插电式混合动力汽车标牌不合格</item>
+        <item>纯电动汽车标注不符合要求</item>
+        <item>插电式混合动力汽车标注不符合要求</item>
+        <item>燃料电池汽车标注不符合要求</item>
+    </string-array>
+
+    <string-array name="f1_18">
+        <item>前照灯工作不正常</item>
+        <item>前位灯工作不正常</item>
+        <item>转向信号灯工作不正常</item>
+        <item>危险警告信号灯工作不正常</item>
+        <item>示廊灯工作不正常</item>
+        <item>牵引杆挂车标志灯工作不正常</item>
+        <item>后位灯工作不正常</item>
+        <item>制动灯工作不正常</item>
+        <item>后雾灯工作不正常</item>
+        <item>后牌照灯工作不正常</item>
+        <item>倒车灯工作不正常</item>
+        <item>侧转向信号灯工作不正常</item>
+        <item>侧标志灯工作不正常</item>
+        <item>侧反射器工作不正常</item>
+        <item>灯具有异常闪烁情形</item>
+        <item>后位灯透光面面积不符合要求</item>
+        <item>后转向灯透光面面积不符合要求</item>
+        <item>制动灯透光面面积不符合要求</item>
+        <item>外部照明和信号装置被遮挡</item>
+        <item>喇叭工作不正常</item>
+        <item>发动机舱电器导线不符合要求</item>
+    </string-array>
+
+    <string-array name="f1_19">
+        <item>同轴两侧规格和花纹不同</item>
+        <item>轮胎螺栓缺失</item>
+        <item>轮胎规格与公告不符</item>
+        <item>轮胎规格与合格证不符</item>
+        <item>轮胎规格与登记信息不符</item>
+        <item>胎面胎壁有严重破裂</item>
+        <item>胎面胎壁有严重割伤</item>
+        <item>胎面胎壁严重磨损</item>
+        <item>胎面胎壁严重变形</item>
+        <item>轮胎花纹深度不符合要求</item>
+        <item>公路客车使用翻新轮胎</item>
+        <item>旅游客车使用翻新轮胎</item>
+        <item>校车使用翻新轮胎</item>
+        <item>机动车转向轮使用翻新轮胎</item>
+        <item>专用校车未装用无内胎子午线轮胎</item>
+        <item>危险货物运输车未装用子午线轮胎</item>
+        <item>其他客车未装用子午线轮胎</item>
+        <item>备胎标识不符合要求</item>
+    </string-array>
+
+    <string-array name="f1_20">
+        <item>号牌缺失</item>
+        <item>号牌字符不符合要求</item>
+        <item>号牌颜色符合要求</item>
+        <item>号牌安装不符合要求</item>
+        <item>号牌表面有缺陷、损伤</item>
+        <item>号牌架安装不规范</item>
+        <item>违规使用可拆卸号牌架</item>
+        <item>违规使用可翻转号牌架</item>
+        <item>存在影响号牌视认的加装改装情形</item>
+        <item>固封装置缺失</item>
+        <item>固封装置不符合要求</item>
+        <item>号牌板（架）不符合要求</item>
+        <item>号牌板（架）安装孔数量不符合要求</item>
+        <item>号牌板（架）安装孔规格不符合要求</item>
+    </string-array>
+
+    <string-array name="f1_21">
+        <item>存在加装外部照明灯具情形</item>
+        <item>存在加装信号装置情形</item>
+        <item>存在改装外部照明灯具情形</item>
+        <item>存在改装信息装置情形</item>
+        <item>车辆违规装有后射灯</item>
+    </string-array>
+
+    <string-array name="f1_22">
+        <item>汽车安全带</item>
+        <item>校车学生座位未安装安全带</item>
+        <item>汽车安全带损坏</item>
+        <item>存在坐垫套覆盖遮挡安全带情形</item>
+        <item>存在安全带绑定在座位下面情形</item>
+    </string-array>
+
+    <string-array name="f1_23">
+        <item>汽车未按规定配备三角警示牌</item>
+        <item>三角警告牌的外观形状不符合要求</item>
+    </string-array>
+
+    <string-array name="f1_24">
+        <item>客车未按规定配备灭火器</item>
+        <item>危险货物运输车灭火器配备不符合</item>
+        <item>灭火器超出使用有效期</item>
+        <item>灭火器欠压失效</item>
+    </string-array>
+
+    <string-array name="f1_25">
+        <item>公路客户未装行车记录装置</item>
+        <item>旅游客车未装行车记录装置</item>
+        <item>危险货物运输车未装行车记录装置</item>
+        <item>专用校车未装行车记录装置</item>
+        <item>公共汽车未装行车记录装置</item>
+        <item>半挂牵引车未装行车记录装置</item>
+        <item>重型货车未装行车记录装置</item>
+        <item>行车记录装置显示不正常</item>
+        <item>行车记录装置未施加3C标志</item>
+        <item>行车记录装置记录功能不正常</item>
+        <item>卧铺客车未装备车内外录像监控</item>
+        <item>专用校车未装备车内外录像监控</item>
+    </string-array>
+
+    <string-array name="f1_26">
+        <item>货车反光标识不符合要求</item>
+        <item>专用作业车反光标识不符合要求</item>
+        <item>挂车反光标识不符合要求</item>
+        <item>反射器型反光标识不符合要求</item>
+        <item>车身反光标识无3C标志</item>
+        <item>车身反光标识破损</item>
+        <item>车身反光标识逆反射性能不合格</item>
+    </string-array>
+
+    <string-array name="f1_27">
+        <item>重型货车尾部标志不符合要求</item>
+        <item>挂车尾部标志不符合要求</item>
+        <item>专用作业车尾部标志板不符合要求</item>
+        <item>尾部标志板不符合要求</item>
+        <item>尾部标志板逆反射性能不符合要求</item>
+    </string-array>
+
+    <string-array name="f1_28">
+        <item>货车未按规定安装后防护装置</item>
+        <item>挂车未按规定安装后防护装置</item>
+        <item>专用作业车为安装后防护装置</item>
+        <item>后防护装置安装不符合要求</item>
+        <item>侧防护装置安装不符合要求</item>
+        <item>罐体管路超出防护装置</item>
+        <item>罐体封头超出防护装置</item>
+        <item>防护装置严重变形</item>
+        <item>防护装置安装不牢固</item>
+        <item>防护装置外观与公告不符</item>
+        <item>防护装置结构与公告不符</item>
+        <item>防护装置尺寸与公告不符</item>
+    </string-array>
+
+    <string-array name="f1_29">
+        <item>未按规定配备应急锤</item>
+    </string-array>
+
+    <string-array name="f1_30">
+        <item>校车未按规定配备急救箱</item>
+    </string-array>
+
+    <string-array name="f1_31">
+        <item>公路客车限速功能不符要求</item>
+        <item>危险货物运输车限速功能不符要求</item>
+        <item>旅游客车限速功能不符要求</item>
+        <item>公共汽车限速功能不符要求</item>
+        <item>客车超速报警功能不符合要求</item>
+    </string-array>
+
+    <string-array name="f1_32">
+        <item>爆炸品车辆未安装方抱死装置</item>
+        <item>剧毒化学品车辆未安装防抱死装置</item>
+        <item>危险货物运输车未安装防抱死装置</item>
+        <item>公路客车未安装防抱死装置</item>
+        <item>旅游客车未安装防抱死装置</item>
+        <item>半挂牵引车未安装防抱死装置</item>
+        <item>货车未安装防抱死装置</item>
+        <item>专用校车未安装防抱死装置</item>
+        <item>公共汽车未安装防抱死装置</item>
+        <item>防抱死制动装置自检功能不正常</item>
+    </string-array>
+
+    <string-array name="f1_33">
+        <item>客车未安装辅助制动装置</item>
+        <item>危险货物运输车未装辅助制动装置</item>
+        <item>货车未安装辅助制动装置</item>
+        <item>专项作业车未安装辅助制动装置</item>
+    </string-array>
+
+    <string-array name="f1_34">
+        <item>危险货物运输车未安装盘式制动器</item>
+        <item>客车未安装盘式制动器</item>
+        <item>专用校车未安装盘式制动装置</item>
+        <item>公共汽车未安装盘式制动装置</item>
+    </string-array>
+
+    <string-array name="f1_35">
+        <item>危险货物运输车未装紧急切断装置</item>
+    </string-array>
+
+    <string-array name="f1_36">
+        <item>专用校车未装发动机舱灭火装置</item>
+        <item>客车未安装发动机舱灭火装置</item>
+    </string-array>
+
+    <string-array name="f1_37">
+        <item>客车未安装手动机械断电开关</item>
+        <item>手动机械断电开关功能异常</item>
+    </string-array>
+
+    <string-array name="f1_38">
+        <item>教练车未安装副制动踏板</item>
+        <item>教练车副制动踏板功能异常</item>
+    </string-array>
+
+    <string-array name="f1_39">
+        <item>校车未配备标志灯</item>
+        <item>校车未配备停车指示标志牌</item>
+        <item>校车外观标识不符要求</item>
+    </string-array>
+
+    <string-array name="f1_40">
+        <item>危险货物运输车未按规定安装标志</item>
+        <item>爆炸品车橙色反光带不符要求</item>
+        <item>剧毒化学品车橙色反光带不符要求</item>
+        <item>爆炸品车标示牌不符要求</item>
+        <item>剧毒化学品车标示不符要求</item>
+    </string-array>
+
+    <string-array name="f1_41">
+    </string-array>
+
+    <string-array name="dc_42">
+        <item>方向盘转向沉重</item>
+        <item>方向盘间隙过大</item>
+        <item>三轮汽车方向把转向沉重</item>
+        <item>摩托车方向把转向沉重</item>
+    </string-array>
+
+    <string-array name="dc_43">
+        <item>换挡不正常</item>
+        <item>离合器接合不平稳</item>
+        <item>离合器有打滑现象</item>
+        <item>离合器分离不彻底</item>
+    </string-array>
+
+    <string-array name="dc_44">
+        <item>正常行驶时车轮有阻滞现象</item>
+        <item>正常行驶时车轮有抱死现象</item>
+        <item>制动响应迟滞</item>
+        <item>制动时方向盘有抖动</item>
+        <item>制动时有跑偏现象</item>
+    </string-array>
+
+    <string-array name="dc_45">
+        <item>车速表工作不正常</item>
+        <item>指示器有异常报警</item>
+    </string-array>
+
+    <!--底盘检查默认不合格条目-->
+    <string-array name="c1_46">
+        <item>转向系部件松动</item>
+        <item>横、直拉杆有拼焊现象</item>
+        <item>横、直拉杆有损伤现象</item>
+        <item>横、直拉杆松旷</item>
+        <item>横、直拉杆严重磨损</item>
+        <item>转向过程中有干涉或摩擦现象</item>
+    </string-array>
+
+    <string-array name="c1_47">
+        <item>变速器固定不可靠</item>
+        <item>转动轴有裂纹和松旷现象</item>
+        <item>方向节有裂纹和松旷现象</item>
+        <item>中间轴承有裂纹和松旷现象</item>
+        <item>转动系有漏油现象</item>
+    </string-array>
+
+    <string-array name="c1_48">
+        <item>车架明显变形</item>
+        <item>车架明显损伤</item>
+        <item>铆钉螺栓缺失</item>
+        <item>铆钉螺栓松动</item>
+        <item>钢板吊耳松动</item>
+        <item>钢板销松动</item>
+        <item>中心螺栓松旷</item>
+        <item>U形螺栓松旷</item>
+        <item>拉杆、导杆松旷</item>
+        <item>拉杆、导杆移位</item>
+        <item>减振器漏油</item>
+    </string-array>
+
+    <string-array name="c1_49">
+        <item>制动系擅自改动</item>
+        <item>违规从制动系统获取气源用于改造</item>
+        <item>制动系统有漏气现象</item>
+        <item>制动系统有漏油现象</item>
+        <item>制动软管明显老化</item>
+        <item>制动系管路与其他部件有摩擦</item>
+        <item>制动系管路有松动现象</item>
+    </string-array>
+
+    <string-array name="c1_50">
+        <item>发动机的固定不牢固</item>
+        <item>排气管安装不牢固</item>
+        <item>消声器安装不牢固</item>
+        <item>排气管有漏气现象</item>
+        <item>排气管口未指向车身右侧和正下方</item>
+        <item>危险货物运输车排气管安装不符合</item>
+        <item>危险货物运输车尾部未装接地装置</item>
+        <item>电器导线应布置不规范</item>
+        <item>电器导线有破损现象</item>
+        <item>燃料箱固定不牢固</item>
+        <item>燃料箱漏油</item>
+        <item>燃料管路与其他部件有碰擦</item>
+        <item>燃料管路明显老化</item>
+        <item>承载式车身底部不规范</item>
+        <item>承载式车身严重变形</item>
+        <item>轮胎内侧严重磨损</item>
+        <item>轮胎内侧有割伤现象</item>
+        <item>轮胎内侧有腐蚀现象</item>
+    </string-array>
 </resources>

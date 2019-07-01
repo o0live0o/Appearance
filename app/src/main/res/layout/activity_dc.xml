@@ -20,6 +20,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         android:layout_marginLeft="@dimen/marginSize"
         android:layout_marginRight="@dimen/marginSize">
         <android.support.v7.widget.RecyclerView
@@ -28,5 +29,20 @@
             android:id="@+id/dc_rv_item"></android.support.v7.widget.RecyclerView>
     </ScrollView>
 
-
+    <EditText
+        android:id="@+id/dc_et_remark"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:textSize="15sp"
+        android:singleLine="false"
+        android:layout_marginLeft="@dimen/marginSize"
+        android:layout_marginRight="@dimen/marginSize"
+        android:paddingLeft="10dp"
+        android:paddingTop="3dp"
+        android:maxLines="10"
+        android:inputType="textMultiLine"
+        android:background="@drawable/background_edit"
+        android:hint="@string/check_remark"
+        android:gravity="top"
+        android:scrollHorizontally="false"/>
 </LinearLayout>
