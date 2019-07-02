@@ -15,9 +15,9 @@
 
     <!--数据库连接默认参数-->
     <string name="db_name">CARTEST_AJ</string>
-    <string name="db_pwd">cdjy</string>
+    <string name="db_pwd">123456</string>
     <string name="db_user">sa</string>
-    <string name="db_ip">192.168.2.246</string>
+    <string name="db_ip">192.168.137.1</string>
 
     <!--外观检查默认不合格项目-->
     <string-array name="f1_1">

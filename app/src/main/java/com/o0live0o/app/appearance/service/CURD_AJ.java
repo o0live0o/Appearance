@@ -29,6 +29,15 @@ public class CURD_AJ implements ICURD {
     @Override
     public <T> DbResult getCarList(CarBean car, String type, T t) {
         String sql = "SELECT TOP 20  plate_number AS plateNo,PID AS testId,'' AS vin,plate_type AS plateType,test_item AS checkItem FROM cartest_vehicle WHERE 1 = 1 ";
+        sql = "SELECT TOP 20  plate_number AS plateNo,PID AS testId,VIN AS vin,plate_type AS plateType,test_item AS checkItem,\n" +
+                " CAR_TEST_TYPE AS checkType,CAR_TYPE2 AS vehicleType,syxz AS syxz,\n" +
+                " CASE  WHEN ISDATE(FIRST_LOGIN_TIME) = 1 THEN CONVERT(VARCHAR(10),FIRST_LOGIN_TIME,120) ELSE CONVERT(VARCHAR(10),GETDATE(),120) END AS registerDate,\n" +
+                " CASE  WHEN ISDATE(FACTORY_DATE) = 1 THEN CONVERT(VARCHAR(10),FIRST_LOGIN_TIME,120) ELSE CONVERT(VARCHAR(10),GETDATE(),120) END  AS MakeDate,\n" +
+                " CASE WHEN ISNUMERIC(ISNULL(TOTAL_WEIGHT,0)) = 1 THEN ISNULL(TOTAL_WEIGHT,0) ELSE 0 END AS zzl, CLYT AS clyt, \n" +
+                " CASE WHEN ISNUMERIC(ISNULL(CAR_LENGHT,0)) = 1 THEN ISNULL(CAR_LENGHT,0) ELSE 0 END AS vehicleLength,\n" +
+                " CASE WHEN  ISNULL(CAR_HX_HEIGHT,0) = 0 AND ISNULL(CAR_HX_LENGTH,0) = 0 AND ISNULL(CAR_HX_WIDTH,0) = 0 THEN 0  ELSE 1 END AS isHX, \n" +
+                " 0 AS isDB\n" +
+                " FROM cartest_vehicle WHERE 1 = 1";
         if(!type.equals(FinalData.C1)) {
           sql +=  " AND test_flag = 0  AND  isnull(wg_flag,0) = 0 ";
         }else{

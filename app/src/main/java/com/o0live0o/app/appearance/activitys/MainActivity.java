@@ -11,14 +11,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.o0live0o.app.appearance.ActivityStack;
+import com.o0live0o.app.appearance.bean.BooleanSerializer;
+import com.o0live0o.app.appearance.log.L;
 import com.o0live0o.app.appearance.service.CURDHelper;
 import com.o0live0o.app.appearance.data.FinalData;
 import com.o0live0o.app.appearance.MyApplication;
 import com.o0live0o.app.appearance.R;
 import com.o0live0o.app.appearance.adapters.CarListAdapter;
 import com.o0live0o.app.appearance.bean.CarBean;
+import com.o0live0o.app.appearance.utils.Tools;
 import com.o0live0o.app.appearance.views.LabelView;
 import com.o0live0o.app.dbutils.DbResult;
 
@@ -113,10 +117,18 @@ public class MainActivity extends BaseActivity {
             super.onPostExecute(dbResult);
             try {
                 if (dbResult.isSucc()) {
-                    Gson gson = new Gson();
+
+                    Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").registerTypeAdapter(Boolean.class,new BooleanSerializer())
+                            .registerTypeAdapter(boolean.class,new BooleanSerializer()).create();
+
                     Type type = new TypeToken<List<CarBean>>() {
                     }.getType();
+
                     List<CarBean> list = gson.fromJson(dbResult.getMsg(), type);
+                    list.stream().forEach(s->{
+                        s.setSyxz(Tools.RemoveChinese(s.getSyxz()));
+                        s.setCheckType(Tools.RemoveChinese(s.getCheckType()));
+                    });
                     mCarList.clear();
                     mCarList.addAll(list);
                     if (mCarListAdapter == null) {
@@ -132,7 +144,8 @@ public class MainActivity extends BaseActivity {
                 }
             }catch (Exception ex)
             {
-
+                L.d(ex.getMessage());
+                showDialog(ex.getMessage());
             }finally {
                 hideProgressDialog();
             }

@@ -82,7 +82,7 @@ public  class GenerateItem {
     //外廓尺寸 - 6
     private void wkcc() {
         boolean flag = false;
-        if (m_car.getCheckType() == "00") {
+        if (m_car.getCheckType().equals("00")) {
             //注册登记检验
             if (!CarType.XXKC().contains(m_car.getVehicleType())) {  //TODO 带驾驶室的正三轮摩托车
                 flag = true;
@@ -101,8 +101,6 @@ public  class GenerateItem {
     //轴距 - 7
     private void zj() {
         try {
-
-
             boolean flag1 = false;
             if (CarType.ZXZYC_DH().contains(m_car.getVehicleType()) || CarType.HC_DH().contains(m_car.getVehicleType())
                     || CarType.GC_DH().contains(m_car.getVehicleType())) {
@@ -110,7 +108,6 @@ public  class GenerateItem {
             }
             if (flag1)
                 list.add(7);
-
         } catch (Exception e) {
             L.d(e.getMessage());
             e.printStackTrace();
@@ -121,7 +118,7 @@ public  class GenerateItem {
     //整备质量 - 8
     private void zbzl() {
         boolean flag = false;
-        if (m_car.getCheckType() == "00") {
+        if (m_car.getCheckType().equals("00")) {
             if (CarType.GC_DH().contains(m_car.getVehicleType()) || CarType.HC_DH().contains(m_car.getVehicleType()) ||
                     CarType.ZXZYC_DH().contains(m_car.getVehicleType())) {
                 flag = true;
@@ -225,8 +222,8 @@ public  class GenerateItem {
     private void xsjlzz() {
         try {
             boolean flag = false;
-            if (m_car.getSyxz() == "B" || m_car.getSyxz() == "E" || m_car.getSyxz() == "R" ||
-                    m_car.getSyxz() == "O" || m_car.getSyxz() == "P" || m_car.getSyxz() == "Q") {
+            if (m_car.getSyxz().equals("B") || m_car.getSyxz().equals("E") || m_car.getSyxz().equals("R") ||
+                    m_car.getSyxz().equals("O") || m_car.getSyxz().equals("P") || m_car.getSyxz().equals("Q")) {
                 flag = true;
             } else if (m_car.getRegisterDate().after(new Date(2013, 1, 1))) {
                 if (CarType.QYC_DH().contains(m_car.getVehicleType())) {
@@ -291,7 +288,7 @@ public  class GenerateItem {
     //急救箱 - 30
     private void jjx() {
         try {
-            if (m_car.getSyxz() == "O" || m_car.getSyxz() == "P" || m_car.getSyxz() == "Q") {
+            if (m_car.getSyxz().equals("O") || m_car.getSyxz().equals("P") || m_car.getSyxz().equals("Q")) {
                 list.add(30);
             }
         } catch (Exception e) {
@@ -303,9 +300,9 @@ public  class GenerateItem {
     private void xsgn() {
         try {
             boolean flag = false;
-            if (m_car.getCheckType() == "00") {
-                if (m_car.getSyxz() == "B" || m_car.getSyxz() == "C" || m_car.getSyxz() == "E"
-                        || m_car.getSyxz() == "R") {
+            if (m_car.getCheckType().equals("00")) {
+                if (m_car.getSyxz().equals("B") || m_car.getSyxz().equals("C") || m_car.getSyxz().equals("E")
+                        || m_car.getSyxz().equals("R")) {
                     flag = true;
                 } else if (CarType.DXKC_DH().contains(m_car.getVehicleType()) && m_car.getVehicleLength() > 6) {
                     flag = true;
@@ -322,9 +319,9 @@ public  class GenerateItem {
     private void fbszdzz() {
         try {
             boolean flag = false;
-            if (m_car.getClyt() == "W2" || m_car.getClyt() == "W1") {
+            if (m_car.getClyt().equals("W2") || m_car.getClyt().equals("W1")) {
                 flag = true;
-            } else if (m_car.getClyt() == "W9" && m_car.getMakeDate().after(new Date(2012, 9, 1))) {
+            } else if (m_car.getClyt().equals("W9") && m_car.getMakeDate().after(new Date(2012, 9, 1))) {
                 flag = true;
             }
 
@@ -333,11 +330,11 @@ public  class GenerateItem {
                 flag = true;
             }
 
-            if (!flag && m_car.getSyxz() == "C" && m_car.getMakeDate().after(new Date(2013, 9, 1)) && m_car.getVehicleLength() > 9) {
+            if (!flag && m_car.getSyxz().equals("C") && m_car.getMakeDate().after(new Date(2013, 9, 1)) && m_car.getVehicleLength() > 9) {
                 flag = true;
             }
 
-            if (!flag && (m_car.getSyxz() == "O" || m_car.getSyxz() == "P" || m_car.getSyxz() == "Q") &&
+            if (!flag && (m_car.getSyxz().equals("O") || m_car.getSyxz().equals("P") || m_car.getSyxz().equals("Q")) &&
                     m_car.getMakeDate().after(new Date(2013, 5, 1))) {
                 flag = true;
             }
@@ -347,7 +344,7 @@ public  class GenerateItem {
             }
 
             if (!flag && m_car.getMakeDate().after(new Date(2012, 9, 1)) &&
-                    (m_car.getSyxz() == "B" || m_car.getSyxz() == "E") && m_car.getVehicleLength() > 9) {
+                    (m_car.getSyxz().equals("B") || m_car.getSyxz() == "E") && m_car.getVehicleLength() > 9) {
                 flag = true;
             }
 
@@ -427,7 +424,7 @@ public  class GenerateItem {
     private void jjqdzz() {
         try {
             boolean flag = false;
-            if (CarType.GSGC_DH().contains(m_car.getVehicleType()) || CarType.GsHC_DH().contains(m_car.getVehicleType())) {
+            if (m_car.getSyxz().equals("R") && (CarType.GSGC_DH().contains(m_car.getVehicleType()) || CarType.GsHC_DH().contains(m_car.getVehicleType()))) {
                 flag = true;
             }
             if (flag)

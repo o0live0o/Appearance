@@ -3,6 +3,8 @@ package com.o0live0o.app.appearance.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.sql.Date;
 
 public class CarBean implements Parcelable {
@@ -50,8 +52,10 @@ public class CarBean implements Parcelable {
     //车身长
     private int vehicleLength;
     //是否有货箱
+    @SerializedName("isHX")
     private boolean isHX;
     //是否有挡板
+    @SerializedName("isDB")
     private boolean isDB;
 
     public CarBean(){}
