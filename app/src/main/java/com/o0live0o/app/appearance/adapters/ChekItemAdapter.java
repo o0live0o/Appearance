@@ -58,7 +58,7 @@ public class ChekItemAdapter extends RecyclerView.Adapter<ChekItemAdapter.ViewHo
         viewHoler.rdBtn.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-
+                boolean isFail = false;
                 if (exteriorChangeListener != null) {
                     switch (checkedId) {
                         case R.id.chk_pass:
@@ -67,16 +67,16 @@ public class ChekItemAdapter extends RecyclerView.Adapter<ChekItemAdapter.ViewHo
                         case R.id.chk_fail:
 
                             exteriorChangeListener.onChange(viewHoler.getAdapterPosition(),CheckState.FAIL);
-                            if (checkUnpassItem != null){
-                                checkUnpassItem.onCheck(viewHoler.getAdapterPosition());
-                            }
+                            isFail = true;
                             break;
                         case R.id.chk_none:
                             exteriorChangeListener.onChange(viewHoler.getAdapterPosition(),CheckState.NOJUDGE);
                             break;
                     }
                 }
-
+                if (checkUnpassItem != null){
+                    checkUnpassItem.onCheck(viewHoler.getAdapterPosition(),isFail);
+                }
             }
         });
     }
@@ -108,7 +108,7 @@ public class ChekItemAdapter extends RecyclerView.Adapter<ChekItemAdapter.ViewHo
         }
     }
     public interface  CheckUnpassItem{
-         void onCheck(int i);
+         void onCheck(int i,boolean isFail);
     }
 }
 

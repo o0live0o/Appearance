@@ -33,8 +33,10 @@ import com.o0live0o.app.dbutils.SSMSHelper;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.StringJoiner;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -46,9 +48,8 @@ public class C1Activity extends BaseActivity {
     private ChekItemAdapter mChekItemAdapter;
     private List<ExteriorBean> mList;
     private CarBean mCar;
-    private Timer mTimer;
-    private  int iSecond = 0;
-    private List<String> mRemarkList;
+
+    private Map<String,List<String>> remarkMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,60 +62,66 @@ public class C1Activity extends BaseActivity {
         initNavBar(true,"底盘检查",false);
         mRV = findViewById(R.id.c1_rv_checklist);
         mEtRemark = findViewById(R.id.c1_et_remark);
-
+        remarkMap = new HashMap<>();
         mCar = getIntent().getParcelableExtra("carInfo");
-        mRemarkList = new ArrayList<>();
         initBoard(mCar.getPlateNo(),mCar.getTestId(),mCar.getLineNo());
 
         mList = ExteriorList.getC1List();
         mChekItemAdapter = new ChekItemAdapter(this,mList);
         mChekItemAdapter.setCheckUnpassItem(new CheckUnpassItem(){
             @Override
-            public void onCheck(int i) {
+            public void onCheck(int i,boolean b) {
                 try {
-                    if(mRV.getScrollState() == RecyclerView.SCROLL_STATE_IDLE
+                    if (mRV.getScrollState() == RecyclerView.SCROLL_STATE_IDLE
                             && !mRV.isComputingLayout()) {
-                        List<Integer> list = new ArrayList<>();
-                        String[] s1 = getResources().getStringArray(ResourceMan.getResId("c1_"+mList.get(i).getItemId(), R.array.class));
-                        AlertDialog alertDialog = new AlertDialog.Builder(C1Activity.this)
-                                .setTitle("不合格原因")
-                                .setMultiChoiceItems(s1, null, new DialogInterface.OnMultiChoiceClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                                        if (isChecked) {
-                                            list.add(which);
-                                        } else {
-                                            Iterator iterator = list.iterator();
-                                            while (iterator.hasNext()){
-                                                int tempI = (Integer) iterator.next();
-                                                if (tempI == which){
-                                                    iterator.remove();
-                                                    break;
+                        if (b) {
+
+                            List<Integer> list = new ArrayList<>();
+                            String[] s1 = getResources().getStringArray(ResourceMan.getResId("c1_" + mList.get(i).getItemId(), R.array.class));
+                            AlertDialog alertDialog = new AlertDialog.Builder(C1Activity.this)
+                                    .setTitle("不合格原因")
+                                    .setMultiChoiceItems(s1, null, new DialogInterface.OnMultiChoiceClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                                            if (isChecked) {
+                                                list.add(which);
+                                            } else {
+                                                Iterator iterator = list.iterator();
+                                                while (iterator.hasNext()) {
+                                                    int tempI = (Integer) iterator.next();
+                                                    if (tempI == which) {
+                                                        iterator.remove();
+                                                        break;
+                                                    }
                                                 }
                                             }
                                         }
-                                    }
-                                })
-                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        for (int i = 0; i < list.size(); i++) {
-                                            String tempStr = s1[list.get(i)];
-                                            if (!mRemarkList.contains(tempStr)) {
-                                                mRemarkList.add(tempStr);
+                                    })
+                                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            for (int j = 0; j < list.size(); j++) {
+                                                String tempStr = s1[list.get(j)];
+                                                if (!remarkMap.containsKey(String.valueOf(mList.get(i).getItemId()))) {
+                                                    remarkMap.put(String.valueOf(mList.get(i).getItemId()), new ArrayList<>());
+                                                }
+                                                if (!remarkMap.get(String.valueOf(mList.get(i).getItemId())).contains(tempStr))
+                                                    remarkMap.get(String.valueOf(mList.get(i).getItemId())).add(tempStr);
                                             }
+                                            updateReamrk();
                                         }
-                                        StringJoiner stringJoiner = new StringJoiner(";");
-                                        for (String s : mRemarkList
-                                        ) {
-                                            stringJoiner.add(s);
-                                        }
-                                        mEtRemark.setText(stringJoiner.toString());
-                                    }
-                                })
-                                .create();
-                        alertDialog.show();
+                                    })
+                                    .create();
+                            alertDialog.show();
+
+                        } else {
+                            if (remarkMap.containsKey(String.valueOf(mList.get(i).getItemId()))) {
+                                remarkMap.get(String.valueOf(mList.get(i).getItemId())).clear();
+                            }
+                            updateReamrk();
+                        }
                     }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -139,6 +146,18 @@ public class C1Activity extends BaseActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRV.setLayoutManager(linearLayoutManager);
         mRV.setAdapter(mChekItemAdapter);
+    }
+
+    private void updateReamrk(){
+        StringJoiner stringJoiner = new StringJoiner(";");
+        for (List<String> tempList : remarkMap.values()) {
+            for (String s : tempList
+            ) {
+                stringJoiner.add(s);
+            }
+        }
+        mEtRemark.setText(stringJoiner.toString());
+
     }
 
     @Override

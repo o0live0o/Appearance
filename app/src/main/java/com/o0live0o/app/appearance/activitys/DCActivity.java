@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.EditText;
 
 import com.o0live0o.app.appearance.service.CURDHelper;
 import com.o0live0o.app.appearance.data.ExteriorList;
@@ -24,21 +25,23 @@ import com.o0live0o.app.appearance.views.LabelView;
 import com.o0live0o.app.dbutils.DbResult;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.StringJoiner;
 
 
 public class DCActivity extends BaseActivity {
 
     private RecyclerView mRV;
-
+    private EditText mEtRemark;
     private ChekItemAdapter mChekItemAdapter;
     private List<ExteriorBean> mList;
     private ICURD mCurd;
     private CarBean mCar;
     private List<String> mRemarkList;
-
+    private Map<String,List<String>> remarkMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +59,8 @@ public class DCActivity extends BaseActivity {
         initNavBar(true,"动态底盘",false);
 
         mRV = findViewById(R.id.dc_rv_item);
-
+        mEtRemark = findViewById(R.id.dc_et_remark);
+        remarkMap = new HashMap<>();
         mRemarkList = new ArrayList<>();
 
         mCar = getIntent().getParcelableExtra("carInfo");
@@ -68,51 +72,58 @@ public class DCActivity extends BaseActivity {
 
         mChekItemAdapter.setCheckUnpassItem(new ChekItemAdapter.CheckUnpassItem(){
             @Override
-            public void onCheck(int i) {
+            public void onCheck(int i,boolean b) {
                 try {
-                    if(mRV.getScrollState() == RecyclerView.SCROLL_STATE_IDLE
+                    if (mRV.getScrollState() == RecyclerView.SCROLL_STATE_IDLE
                             && !mRV.isComputingLayout()) {
-                        List<Integer> list = new ArrayList<>();
-                        String[] s1 = getResources().getStringArray(ResourceMan.getResId("dc_"+mList.get(i).getItemId(), R.array.class));
-                        AlertDialog alertDialog = new AlertDialog.Builder(DCActivity.this)
-                                .setTitle("不合格原因")
-                                .setMultiChoiceItems(s1, null, new DialogInterface.OnMultiChoiceClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                                        if (isChecked) {
-                                            list.add(which);
-                                        } else {
-                                            Iterator iterator = list.iterator();
-                                            while (iterator.hasNext()){
-                                                int tempI = (Integer) iterator.next();
-                                                if (tempI == which){
-                                                    iterator.remove();
-                                                    break;
+                        if (b) {
+
+                            List<Integer> list = new ArrayList<>();
+                            String[] s1 = getResources().getStringArray(ResourceMan.getResId("dc_" + mList.get(i).getItemId(), R.array.class));
+                            AlertDialog alertDialog = new AlertDialog.Builder(DCActivity.this)
+                                    .setTitle("不合格原因")
+                                    .setMultiChoiceItems(s1, null, new DialogInterface.OnMultiChoiceClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                                            if (isChecked) {
+                                                list.add(which);
+                                            } else {
+                                                Iterator iterator = list.iterator();
+                                                while (iterator.hasNext()) {
+                                                    int tempI = (Integer) iterator.next();
+                                                    if (tempI == which) {
+                                                        iterator.remove();
+                                                        break;
+                                                    }
                                                 }
                                             }
                                         }
-                                    }
-                                })
-                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        for (int i = 0; i < list.size(); i++) {
-                                            String tempStr = s1[list.get(i)];
-                                            if (!mRemarkList.contains(tempStr)) {
-                                                mRemarkList.add(tempStr);
+                                    })
+                                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            for (int j = 0; j < list.size(); j++) {
+                                                String tempStr = s1[list.get(j)];
+                                                if (!remarkMap.containsKey(String.valueOf(mList.get(i).getItemId()))) {
+                                                    remarkMap.put(String.valueOf(mList.get(i).getItemId()), new ArrayList<>());
+                                                }
+                                                if (!remarkMap.get(String.valueOf(mList.get(i).getItemId())).contains(tempStr))
+                                                    remarkMap.get(String.valueOf(mList.get(i).getItemId())).add(tempStr);
                                             }
+                                            updateReamrk();
                                         }
-                                        StringJoiner stringJoiner = new StringJoiner(";");
-                                        for (String s : mRemarkList
-                                        ) {
-                                            stringJoiner.add(s);
-                                        }
-                                        showToast(stringJoiner.toString());
-                                    }
-                                })
-                                .create();
-                        alertDialog.show();
+                                    })
+                                    .create();
+                            alertDialog.show();
+
+                        } else {
+                            if (remarkMap.containsKey(String.valueOf(mList.get(i).getItemId()))) {
+                                remarkMap.get(String.valueOf(mList.get(i).getItemId())).clear();
+                            }
+                            updateReamrk();
+                        }
                     }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -145,6 +156,18 @@ public class DCActivity extends BaseActivity {
     public void onSubmit(View view) {
         mCar.setEndTime(getTime());
         new SubmitTask().execute();
+    }
+
+    private void updateReamrk(){
+        StringJoiner stringJoiner = new StringJoiner(";");
+        for (List<String> tempList : remarkMap.values()) {
+            for (String s : tempList
+            ) {
+                stringJoiner.add(s);
+            }
+        }
+        mEtRemark.setText(stringJoiner.toString());
+
     }
 
     class SubmitTask extends AsyncTask<Void,Void, DbResult> {

@@ -31,7 +31,7 @@
             android:id="@+id/rv_checklist"></android.support.v7.widget.RecyclerView>
     </ScrollView>
     <EditText
-        android:id="@+id/c1_et_remark"
+        android:id="@+id/f1_et_remark"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:textSize="15sp"
