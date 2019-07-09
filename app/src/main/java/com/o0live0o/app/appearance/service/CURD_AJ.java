@@ -41,7 +41,9 @@ public class CURD_AJ implements ICURD {
         if(!type.equals(FinalData.C1)) {
           sql +=  " AND test_flag = 0  AND  isnull(wg_flag,0) = 0 ";
         }else{
-            sql+=" AND test_flag = '" +FinalData.getDcStationNo()+"'";
+            sql+=" AND test_flag = '" + car.getC1Number()+"'";
+            if(!car.getLineNumber().equals("全部"))
+            sql+= " AND LINE_NUM = '"+car.getLineNumber()+"'";
         }
         sql += " AND test_item LIKE '%" + type + "%'";
         if (car != null) {

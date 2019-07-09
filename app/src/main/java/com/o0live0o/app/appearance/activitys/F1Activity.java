@@ -162,6 +162,7 @@ public class F1Activity extends BaseActivity {
         mRV.setLayoutManager(linearLayoutManager);
         mRV.setAdapter(mChekItemAdapter);
     }
+
     private void updateReamrk(){
         StringJoiner stringJoiner = new StringJoiner(";");
         for (List<String> tempList : remarkMap.values()) {
@@ -173,6 +174,7 @@ public class F1Activity extends BaseActivity {
         mEtRemark.setText(stringJoiner.toString());
 
     }
+
     public void onSubmit(View view) {
         mCar.setEndTime(getTime());
         new SubmitAsyncTask().execute(mCar,mList);

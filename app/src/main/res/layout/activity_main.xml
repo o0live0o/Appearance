@@ -35,8 +35,18 @@
         android:layout_marginRight="@dimen/marginSize"
         android:textSize="@dimen/itemTextSize"
         android:hint="VIN"/>
-
+<FrameLayout
+    android:id="@+id/main_search_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="@dimen/marginSize"
+    android:layout_marginLeft="@dimen/marginSize">
     <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -45,16 +55,44 @@
     android:layout_height="match_parent"
     android:layout_marginLeft="@dimen/marginSize"
     android:gravity="center_vertical"
+    android:layout_weight="1"
     android:text="检测线号："/>
     <Spinner
         android:id="@+id/main_select_line"
-        android:layout_width="200dp"
+        android:layout_width="70dp"
+        android:layout_weight="2"
         android:layout_height="30dp"
         android:background="@drawable/rectangel"
         android:layout_marginLeft="@dimen/marginSize"
         android:layout_marginRight="@dimen/marginSize"
         ></Spinner>
     </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/marginSize"
+            android:gravity="center_vertical"
+            android:layout_weight="1"
+            android:text="工位号："/>
+        <Spinner
+            android:id="@+id/main_select_c1no"
+            android:layout_weight="2"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:background="@drawable/rectangel"
+            android:layout_marginLeft="@dimen/marginSize"
+            android:layout_marginRight="@dimen/marginSize"
+            ></Spinner>
+    </LinearLayout>
+    </LinearLayout>
+</FrameLayout>
     <Button
        style="@style/loginBtn"
         android:background="@color/skyblue"

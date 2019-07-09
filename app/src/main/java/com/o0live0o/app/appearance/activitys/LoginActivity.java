@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.o0live0o.app.appearance.bean.Vehicle_18C55;
+import com.o0live0o.app.appearance.log.L;
 import com.o0live0o.app.appearance.service.CURDHelper;
 import com.o0live0o.app.appearance.data.FinalData;
 import com.o0live0o.app.appearance.R;
 import com.o0live0o.app.appearance.service.WebServiceHelper;
+import com.o0live0o.app.appearance.utils.DESTool;
 import com.o0live0o.app.appearance.views.InputView;
 import com.o0live0o.app.dbutils.DbResult;
 
@@ -37,6 +39,14 @@ public class LoginActivity extends  BaseActivity{
     }
 
     public void onLoginClick(View view) {
+        DESTool desTool = new DESTool();
+        String s = null;
+        try {
+            s = desTool.encode("123");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        L.d(s);
 //        Vehicle_18C55 vehicle_18C55 = new Vehicle_18C55();
 //          XStream xStream = new XStream(new DomDriver());
 //        xStream.ignoreUnknownElements();

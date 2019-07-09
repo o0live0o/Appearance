@@ -40,7 +40,7 @@ public class CURD_IVS implements ICURD {
     public <T> DbResult getCarList(CarBean car,String type, T t) {
         String sql = "SELECT TOP 20 HPHM AS plateNo,JCLSH AS testId,VIN AS vin,HPZL AS plateType,JYXM AS checkItem ";
         if (car != null && type.equals(FinalData.C1)){
-            sql += ","+ car.getLineNo() +" AS testLine ";
+            sql += ","+ car.getLineNumber() +" AS testLine ";
         }
         sql+=" FROM VEHICLE_DISPATCH WHERE 1 = 1 AND (JCZT_STATUS = 0 or JCZT_STATUS = 1 or JCZT_STATUS = 2)  AND JYXM LIKE '%"+type+"%'";
         if (car != null) {
@@ -50,8 +50,8 @@ public class CURD_IVS implements ICURD {
             if (car.getVin().length() > 0){
                 sql += " AND VIN LIKE '%"+car.getVin()+"%'";
             }
-            if (type.equals(FinalData.C1) && car.getLineNo() != "全部"){
-                sql += " AND JCXH = '"+ car.getLineNo() +"' ";
+            if (type.equals(FinalData.C1) && !car.getLineNumber().equals("全部")){
+                sql += " AND JCXH = '"+ car.getLineNumber() +"' ";
             }
         }
         sql += " ORDER BY ID DESC";

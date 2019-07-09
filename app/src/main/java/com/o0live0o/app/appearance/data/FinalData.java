@@ -13,7 +13,25 @@ public class FinalData {
     private static boolean CheckDC;
     private static boolean F1_To_DC;
 
-    private static String operator = "";
+    private static String operator = ""; //操作员
+    private static String operator_ID_Car_No = ""; //操作员身份证号
+    private static String stationNo = ""; //检验机构编号
+
+    public static String getStationNo() {
+        return stationNo;
+    }
+
+    public static void setStationNo(String stationNo) {
+        FinalData.stationNo = stationNo;
+    }
+
+    public static String getOperator_ID_Car_No() {
+        return operator_ID_Car_No;
+    }
+
+    public static void setOperator_ID_Car_No(String operator_ID_Car_No) {
+        FinalData.operator_ID_Car_No = operator_ID_Car_No;
+    }
 
     public static String getOperator() {
         return operator;

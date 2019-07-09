@@ -16,7 +16,10 @@ public class CarBean implements Parcelable {
     //车架号
     private String vin;
 
-    private String lineNo;
+    private String lineNumber;
+
+    private String c1Number;
+
     //号牌种类
     private String plateType;
     //检测项目
@@ -64,7 +67,8 @@ public class CarBean implements Parcelable {
         plateNo = in.readString();
         testId = in.readString();
         vin = in.readString();
-        lineNo = in.readString();
+        lineNumber = in.readString();
+        c1Number = in.readString();
         plateType = in.readString();
         checkItem = in.readString();
         operator = in.readString();
@@ -78,32 +82,6 @@ public class CarBean implements Parcelable {
         vehicleLength = in.readInt();
         isHX = in.readByte() != 0;
         isDB = in.readByte() != 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(plateNo);
-        dest.writeString(testId);
-        dest.writeString(vin);
-        dest.writeString(lineNo);
-        dest.writeString(plateType);
-        dest.writeString(checkItem);
-        dest.writeString(operator);
-        dest.writeString(startTime);
-        dest.writeString(endTime);
-        dest.writeString(checkType);
-        dest.writeString(vehicleType);
-        dest.writeString(syxz);
-        dest.writeInt(zzl);
-        dest.writeString(clyt);
-        dest.writeInt(vehicleLength);
-        dest.writeByte((byte) (isHX ? 1 : 0));
-        dest.writeByte((byte) (isDB ? 1 : 0));
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
     }
 
     public static final Creator<CarBean> CREATOR = new Creator<CarBean>() {
@@ -142,12 +120,20 @@ public class CarBean implements Parcelable {
         this.vin = vin;
     }
 
-    public String getLineNo() {
-        return lineNo;
+    public String getLineNumber() {
+        return lineNumber;
     }
 
-    public void setLineNo(String lineNo) {
-        this.lineNo = lineNo;
+    public void setLineNumber(String lineNumber) {
+        this.lineNumber = lineNumber;
+    }
+
+    public String getC1Number() {
+        return c1Number;
+    }
+
+    public void setC1Number(String c1Number) {
+        this.c1Number = c1Number;
     }
 
     public String getPlateType() {
@@ -268,6 +254,33 @@ public class CarBean implements Parcelable {
 
     public void setDB(boolean DB) {
         isDB = DB;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(plateNo);
+        dest.writeString(testId);
+        dest.writeString(vin);
+        dest.writeString(lineNumber);
+        dest.writeString(c1Number);
+        dest.writeString(plateType);
+        dest.writeString(checkItem);
+        dest.writeString(operator);
+        dest.writeString(startTime);
+        dest.writeString(endTime);
+        dest.writeString(checkType);
+        dest.writeString(vehicleType);
+        dest.writeString(syxz);
+        dest.writeInt(zzl);
+        dest.writeString(clyt);
+        dest.writeInt(vehicleLength);
+        dest.writeByte((byte) (isHX ? 1 : 0));
+        dest.writeByte((byte) (isDB ? 1 : 0));
     }
 }
 

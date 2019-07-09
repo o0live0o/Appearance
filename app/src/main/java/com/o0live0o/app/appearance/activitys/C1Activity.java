@@ -25,11 +25,16 @@ import com.o0live0o.app.appearance.bean.CarBean;
 import com.o0live0o.app.appearance.bean.ExteriorBean;
 import com.o0live0o.app.appearance.enums.CheckState;
 import com.o0live0o.app.appearance.listener.ExteriorChangeListener;
+import com.o0live0o.app.appearance.service.WebServiceHelper;
+import com.o0live0o.app.appearance.utils.CreateXML;
 import com.o0live0o.app.appearance.utils.ResourceMan;
 import com.o0live0o.app.appearance.views.LabelView;
 import com.o0live0o.app.dbutils.DbResult;
 import com.o0live0o.app.dbutils.SSMSHelper;
 
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -64,7 +69,7 @@ public class C1Activity extends BaseActivity {
         mEtRemark = findViewById(R.id.c1_et_remark);
         remarkMap = new HashMap<>();
         mCar = getIntent().getParcelableExtra("carInfo");
-        initBoard(mCar.getPlateNo(),mCar.getTestId(),mCar.getLineNo());
+        initBoard(mCar.getPlateNo(),mCar.getTestId(),mCar.getLineNumber());
 
         mList = ExteriorList.getC1List();
         mChekItemAdapter = new ChekItemAdapter(this,mList);
@@ -180,6 +185,8 @@ public class C1Activity extends BaseActivity {
 
     public void onStart(View view) {
         mCar.setStartTime(getTime());
+        String xml = CreateXML.create211(mCar);
+        new SendService().execute(xml,"211","WriteXmlDoc");
         new StatusTask().execute("人工检查","1001");
         startTimes();
     }
@@ -234,6 +241,41 @@ public class C1Activity extends BaseActivity {
             }else {
                 showToast("保存失败:"+dbResult.getMsg());
             }
+        }
+    }
+
+    class SendService extends AsyncTask<String,Void,String>{
+        @Override
+        protected String doInBackground(String... strings) {
+            String xml = strings[0];
+            String jkid = strings[1];
+            String method = strings[2];
+            Map<String,String> map = new HashMap<>();
+            map.put("jkid",jkid);
+            map.put("jczdm",FinalData.getStationNo());
+            map.put("key","");
+            map.put("WriteXmlDoc",xml);
+            try {
+                WebServiceHelper.getInstance().SendWebservice(map,method);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (XmlPullParserException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgressDialog("","正在上传……");
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            hideProgressDialog();
+            showToast(s);
         }
     }
 
