@@ -5,12 +5,14 @@ import com.o0live0o.app.appearance.bean.ExteriorBean;
 import com.o0live0o.app.appearance.data.FinalData;
 import com.o0live0o.app.appearance.enums.CheckState;
 import com.o0live0o.app.appearance.log.L;
+import com.o0live0o.app.appearance.utils.DESTool;
 import com.o0live0o.app.dbutils.DbResult;
 import com.o0live0o.app.dbutils.SSMSHelper;
 
 import java.sql.SQLClientInfoException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -21,8 +23,22 @@ public class CURD_AJ implements ICURD {
     @Override
     public <T> DbResult login(String user, String pwd, T t) {
         DbResult dbResult = new DbResult();
-        dbResult.setSucc(true);
-        dbResult.setMsg("张三");
+        String sql = "SELECT * FROM PUB_EMPLOYEE_USER WHERE USER_NAME = ? AND PASSWORD = ?";
+        DESTool desTool = new DESTool();
+        String mpwd = desTool.getEnc(pwd);
+        List<Object> params = new ArrayList<>();
+        params.add(user);
+        params.add(mpwd.replaceAll("\n",""));
+        Map<String, String> map = ssmsHelper.searchSet(sql, params);
+        if (map != null && map.size() > 0 && map.containsKey("EMP_NAME")) {
+            dbResult.setSucc(true);
+            dbResult.setMsg(map.get("EMP_NAME"));
+            FinalData.setOperator(map.get("EMP_NAME"));
+            FinalData.setOperator_ID_Car_No(map.get("SFZH"));
+        } else {
+            dbResult.setSucc(false);
+            dbResult.setMsg("登录失败");
+        }
         return dbResult;
     }
 

@@ -66,7 +66,6 @@ public class LoginActivity extends  BaseActivity{
 //        } catch (JAXBException e) {
 //            e.printStackTrace();
 //        }
-//
         String user =ivUser.getInputStr();
         String pwd = ivPwd.getInputStr();
         new LoginTask().execute(new String[]{user,pwd});
@@ -91,7 +90,6 @@ public class LoginActivity extends  BaseActivity{
         protected DbResult doInBackground(String... strings) {
             String user = strings[0];
             String pwd = strings[1];
-            FinalData.setOperator(user);
             return CURDHelper.login(user,pwd);
         }
 
