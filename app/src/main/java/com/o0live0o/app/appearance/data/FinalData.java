@@ -15,7 +15,34 @@ public class FinalData {
 
     private static String operator = ""; //操作员
     private static String operator_ID_Car_No = ""; //操作员身份证号
-    private static String stationNo = ""; //检验机构编号
+    private static String stationNo = ""; //检验机构编
+    private static String webserviceUrl = "";
+    private static String webservicekey ="";
+    private static String jkxlh = "";
+
+    public static String getWebserviceUrl() {
+        return webserviceUrl;
+    }
+
+    public static void setWebserviceUrl(String webserviceUrl) {
+        FinalData.webserviceUrl = webserviceUrl;
+    }
+
+    public static String getWebservicekey() {
+        return webservicekey;
+    }
+
+    public static void setWebservicekey(String webservicekey) {
+        FinalData.webservicekey = webservicekey;
+    }
+
+    public static String getJkxlh() {
+        return jkxlh;
+    }
+
+    public static void setJkxlh(String jkxlh) {
+        FinalData.jkxlh = jkxlh;
+    }
 
     public static String getStationNo() {
         return stationNo;

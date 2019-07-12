@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activitys.WebserviceActivity">
+
+    <include layout="@layout/nav_bar"></include>
+
+
+
+    <com.o0live0o.app.appearance.views.InputWithHeadView
+        android:id="@+id/web_url"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:input_headtext="地址：">
+    </com.o0live0o.app.appearance.views.InputWithHeadView>
+    <View
+        style="@style/line"></View>
+    <com.o0live0o.app.appearance.views.InputWithHeadView
+        android:id="@+id/web_org"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:input_headtext="命名空间：">
+    </com.o0live0o.app.appearance.views.InputWithHeadView>
+    <View
+        style="@style/line"></View>
+    <com.o0live0o.app.appearance.views.InputWithHeadView
+        android:id="@+id/web_stationno"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:input_headtext="检测站编号：">
+    </com.o0live0o.app.appearance.views.InputWithHeadView>
+    <View
+        style="@style/line"></View>
+    <com.o0live0o.app.appearance.views.InputWithHeadView
+        android:id="@+id/web_key"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:input_headtext="Key：">
+    </com.o0live0o.app.appearance.views.InputWithHeadView>
+    <View
+        style="@style/line"></View>
+
+    <com.o0live0o.app.appearance.views.InputWithHeadView
+        android:id="@+id/web_jkxlh"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:input_headtext="接口序列号：">
+    </com.o0live0o.app.appearance.views.InputWithHeadView>
+    <View
+        style="@style/line"></View>
+    <Button
+      style="@style/loginBtn"
+        android:background="@color/lightblue"
+        android:onClick="onSaveWeb"
+        android:text="保存"/>
+
+    <Button
+        style="@style/loginBtn"
+        android:layout_marginTop="20dp"
+        android:background="@color/lightblue"
+        android:onClick="onTest"
+        android:text="测试连接"/>
+</LinearLayout>

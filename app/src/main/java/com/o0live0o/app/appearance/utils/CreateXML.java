@@ -6,6 +6,16 @@ import com.o0live0o.app.appearance.data.FinalData;
 
 public class CreateXML {
 
+    public static String create901(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        sb.append("<root>");
+        sb.append("<querycondition>");
+        sb.append("</querycondition>");
+        sb.append("</root>");
+        return sb.toString();
+    }
+
     //项目开始
     public static String create211(CarBean car){
         StringBuilder sb = new StringBuilder();

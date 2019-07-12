@@ -23,6 +23,7 @@
         android:layout_height="wrap_content"
         android:background="@null"
         android:textSize="22sp"
+        android:singleLine="true"
         android:layout_weight="1"/>
 
 

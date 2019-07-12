@@ -1,6 +1,7 @@
 package com.o0live0o.app.appearance.service;
 
 import com.o0live0o.app.appearance.bean.ResultBean;
+import com.o0live0o.app.appearance.data.FinalData;
 import com.o0live0o.app.appearance.log.L;
 
 import org.ksoap2.serialization.SoapObject;
@@ -11,6 +12,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.Map;
 
 public class WebServiceHelper {
@@ -45,10 +47,12 @@ public class WebServiceHelper {
     private String namespace = "";
     private static WebServiceHelper webServiceHelper = null;
     private WebServiceHelper(){
-        webServiceHelper = new WebServiceHelper();
     }
 
     public static WebServiceHelper getInstance(){
+        if (webServiceHelper == null) {
+            webServiceHelper = new WebServiceHelper();
+        }
         return webServiceHelper;
     }
 
@@ -78,6 +82,27 @@ public class WebServiceHelper {
         resultBean.setSucc(true);
         resultBean.setMsg(result);
         return  resultBean;
+    }
+
+    public ResultBean SendWebservice(String jkid,String method,String xml){
+        ResultBean resultBean = new ResultBean();
+        Map<String, String> map = new HashMap<>();
+        map.put("jkid", jkid);
+        map.put("jczdm", FinalData.getStationNo());
+        map.put("key", FinalData.getWebservicekey());
+        map.put("WriteXmlDoc", xml);
+        try {
+            resultBean = SendWebservice(map, method);
+        } catch (IOException e) {
+            e.printStackTrace();
+            resultBean.setSucc(false);
+            resultBean.setMsg(e.getMessage());
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+            resultBean.setSucc(false);
+            resultBean.setMsg(e.getMessage());
+        }
+        return resultBean;
     }
 
 

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.o0live0o.app.appearance.utils.CreateXML;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -22,5 +24,15 @@ public class ExampleInstrumentedTest {
         Context appContext = InstrumentationRegistry.getTargetContext();
 
         assertEquals("com.o0live0o.app.appearance", appContext.getPackageName());
+    }
+
+    @Test
+    public void  testAdd(){
+        assertEquals(1,1);
+    }
+
+    @Test
+    public void testCreateXml(){
+        CreateXML.create901();
     }
 }

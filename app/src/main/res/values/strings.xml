@@ -19,6 +19,13 @@
     <string name="db_user">sa</string>
     <string name="db_ip">192.168.137.1</string>
 
+    <!--默认WebService参数-->
+    <string name="web_url">http://172.168.52.8:8099/Service.asmx?wsdl</string>
+    <string name="web_org">http://tempuri.org/</string>
+    <string name="web_station_no">5200000369</string>
+    <string name="web_jcxlh">791C09090106170400158BC2E1C6F3838794D7EEF3E0ECA2F6DBDEC7D99CABC5BCECB2E2D3D0CFDEB9ABCBBEBCECD1E9D2B5CEF1D0C5CFA2CFB5CDB3</string>
+    <string name="web_key">112</string>
+
     <!--外观检查默认不合格项目-->
     <string-array name="f1_1">
         <item>车辆类型与行驶证不一致</item>
@@ -91,8 +98,7 @@
         <item>辅位数与行驶证不一致</item>
     </string-array>
 
-    <string-array name="f1_10">
-    </string-array>
+    <string-array name="f1_10"></string-array>
 
     <string-array name="f1_11">
         <item>栏板高超出标准限值</item>
@@ -409,8 +415,7 @@
         <item>剧毒化学品车标示不符要求</item>
     </string-array>
 
-    <string-array name="f1_41">
-    </string-array>
+    <string-array name="f1_41"></string-array>
 
     <string-array name="dc_42">
         <item>方向盘转向沉重</item>

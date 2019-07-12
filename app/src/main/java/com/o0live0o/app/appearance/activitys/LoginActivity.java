@@ -81,7 +81,10 @@ public class LoginActivity extends  BaseActivity{
         ivPwd = findViewById(R.id.login__pwd);
     }
 
-
+    public void onSetWebServiceClick(View view) {
+        Intent intent = new Intent(this,WebserviceActivity.class);
+        startActivity(intent);
+    }
 
 
     class LoginTask extends AsyncTask<String,Void, DbResult>{
