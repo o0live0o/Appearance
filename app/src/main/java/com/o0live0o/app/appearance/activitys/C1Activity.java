@@ -337,32 +337,32 @@ public class C1Activity extends BaseActivity {
             ResultBean resultBean = new ResultBean();
             String xml = "";
             //发送联网录像指令
-            xml = CreateXML.create803(mCar,getTime(),"01","0323");
-             resultBean= WebServiceHelper.getInstance().SendWebservice("803","writeObjectXml","WriteXmlDoc",xml);
-             final String s1 = resultBean.getMsg();
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    showToast(s1);
-                }
-            });
+//            xml = CreateXML.create803(mCar,getTime(),"01","0323");
+//             resultBean= WebServiceHelper.getInstance().SendWebservice("803","writeObjectXml","WriteXmlDoc",xml);
+//             final String s1 = resultBean.getMsg();
+//            runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    showToast(s1);
+//                }
+//            });
 
 //            if (resultBean.isSucc()) {
                 //发送联网开始命令
-                xml = CreateXML.create211(mCar);
-                resultBean = WebServiceHelper.getInstance().SendWebservice("211", "writeObjectXml", "WriteXmlDoc", xml);
-                final String s2 = resultBean.getMsg();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        showToast(s2);
-                    }
-                });
+//                xml = CreateXML.create211(mCar);
+//                resultBean = WebServiceHelper.getInstance().SendWebservice("211", "writeObjectXml", "WriteXmlDoc", xml);
+//                final String s2 = resultBean.getMsg();
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        showToast(s2);
+//                    }
+//                });
 //            }
 
 //            if (resultBean.isSucc()) {
             //更新LED状态
-              DbResult dbResult =  CURDHelper.sendStatus(mCar.getPlateNo() + "@" + "人工检查", mCar, "1");
+              DbResult dbResult =  CURDHelper.sendStatus(mCar.getPlateNo() + "@" + "人工检查", mCar, "1001");
               resultBean.setSucc(dbResult.isSucc());
               resultBean.setMsg(dbResult.getMsg());
 //            }
