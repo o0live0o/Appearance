@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <Button
+            android:id="@+id/c1_btn_start"
             style="@style/loginBtn"
             android:text="开 始 "
             android:layout_marginTop="5dp"
@@ -24,6 +25,7 @@
             android:layout_weight="1"
             android:onClick="onStart"/>
         <Button
+            android:id="@+id/c1_btn_capture"
             style="@style/loginBtn"
             android:text="拍 照"
             android:layout_marginTop="5dp"
@@ -31,6 +33,7 @@
             android:layout_weight="1"
             android:onClick="onCaputure"/>
         <Button
+            android:id="@+id/c1_btn_submit"
             style="@style/loginBtn"
             android:text="提 交"
             android:layout_marginTop="5dp"

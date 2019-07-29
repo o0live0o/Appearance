@@ -2,6 +2,8 @@ package com.o0live0o.app.appearance.activitys;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,6 +16,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.o0live0o.app.appearance.adapters.ChekItemAdapter.CheckUnpassItem;
+import com.o0live0o.app.appearance.bean.C1Bean;
+import com.o0live0o.app.appearance.bean.ResultBean;
 import com.o0live0o.app.appearance.service.CURDHelper;
 import com.o0live0o.app.appearance.data.ExteriorList;
 import com.o0live0o.app.appearance.data.FinalData;
@@ -45,6 +49,7 @@ import java.util.Map;
 import java.util.StringJoiner;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.stream.Collectors;
 
 public class C1Activity extends BaseActivity {
 
@@ -53,6 +58,10 @@ public class C1Activity extends BaseActivity {
     private ChekItemAdapter mChekItemAdapter;
     private List<ExteriorBean> mList;
     private CarBean mCar;
+
+    private Button mBtnStart;
+    private Button mBtnCapture;
+    private Button mBtnSubmit;
 
     private Map<String,List<String>> remarkMap;
 
@@ -70,6 +79,8 @@ public class C1Activity extends BaseActivity {
         remarkMap = new HashMap<>();
         mCar = getIntent().getParcelableExtra("carInfo");
         initBoard(mCar.getPlateNo(),mCar.getTestId(),mCar.getLineNumber());
+
+        initControl();
 
         mList = ExteriorList.getC1List();
         mChekItemAdapter = new ChekItemAdapter(this,mList);
@@ -153,6 +164,13 @@ public class C1Activity extends BaseActivity {
         mRV.setAdapter(mChekItemAdapter);
     }
 
+    private void initControl(){
+        mBtnStart = findViewById(R.id.c1_btn_start);
+        mBtnCapture = findViewById(R.id.c1_btn_capture);
+        mBtnSubmit = findViewById(R.id.c1_btn_submit);
+        changeBtnState(true,false,false);
+    }
+
     private void updateReamrk(){
         StringJoiner stringJoiner = new StringJoiner(";");
         for (List<String> tempList : remarkMap.values()) {
@@ -177,20 +195,23 @@ public class C1Activity extends BaseActivity {
     }
 
     public void onPre(View view) {
-        new StatusTask().execute(((Button)view).getText().toString(),"");
+        new StatusTask().execute(((Button)view).getText().toString(),"1");
     }
 
     public void onCaputure(View view) {
+        String xml = CreateXML.create803(mCar, getTime(), "00", "0323");
+        new SendService().execute(xml, "803");
+        changeBtnState(false,false,true);
     }
 
     public void onStart(View view) {
         mCar.setStartTime(getTime());
-        String xml = CreateXML.create211(mCar);
-        new SendService().execute(xml,"211","WriteXmlDoc");
-        new StatusTask().execute("人工检查","1001");
+        new SendStartSerivce().execute();
+        changeBtnState(false,true,false);
         startTimes();
     }
 
+    //更新LED状态
     class StatusTask extends AsyncTask<String,Void,DbResult>{
 
         @Override
@@ -210,18 +231,81 @@ public class C1Activity extends BaseActivity {
         protected void onPostExecute(DbResult dbResult) {
             super.onPostExecute(dbResult);
             hideProgressDialog();
-            if(dbResult.isSucc()){
-                showToast("状态更新成功");
-            }else {
-                showToast("状态更新失败:"+dbResult.getMsg());
-            }
         }
     }
 
+    //结束检测
     class SubmitTask extends AsyncTask<Void,Void, DbResult>{
 
         @Override
         protected DbResult doInBackground(Void... voids) {
+
+            ResultBean resultBean = new ResultBean();
+            C1Bean c1 = new C1Bean();
+            c1.setRzxxbj(mList.stream().filter(s->s.getItemId() == 46).map(s->s.getItemState() == CheckState.PASS ? "1":"0").collect(Collectors.joining("")));
+            c1.setRcdxbj(mList.stream().filter(s->s.getItemId() == 47).map(s->s.getItemState() == CheckState.PASS ? "1":"0").collect(Collectors.joining("")));
+            c1.setRxsxbj(mList.stream().filter(s->s.getItemId() == 48).map(s->s.getItemState() == CheckState.PASS ? "1":"0").collect(Collectors.joining("")));
+            c1.setRzdxbj(mList.stream().filter(s->s.getItemId() == 49).map(s->s.getItemState() == CheckState.PASS ? "1":"0").collect(Collectors.joining("")));
+            c1.setRqtbj(mList.stream().filter(s->s.getItemId() == 50).map(s->s.getItemState() == CheckState.PASS ? "1":"0").collect(Collectors.joining("")));
+            c1.setJyyjy("");
+
+            //写入过程数据
+            String xml = CreateXML.caeate428(mCar, c1);
+            try {
+                L.d("发送过程数据："+xml);
+                resultBean = WebServiceHelper.getInstance().SendWebservice("428", "writeObjectXml", "WriteXmlDoc", xml);
+                L.d("发送过程数据："+resultBean.getMsg());
+                final String s1 = resultBean.getMsg();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showToast(s1);
+                    }
+                });
+            }catch (Exception e)
+            {
+                L.d("发送过程数据异常："+e.getMessage());
+            }
+
+//            if (resultBean.isSucc()){
+                //写入结束指令
+            try {
+                xml = CreateXML.create212(mCar);
+                L.d("发送结束命令："+xml);
+                resultBean = WebServiceHelper.getInstance().SendWebservice("212", "writeObjectXml", "WriteXmlDoc", xml);
+                final String s2 = resultBean.getMsg();
+                L.d("发送结束命令："+resultBean.getMsg());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showToast(s2);
+                    }
+                });
+            }catch (Exception ex)
+            {
+                L.d("发送结束命令异常："+ex.getMessage());
+            }
+//            }
+
+//            if (resultBean.isSucc()){
+                //写入录像结束指令
+            try {
+                xml = CreateXML.create803(mCar, getTime(), "02", "0323");
+                L.d("发送停止录像命令："+xml);
+                resultBean = WebServiceHelper.getInstance().SendWebservice("803", "writeObjectXml", "WriteXmlDoc", xml);
+                final String s3 = resultBean.getMsg();
+                L.d("发送停止录像命令："+resultBean.getMsg());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showToast(s3);
+                    }
+                });
+            }catch (Exception ex) {
+                L.d("发送停止录像命令异常："+ex.getMessage());
+            }
+//            }
+
             return CURDHelper.saveC1(mList,mCar);
         }
 
@@ -244,25 +328,67 @@ public class C1Activity extends BaseActivity {
         }
     }
 
+    //联网发送开始和录像指令
+    class SendStartSerivce extends AsyncTask<Void,Void,String>{
+
+        @Override
+        protected String doInBackground(Void... voids) {
+
+            ResultBean resultBean = new ResultBean();
+            String xml = "";
+            //发送联网录像指令
+            xml = CreateXML.create803(mCar,getTime(),"01","0323");
+             resultBean= WebServiceHelper.getInstance().SendWebservice("803","writeObjectXml","WriteXmlDoc",xml);
+             final String s1 = resultBean.getMsg();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    showToast(s1);
+                }
+            });
+
+//            if (resultBean.isSucc()) {
+                //发送联网开始命令
+                xml = CreateXML.create211(mCar);
+                resultBean = WebServiceHelper.getInstance().SendWebservice("211", "writeObjectXml", "WriteXmlDoc", xml);
+                final String s2 = resultBean.getMsg();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showToast(s2);
+                    }
+                });
+//            }
+
+//            if (resultBean.isSucc()) {
+            //更新LED状态
+              DbResult dbResult =  CURDHelper.sendStatus(mCar.getPlateNo() + "@" + "人工检查", mCar, "1");
+              resultBean.setSucc(dbResult.isSucc());
+              resultBean.setMsg(dbResult.getMsg());
+//            }
+            return resultBean.isSucc()+":"+resultBean.getMsg();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgressDialog("","正在开始……");
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            hideProgressDialog();
+        }
+    }
+
+    //发送拍照指令
     class SendService extends AsyncTask<String,Void,String>{
         @Override
         protected String doInBackground(String... strings) {
             String xml = strings[0];
             String jkid = strings[1];
-            String method = strings[2];
-            Map<String,String> map = new HashMap<>();
-            map.put("jkid",jkid);
-            map.put("jczdm",FinalData.getStationNo());
-            map.put("key","");
-            map.put("WriteXmlDoc",xml);
-            try {
-                WebServiceHelper.getInstance().SendWebservice(map,method);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (XmlPullParserException e) {
-                e.printStackTrace();
-            }
-            return null;
+            return  WebServiceHelper.getInstance().SendWebservice(jkid,"writeObjectXml","WriteXmlDoc",xml).getMsg();
         }
 
         @Override
@@ -275,8 +401,21 @@ public class C1Activity extends BaseActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             hideProgressDialog();
-            showToast(s);
+
         }
+    }
+
+    //改变按钮的状态
+    private void changeBtnState(boolean bstart,boolean bcapture,boolean bsubmit){
+
+        mBtnStart.setEnabled(bstart);
+        mBtnStart.setBackgroundColor(bstart ? Color.parseColor("#87CEEB"): Color.parseColor("#D3D3D3"));
+
+        mBtnCapture.setEnabled(bcapture);
+        mBtnCapture.setBackgroundColor(bcapture ? Color.parseColor("#87CEEB"): Color.parseColor("#D3D3D3"));
+
+        mBtnSubmit.setEnabled(bsubmit);
+        mBtnSubmit.setBackgroundColor(bsubmit ? Color.parseColor("#87CEEB"): Color.parseColor("#D3D3D3"));
     }
 
 

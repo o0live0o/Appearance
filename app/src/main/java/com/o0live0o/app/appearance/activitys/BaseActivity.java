@@ -32,7 +32,7 @@ public class BaseActivity extends Activity {
     private LabelView lvHPHM,lvTestId,lvLineNo,lvOperator;
     private TextView tvSecond;
     private int iSecond = 0;
-    public static boolean RunThread = true;
+    public static boolean RunThread = false;
 
     private static Thread mThread = null;
     private static boolean bRun = true;
@@ -134,6 +134,14 @@ public class BaseActivity extends Activity {
     protected void startTimes(){
         iSecond = 0;
         RunThread = true;
+        if (mThread != null){
+            try {
+                mThread.interrupt();
+            }catch (Exception ex){
+                ex.printStackTrace();
+            }
+
+        }
         mThread = new Thread(new MyThread());
         mThread.start();
         bRun = false;

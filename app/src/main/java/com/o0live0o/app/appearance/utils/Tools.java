@@ -1,5 +1,6 @@
 package com.o0live0o.app.appearance.utils;
 
+import java.net.URLDecoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,4 +15,21 @@ public class Tools {
         Matcher matcher = pattern.matcher(s);
         return matcher.replaceAll("");
     }
+
+    public static String matchField(String src,String field){
+        Pattern pattern = Pattern.compile("<"+field+">(.*?)</"+field+">");
+        Matcher matcher = pattern.matcher(src);
+        if (matcher.find()){
+            String s = matcher.group(1).trim();
+            return s;
+        }
+        return "";
+
+    }
+
+
+
+
+
+
 }

@@ -19,4 +19,8 @@ public interface ICURD {
      <T>DbResult saveC1(List<ExteriorBean> list,CarBean car,T t);
 
      <T>DbResult sendStatus(String str,CarBean car,String status,T t);
+
+     <T>DbResult onLine(CarBean car,T t);
+
+     <T>DbResult insertOrUpdate(CarBean car,T t);
 }

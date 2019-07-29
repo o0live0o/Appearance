@@ -84,7 +84,7 @@ public class WebserviceActivity extends BaseActivity {
         @Override
         protected ResultBean doInBackground(Void... voids) {
             String xml = CreateXML.create901();
-            return WebServiceHelper.getInstance().SendWebservice("911", "queryObjectXml", xml);
+            return WebServiceHelper.getInstance().SendWebservice("911", "queryObjectXml","QueryXmlDoc",xml);
         }
 
         @Override
@@ -97,7 +97,7 @@ public class WebserviceActivity extends BaseActivity {
         protected void onPostExecute(ResultBean resultBean) {
             super.onPostExecute(resultBean);
             hideProgressDialog();
-            showDialog(resultBean.getMsg());
+            showDialog(resultBean.isSucc()+":"+resultBean.getMsg());
         }
     }
 }

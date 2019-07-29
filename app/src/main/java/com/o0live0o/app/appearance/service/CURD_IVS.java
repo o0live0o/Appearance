@@ -40,7 +40,7 @@ public class CURD_IVS implements ICURD {
     public <T> DbResult getCarList(CarBean car,String type, T t) {
         String sql = "SELECT TOP 20 HPHM AS plateNo,JCLSH AS testId,VIN AS vin,HPZL AS plateType,JYXM AS checkItem ";
         if (car != null && type.equals(FinalData.C1)){
-            sql += ","+ car.getLineNumber() +" AS testLine ";
+            sql += ", JCXH AS testLine ";
         }
         sql+=" FROM VEHICLE_DISPATCH WHERE 1 = 1 AND (JCZT_STATUS = 0 or JCZT_STATUS = 1 or JCZT_STATUS = 2)  AND JYXM LIKE '%"+type+"%'";
         if (car != null) {
@@ -206,5 +206,16 @@ public class CURD_IVS implements ICURD {
         params.add(car.getTestId());
         DbResult dbResult = ssmsHelper.insertAndUpdateWithPara(sql,params);
         return dbResult;
+    }
+
+    //提车上线
+    @Override
+    public <T> DbResult onLine(CarBean car, T t) {
+        return null;
+    }
+
+    @Override
+    public <T> DbResult insertOrUpdate(CarBean car, T t) {
+        return null;
     }
 }

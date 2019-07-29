@@ -61,6 +61,12 @@ public class CarBean implements Parcelable {
     @SerializedName("isDB")
     private boolean isDB;
 
+    //检测次数
+    private String testTimes;
+
+    //工位号
+    private String stationNo;
+
     public CarBean(){}
 
     protected CarBean(Parcel in) {
@@ -82,6 +88,8 @@ public class CarBean implements Parcelable {
         vehicleLength = in.readInt();
         isHX = in.readByte() != 0;
         isDB = in.readByte() != 0;
+        testTimes = in.readString();
+        stationNo =in.readString();
     }
 
     public static final Creator<CarBean> CREATOR = new Creator<CarBean>() {
@@ -95,6 +103,14 @@ public class CarBean implements Parcelable {
             return new CarBean[size];
         }
     };
+
+    public String getTestTimes() {
+        return testTimes;
+    }
+
+    public void setTestTimes(String testTimes) {
+        this.testTimes = testTimes;
+    }
 
     public String getPlateNo() {
         return plateNo;
@@ -261,6 +277,14 @@ public class CarBean implements Parcelable {
         return 0;
     }
 
+    public String getStationNo() {
+        return stationNo;
+    }
+
+    public void setStationNo(String stationNo) {
+        this.stationNo = stationNo;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(plateNo);
@@ -281,6 +305,8 @@ public class CarBean implements Parcelable {
         dest.writeInt(vehicleLength);
         dest.writeByte((byte) (isHX ? 1 : 0));
         dest.writeByte((byte) (isDB ? 1 : 0));
+        dest.writeString(testTimes);
+        dest.writeString(stationNo);
     }
 }
 

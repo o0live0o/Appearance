@@ -78,9 +78,12 @@ public class ExteriorList {
         if (FinalData.isCheckF1())
         list.add(new NavBean("外观检查","MainActivity",FinalData.F1));
         if (FinalData.isCheckDC())
-        list.add(new NavBean("动态底盘检查","DCActivity",FinalData.DC));
+        list.add(new NavBean("动态底盘检查","MainActivity",FinalData.DC));
         if (FinalData.isCheckC1())
-        list.add(new NavBean("底盘检查","DCActivity",FinalData.C1));
+        list.add(new NavBean("底盘检查","MainActivity",FinalData.C1));
+
+        list.add(new NavBean("日志管理","LogActivity",""));
+        list.add(new NavBean("车辆调度","DispatchActivity",""));
         return list;
     }
 

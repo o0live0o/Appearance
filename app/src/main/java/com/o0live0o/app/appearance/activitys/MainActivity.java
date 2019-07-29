@@ -71,6 +71,12 @@ public class MainActivity extends BaseActivity {
         super.onDestroy();
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        new SearchAsyncTask().execute(mSearchCar,mCheckType);
+    }
+
     private void init() {
         pref = PreferenceManager.getDefaultSharedPreferences(MyApplication.getContext());
         mCheckType = getIntent().getStringExtra("CheckType");
@@ -86,8 +92,6 @@ public class MainActivity extends BaseActivity {
         if (!mCheckType.equals(FinalData.C1)){
             frameLayout.setVisibility(View.GONE);
         }
-
-
 
         //loadCarList(null);
 

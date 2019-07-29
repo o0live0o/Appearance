@@ -33,4 +33,9 @@ public class CURDHelper  {
     public static DbResult sendStatus(String s,CarBean car,String status){
         return mCurd.sendStatus(s,car,status,"");
     }
+
+
+    public static DbResult onLine(CarBean car,String line){
+        return mCurd.onLine(car,line);
+    }
 }

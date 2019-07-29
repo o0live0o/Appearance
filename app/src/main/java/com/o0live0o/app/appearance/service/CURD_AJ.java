@@ -45,7 +45,7 @@ public class CURD_AJ implements ICURD {
     @Override
     public <T> DbResult getCarList(CarBean car, String type, T t) {
         String sql = "SELECT TOP 20  plate_number AS plateNo,PID AS testId,'' AS vin,plate_type AS plateType,test_item AS checkItem FROM cartest_vehicle WHERE 1 = 1 ";
-        sql = "SELECT TOP 20  plate_number AS plateNo,PID AS testId,VIN AS vin,plate_type AS plateType,test_item AS checkItem,\n" +
+        sql = "SELECT TOP 20 ISNULL(test_flag,0) AS stationNo, ISNULL(LINE_NUM,0) AS lineNumber, TEST_COUNT AS testTimes, plate_number AS plateNo,PID AS testId,VIN AS vin,plate_type AS plateType,test_item AS checkItem,\n" +
                 " CAR_TEST_TYPE AS checkType,CAR_TYPE2 AS vehicleType,syxz AS syxz,\n" +
                 " CASE  WHEN ISDATE(FIRST_LOGIN_TIME) = 1 THEN CONVERT(VARCHAR(10),FIRST_LOGIN_TIME,120) ELSE CONVERT(VARCHAR(10),GETDATE(),120) END AS registerDate,\n" +
                 " CASE  WHEN ISDATE(FACTORY_DATE) = 1 THEN CONVERT(VARCHAR(10),FIRST_LOGIN_TIME,120) ELSE CONVERT(VARCHAR(10),GETDATE(),120) END  AS MakeDate,\n" +
@@ -54,14 +54,22 @@ public class CURD_AJ implements ICURD {
                 " CASE WHEN  ISNULL(CAR_HX_HEIGHT,0) = 0 AND ISNULL(CAR_HX_LENGTH,0) = 0 AND ISNULL(CAR_HX_WIDTH,0) = 0 THEN 0  ELSE 1 END AS isHX, \n" +
                 " 0 AS isDB\n" +
                 " FROM cartest_vehicle WHERE 1 = 1";
-        if(!type.equals(FinalData.C1)) {
-          sql +=  " AND test_flag = 0  AND  isnull(wg_flag,0) = 0 ";
+
+
+        if (type.equals("00")) {
+            sql +=  " AND  ISNULL(test_flag,0) = 0 ";
+        } else if(!type.equals(FinalData.C1)) {          //底盘
+          sql +=  " AND  ISNULL(test_flag,0) = 0  AND  isnull(wg_flag,0) = 0 ";
         }else{
             sql+=" AND test_flag = '" + car.getC1Number()+"'";
             if(!car.getLineNumber().equals("全部"))
             sql+= " AND LINE_NUM = '"+car.getLineNumber()+"'";
         }
-        sql += " AND test_item LIKE '%" + type + "%'";
+
+        if (!type.equals("00")) {
+            sql += " AND test_item LIKE '%" + type + "%'";
+        }
+
         if (car != null) {
             if (car.getPlateNo().length() > 0) {
                 sql += " AND plate_number LIKE '%"+car.getPlateNo()+"%'";
@@ -197,21 +205,50 @@ public class CURD_AJ implements ICURD {
         DbResult dbResult = ssmsHelper.insertAndUpdateWithPara(sql,params);
 
         //保存完后更新调度表状态
-        if (dbResult.isSucc()){
-//            sql = "UPDATE VEHICLE_DISPATCH SET ZDGWBH = ? , LED = ? WHERE JCLSH = ?";
-//            List params1 = new ArrayList();
-//            params1.add(1002);
-//            params1.add(car.getPlateNo()+"@"+ (c1_pd == "1" ?"合格":"不合格"));
-//            params1.add(car.getTestId());
-//            dbResult = ssmsHelper.insertAndUpdateWithPara(sql,params1);
+        if (dbResult.isSucc()) {
+            sql = "UPDATE CARTEST_VEHICLE SET TEST_FLAG = ISNULL(TEST_FLAG,0)+1 WHERE PID = ?";
+            List params1 = new ArrayList();
+            params1.add(car.getTestId());
+            dbResult = ssmsHelper.insertAndUpdateWithPara(sql, params1);
         }
+        sendStatus("", car, "0","");
         return dbResult;
     }
 
     @Override
     public <T> DbResult sendStatus(String str, CarBean car, String status, T t) {
-        DbResult dbResult = new DbResult();
-        dbResult.setSucc(true);
+        List<Object> params = new ArrayList<>();
+        String searchSql = "SELECT COUNT(*) AS ct FROM PDA_LED_MSG WHERE LineNum  = '"+car.getLineNumber()+"'";
+        String sql = "";
+        if (ssmsHelper.exist(searchSql,null)){
+            sql = "UPDATE PDA_LED_MSG SET LED_Msg = ?,Enable = ? WHERE LineNum  = ?";
+
+        }else {
+            sql = "INSERT INTO PDA_LED_MSG (LED_Msg,Enable,LineNum) VALUES (?,?,?)";
+        }
+        params.add(str);
+        params.add(status);
+        params.add(car.getLineNumber());
+        DbResult dbResult = ssmsHelper.insertAndUpdateWithPara(sql,params);
         return dbResult;
+    }
+
+    //提车上线
+    @Override
+    public <T> DbResult onLine(CarBean car, T t) {
+
+        String sql = "UPDATE CARTEST_VEHICLE SET TEST_FLAG = 1,LINE_NUM = ? WHERE PID = ?";
+
+        List<Object> params = new ArrayList<>();
+        params.add(t);
+        params.add(car.getTestId());
+
+        DbResult dbResult = ssmsHelper.insertAndUpdateWithPara(sql,params);
+        return dbResult;
+    }
+
+    @Override
+    public <T> DbResult insertOrUpdate(CarBean car, T t) {
+        return null;
     }
 }

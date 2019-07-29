@@ -66,7 +66,7 @@ public class F1Activity extends BaseActivity {
         mEtRemark = findViewById(R.id.f1_et_remark);
         mCar = getIntent().getParcelableExtra("carInfo");
         mCar.setStartTime(getTime());
-        initBoard(mCar.getPlateNo(),mCar.getTestId(),"1");
+        initBoard(mCar.getPlateNo(),mCar.getTestId(),mCar.getLineNumber());
         startTimes();
         initRcView();
     }

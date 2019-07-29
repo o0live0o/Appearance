@@ -43,8 +43,8 @@ public class NavAdapter extends  RecyclerView.Adapter<NavAdapter.ViewHolder> {
             public void onClick(View v) {
                 String className = "com.o0live0o.app.appearance.activitys."+nav.getActivity();
                 try {
-                    //Class activity = Class.forName(className);
-                    Intent intent = new Intent(mContex, MainActivity.class);
+                    Class activity = Class.forName(className);
+                    Intent intent = new Intent(mContex, activity);
                     intent.putExtra("CheckType",nav.getCheckType());
                     mContex.startActivity(intent);
                 } catch (Exception e) {

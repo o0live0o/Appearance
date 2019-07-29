@@ -65,7 +65,7 @@ public class DCActivity extends BaseActivity {
 
         mCar = getIntent().getParcelableExtra("carInfo");
         mCar.setStartTime(getTime());
-        initBoard(mCar.getPlateNo(),mCar.getTestId(),"1");
+        initBoard(mCar.getPlateNo(),mCar.getTestId(),mCar.getLineNumber());
         startTimes();
         mList = ExteriorList.getDCList();
         mChekItemAdapter = new ChekItemAdapter(this,mList);
@@ -150,7 +150,7 @@ public class DCActivity extends BaseActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRV.setLayoutManager(linearLayoutManager);
         mRV.setAdapter(mChekItemAdapter);
-        new StatusTask().execute("动态底盘检查","1001");
+        //new StatusTask().execute("动态底盘检查","1001");
     }
 
     public void onSubmit(View view) {
