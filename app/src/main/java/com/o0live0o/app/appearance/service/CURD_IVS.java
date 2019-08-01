@@ -215,6 +215,11 @@ public class CURD_IVS implements ICURD {
 
     @Override
     public <T> DbResult insertOrUpdate(CarBean car, T t) {
-        return null;
+        List<Object> params = new ArrayList<>();
+        String sql = "UPDATE VEHICLE_DISPATCH SET JCXHMS = ? WHERE JCLSH = ?";
+        params.add("101");
+        params.add(car.getTestId());
+        DbResult dbResult = ssmsHelper.insertAndUpdateWithPara(sql,params);
+        return dbResult;
     }
 }

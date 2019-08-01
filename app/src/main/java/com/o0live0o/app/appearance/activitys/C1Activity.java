@@ -221,8 +221,8 @@ public class C1Activity extends BaseActivity {
     }
 
     public void onCaputure(View view) {
-        String xml = CreateXML.create803(mCar, getTime(), "00", "0323");
-        new SendService().execute(xml, "803");
+
+        new SendService().execute("", "803");
         changeBtnState(false,false,true);
     }
 
@@ -263,70 +263,7 @@ public class C1Activity extends BaseActivity {
         protected DbResult doInBackground(String... strings) {
 
             ResultBean resultBean = new ResultBean();
-            C1Bean c1 = new C1Bean();
-            c1.setRzxxbj(mList.stream().filter(s->s.getItemId() == 46).map(s->s.getItemState() == CheckState.PASS ? "1":"0").collect(Collectors.joining("")));
-            c1.setRcdxbj(mList.stream().filter(s->s.getItemId() == 47).map(s->s.getItemState() == CheckState.PASS ? "1":"0").collect(Collectors.joining("")));
-            c1.setRxsxbj(mList.stream().filter(s->s.getItemId() == 48).map(s->s.getItemState() == CheckState.PASS ? "1":"0").collect(Collectors.joining("")));
-            c1.setRzdxbj(mList.stream().filter(s->s.getItemId() == 49).map(s->s.getItemState() == CheckState.PASS ? "1":"0").collect(Collectors.joining("")));
-            c1.setRqtbj(mList.stream().filter(s->s.getItemId() == 50).map(s->s.getItemState() == CheckState.PASS ? "1":"0").collect(Collectors.joining("")));
-            c1.setJyyjy(strings[0]);
 
-            //写入过程数据
-            String xml = CreateXML.caeate428(mCar, c1);
-            try {
-                L.d("发送过程数据："+xml);
-                resultBean = WebServiceHelper.getInstance().SendWebservice("428", "writeObjectXml", "WriteXmlDoc", xml);
-                L.d("发送过程数据："+resultBean.getMsg());
-                final String s1 = resultBean.getMsg();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        showToast(s1);
-                    }
-                });
-            }catch (Exception e)
-            {
-                L.d("发送过程数据异常："+e.getMessage());
-            }
-
-//            if (resultBean.isSucc()){
-                //写入结束指令
-            try {
-                xml = CreateXML.create212(mCar);
-                L.d("发送结束命令："+xml);
-                resultBean = WebServiceHelper.getInstance().SendWebservice("212", "writeObjectXml", "WriteXmlDoc", xml);
-                final String s2 = resultBean.getMsg();
-                L.d("发送结束命令："+resultBean.getMsg());
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        showToast(s2);
-                    }
-                });
-            }catch (Exception ex)
-            {
-                L.d("发送结束命令异常："+ex.getMessage());
-            }
-//            }
-
-//            if (resultBean.isSucc()){
-                //写入录像结束指令
-            try {
-                xml = CreateXML.create803(mCar, getTime(), "02", "0323");
-                L.d("发送停止录像命令："+xml);
-                resultBean = WebServiceHelper.getInstance().SendWebservice("803", "writeObjectXml", "WriteXmlDoc", xml);
-                final String s3 = resultBean.getMsg();
-                L.d("发送停止录像命令："+resultBean.getMsg());
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        showToast(s3);
-                    }
-                });
-            }catch (Exception ex) {
-                L.d("发送停止录像命令异常："+ex.getMessage());
-            }
-//            }
 
             String subItems = getSubItems();
             TempBean tempBean = new TempBean();
@@ -346,68 +283,26 @@ public class C1Activity extends BaseActivity {
             super.onPostExecute(dbResult);
             hideProgressDialog();
             if(dbResult.isSucc()){
-                showToast("保存成功");
+                L.i("底盘数据保存成功！");
+                showDialog("保存成功");
                 finish();
             }else {
-                showToast("保存失败:"+dbResult.getMsg());
+                L.i("底盘数据保存失败！");
+                showDialog("保存失败:"+dbResult.getMsg());
             }
         }
     }
 
-    //联网发送开始和录像指令
+    //开始
     class SendStartSerivce extends AsyncTask<Void,Void,String>{
 
         @Override
         protected String doInBackground(Void... voids) {
-
             ResultBean resultBean = new ResultBean();
-            String xml = "";
-            try {
-                //发送联网录像指令
-                xml = CreateXML.create803(mCar, getTime(), "01", "0323");
-                L.d("发送开始录像指令：" + xml);
-                resultBean = WebServiceHelper.getInstance().SendWebservice("803", "writeObjectXml", "WriteXmlDoc", xml);
-                L.d("发送开始录像指令：" + resultBean.getMsg());
-                final String s1 = resultBean.getMsg();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        showToast(s1);
-                    }
-                });
-            }catch (Exception e) {
-                L.d("发送开始录像指令异常：" + e.getMessage());
-            }
-
-
-
-//            if (resultBean.isSucc()) {
-                //发送联网开始命令
-            try {
-
-                L.d("发送开始指令：" + xml);
-                xml = CreateXML.create211(mCar);
-                resultBean = WebServiceHelper.getInstance().SendWebservice("211", "writeObjectXml", "WriteXmlDoc", xml);
-                L.d("发送开始指令：" + resultBean.getMsg());
-                final String s2 = resultBean.getMsg();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        showToast(s2);
-                    }
-                });
-            }catch (Exception e){
-                L.d("发送开始指令异常：" + e.getMessage());
-            }
-//            }
-
-//            if (resultBean.isSucc()) {
-            //更新LED状态
-              DbResult dbResult =  CURDHelper.sendStatus(mCar.getPlateNo() + "@" + "人工检查", mCar, "1");
-              resultBean.setSucc(dbResult.isSucc());
-              resultBean.setMsg(dbResult.getMsg());
-//            }
-            return resultBean.isSucc()+":"+resultBean.getMsg();
+            DbResult dbResult = CURDHelper.sendStatus(mCar.getPlateNo() + "@" + "人工检查", mCar, "1001");
+            resultBean.setSucc(dbResult.isSucc());
+            resultBean.setMsg(dbResult.getMsg());
+            return resultBean.isSucc() + ":" + resultBean.getMsg();
         }
 
         @Override
@@ -427,15 +322,14 @@ public class C1Activity extends BaseActivity {
     class SendService extends AsyncTask<String,Void,String>{
         @Override
         protected String doInBackground(String... strings) {
-            String xml = strings[0];
-            String jkid = strings[1];
-            return  WebServiceHelper.getInstance().SendWebservice(jkid,"writeObjectXml","WriteXmlDoc",xml).getMsg();
+            CURDHelper.insertOrUpdate(mCar);
+            return  "";
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            showProgressDialog("","正在上传……");
+            showProgressDialog("","正在拍照……");
         }
 
         @Override

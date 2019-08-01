@@ -34,6 +34,9 @@ public class CURDHelper  {
         return mCurd.sendStatus(s,car,status,"");
     }
 
+    public static DbResult insertOrUpdate(CarBean carBean){
+        return mCurd.insertOrUpdate(carBean,"");
+    }
 
     public static DbResult onLine(CarBean car,String line){
         return mCurd.onLine(car,line);

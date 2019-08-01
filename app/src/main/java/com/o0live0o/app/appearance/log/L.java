@@ -22,6 +22,13 @@ public class L {
             logList.removeLast();
         }
 
+        //logList.addFirst("[" + getTime() + "]_" + s);
+    }
+
+    public static void i(String s){
+        if (logList.size() > logMaxCount) {
+            logList.removeLast();
+        }
         logList.addFirst("[" + getTime() + "]_" + s);
     }
 

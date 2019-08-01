@@ -11,9 +11,12 @@ public class Tools {
 
     //去掉字符中的中文
     public static String RemoveChinese(String s){
-        Pattern pattern = Pattern.compile(REGEX_CHINESE);
-        Matcher matcher = pattern.matcher(s);
-        return matcher.replaceAll("");
+        if (s != null) {
+            Pattern pattern = Pattern.compile(REGEX_CHINESE);
+            Matcher matcher = pattern.matcher(s);
+            return matcher.replaceAll("");
+        }
+        return s;
     }
 
     public static String matchField(String src,String field){

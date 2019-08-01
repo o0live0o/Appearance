@@ -150,7 +150,7 @@ public class DCActivity extends BaseActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRV.setLayoutManager(linearLayoutManager);
         mRV.setAdapter(mChekItemAdapter);
-        //new StatusTask().execute("动态底盘检查","1001");
+        new StatusTask().execute("动态底盘检查","1001");
     }
 
     public void onSubmit(View view) {
