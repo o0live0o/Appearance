@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.o0live0o.app.appearance.adapters.ChekItemAdapter.CheckUnpassItem;
 import com.o0live0o.app.appearance.bean.C1Bean;
 import com.o0live0o.app.appearance.bean.ResultBean;
+import com.o0live0o.app.appearance.bean.TempBean;
 import com.o0live0o.app.appearance.service.CURDHelper;
 import com.o0live0o.app.appearance.data.ExteriorList;
 import com.o0live0o.app.appearance.data.FinalData;
@@ -36,6 +37,7 @@ import com.o0live0o.app.appearance.views.LabelView;
 import com.o0live0o.app.dbutils.DbResult;
 import com.o0live0o.app.dbutils.SSMSHelper;
 
+import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
@@ -64,6 +66,7 @@ public class C1Activity extends BaseActivity {
     private Button mBtnSubmit;
 
     private Map<String,List<String>> remarkMap;
+    private Map<String,List<String>> subItemMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +80,7 @@ public class C1Activity extends BaseActivity {
         mRV = findViewById(R.id.c1_rv_checklist);
         mEtRemark = findViewById(R.id.c1_et_remark);
         remarkMap = new HashMap<>();
+        subItemMap = new HashMap<>();
         mCar = getIntent().getParcelableExtra("carInfo");
         initBoard(mCar.getPlateNo(),mCar.getTestId(),mCar.getLineNumber());
 
@@ -117,24 +121,31 @@ public class C1Activity extends BaseActivity {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             for (int j = 0; j < list.size(); j++) {
+
                                                 String tempStr = s1[list.get(j)];
-                                                if (!remarkMap.containsKey(String.valueOf(mList.get(i).getItemId()))) {
+                                                if (!remarkMap.containsKey(String.valueOf(mList.get(i).getItemId())))
                                                     remarkMap.put(String.valueOf(mList.get(i).getItemId()), new ArrayList<>());
-                                                }
                                                 if (!remarkMap.get(String.valueOf(mList.get(i).getItemId())).contains(tempStr))
                                                     remarkMap.get(String.valueOf(mList.get(i).getItemId())).add(tempStr);
+
+                                                String tempSubItem = String.valueOf(mList.get(i).getItemId())+ "_"+String.valueOf(list.get(j)+1);
+                                                if (!subItemMap.containsKey(String.valueOf(mList.get(i).getItemId())))
+                                                    subItemMap.put(String.valueOf(mList.get(i).getItemId()), new ArrayList<>());
+                                                if (!subItemMap.get(String.valueOf(mList.get(i).getItemId())).contains(tempSubItem))
+                                                    subItemMap.get(String.valueOf(mList.get(i).getItemId())).add(tempSubItem);
                                             }
-                                            updateReamrk();
+                                            //updateReamrk();
                                         }
                                     })
                                     .create();
                             alertDialog.show();
 
                         } else {
-                            if (remarkMap.containsKey(String.valueOf(mList.get(i).getItemId()))) {
+                            if (remarkMap.containsKey(String.valueOf(mList.get(i).getItemId())))
                                 remarkMap.get(String.valueOf(mList.get(i).getItemId())).clear();
-                            }
-                            updateReamrk();
+                            if (subItemMap.containsKey(String.valueOf(mList.get(i).getItemId())))
+                                subItemMap.get(String.valueOf(mList.get(i).getItemId())).clear();
+                            //updateReamrk();
                         }
                     }
 
@@ -183,6 +194,17 @@ public class C1Activity extends BaseActivity {
 
     }
 
+    private String getSubItems(){
+        StringJoiner stringJoiner = new StringJoiner(",");
+        for (List<String> tempList : subItemMap.values()) {
+            for (String s : tempList
+            ) {
+                stringJoiner.add(s);
+            }
+        }
+        return stringJoiner.toString();
+    }
+
     @Override
     protected void onDestroy() {
         BaseActivity.RunThread = false;
@@ -191,7 +213,7 @@ public class C1Activity extends BaseActivity {
 
     public void onSubmit(View view) {
         mCar.setEndTime(getTime());
-        new SubmitTask().execute();
+        new SubmitTask().execute(mEtRemark.getText().toString());
     }
 
     public void onPre(View view) {
@@ -235,10 +257,10 @@ public class C1Activity extends BaseActivity {
     }
 
     //结束检测
-    class SubmitTask extends AsyncTask<Void,Void, DbResult>{
+    class SubmitTask extends AsyncTask<String,Void, DbResult>{
 
         @Override
-        protected DbResult doInBackground(Void... voids) {
+        protected DbResult doInBackground(String... strings) {
 
             ResultBean resultBean = new ResultBean();
             C1Bean c1 = new C1Bean();
@@ -247,7 +269,7 @@ public class C1Activity extends BaseActivity {
             c1.setRxsxbj(mList.stream().filter(s->s.getItemId() == 48).map(s->s.getItemState() == CheckState.PASS ? "1":"0").collect(Collectors.joining("")));
             c1.setRzdxbj(mList.stream().filter(s->s.getItemId() == 49).map(s->s.getItemState() == CheckState.PASS ? "1":"0").collect(Collectors.joining("")));
             c1.setRqtbj(mList.stream().filter(s->s.getItemId() == 50).map(s->s.getItemState() == CheckState.PASS ? "1":"0").collect(Collectors.joining("")));
-            c1.setJyyjy("");
+            c1.setJyyjy(strings[0]);
 
             //写入过程数据
             String xml = CreateXML.caeate428(mCar, c1);
@@ -306,7 +328,11 @@ public class C1Activity extends BaseActivity {
             }
 //            }
 
-            return CURDHelper.saveC1(mList,mCar);
+            String subItems = getSubItems();
+            TempBean tempBean = new TempBean();
+            tempBean.setVal1(strings[0]);
+            tempBean.setVal2(subItems);
+            return CURDHelper.saveC1(mList,mCar,tempBean);
         }
 
         @Override
@@ -336,33 +362,48 @@ public class C1Activity extends BaseActivity {
 
             ResultBean resultBean = new ResultBean();
             String xml = "";
-            //发送联网录像指令
-//            xml = CreateXML.create803(mCar,getTime(),"01","0323");
-//             resultBean= WebServiceHelper.getInstance().SendWebservice("803","writeObjectXml","WriteXmlDoc",xml);
-//             final String s1 = resultBean.getMsg();
-//            runOnUiThread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    showToast(s1);
-//                }
-//            });
+            try {
+                //发送联网录像指令
+                xml = CreateXML.create803(mCar, getTime(), "01", "0323");
+                L.d("发送开始录像指令：" + xml);
+                resultBean = WebServiceHelper.getInstance().SendWebservice("803", "writeObjectXml", "WriteXmlDoc", xml);
+                L.d("发送开始录像指令：" + resultBean.getMsg());
+                final String s1 = resultBean.getMsg();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showToast(s1);
+                    }
+                });
+            }catch (Exception e) {
+                L.d("发送开始录像指令异常：" + e.getMessage());
+            }
+
+
 
 //            if (resultBean.isSucc()) {
                 //发送联网开始命令
-//                xml = CreateXML.create211(mCar);
-//                resultBean = WebServiceHelper.getInstance().SendWebservice("211", "writeObjectXml", "WriteXmlDoc", xml);
-//                final String s2 = resultBean.getMsg();
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        showToast(s2);
-//                    }
-//                });
+            try {
+
+                L.d("发送开始指令：" + xml);
+                xml = CreateXML.create211(mCar);
+                resultBean = WebServiceHelper.getInstance().SendWebservice("211", "writeObjectXml", "WriteXmlDoc", xml);
+                L.d("发送开始指令：" + resultBean.getMsg());
+                final String s2 = resultBean.getMsg();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showToast(s2);
+                    }
+                });
+            }catch (Exception e){
+                L.d("发送开始指令异常：" + e.getMessage());
+            }
 //            }
 
 //            if (resultBean.isSucc()) {
             //更新LED状态
-              DbResult dbResult =  CURDHelper.sendStatus(mCar.getPlateNo() + "@" + "人工检查", mCar, "1001");
+              DbResult dbResult =  CURDHelper.sendStatus(mCar.getPlateNo() + "@" + "人工检查", mCar, "1");
               resultBean.setSucc(dbResult.isSucc());
               resultBean.setMsg(dbResult.getMsg());
 //            }

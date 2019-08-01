@@ -8,7 +8,7 @@ import java.util.List;
 
 public class CURDHelper  {
 
-    private static ICURD mCurd = new CURD_IVS();
+    private static ICURD mCurd = new CURD_AJ();
 
     public static DbResult login(String user,String pwd) {
       return  mCurd.<String>login(user,pwd,"");
@@ -26,8 +26,8 @@ public class CURDHelper  {
         return mCurd.saveDC(list,car,"");
     }
 
-    public static DbResult saveC1(List<ExteriorBean> list,CarBean car) {
-        return mCurd.saveC1(list,car,"");
+    public static <T>DbResult saveC1(List<ExteriorBean> list,CarBean car,T t) {
+        return mCurd.saveC1(list,car,t);
     }
 
     public static DbResult sendStatus(String s,CarBean car,String status){

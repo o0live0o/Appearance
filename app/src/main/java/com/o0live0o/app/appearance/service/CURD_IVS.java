@@ -61,7 +61,6 @@ public class CURD_IVS implements ICURD {
 
     @Override
     public <T> DbResult saveF1(List<ExteriorBean> list,CarBean car, T t) {
-
         //TODO 处理数据
         //外检检验项目
         String jyxm = "";

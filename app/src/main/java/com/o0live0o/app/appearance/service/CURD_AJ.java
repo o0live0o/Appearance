@@ -2,6 +2,7 @@ package com.o0live0o.app.appearance.service;
 
 import com.o0live0o.app.appearance.bean.CarBean;
 import com.o0live0o.app.appearance.bean.ExteriorBean;
+import com.o0live0o.app.appearance.bean.TempBean;
 import com.o0live0o.app.appearance.data.FinalData;
 import com.o0live0o.app.appearance.enums.CheckState;
 import com.o0live0o.app.appearance.log.L;
@@ -58,9 +59,14 @@ public class CURD_AJ implements ICURD {
 
         if (type.equals("00")) {
             sql +=  " AND  ISNULL(test_flag,0) = 0 ";
-        } else if(!type.equals(FinalData.C1)) {          //底盘
-          sql +=  " AND  ISNULL(test_flag,0) = 0  AND  isnull(wg_flag,0) = 0 ";
+        } else if(!type.equals(FinalData.C1)) {
+            if(type.equals(FinalData.F1)) {
+                sql += " AND  ISNULL(test_flag,0) = 0  AND  isnull(wg_flag,0) = 0 ";
+            } else if (type.equals(FinalData.DC)){
+                sql += " AND  isnull(DC_FLAG,0) = 0 ";
+            }
         }else{
+            //底盘
             sql+=" AND test_flag = '" + car.getC1Number()+"'";
             if(!car.getLineNumber().equals("全部"))
             sql+= " AND LINE_NUM = '"+car.getLineNumber()+"'";
@@ -103,16 +109,17 @@ public class CURD_AJ implements ICURD {
         params.add(jyxm);
         params.add(bhgx);
         params.add(iJL);
+        params.add(FinalData.getOperator());
         params.add(car.getTestId());
 
         //保存
         String searchSql = "SELECT COUNT(*) AS ct FROM PDA_F1_RESULT WHERE PID = '"+car.getTestId()+"'";
         String sql = "";
         if (ssmsHelper.exist(searchSql,null)){
-            sql = "UPDATE PDA_F1_RESULT SET HPHM = ?,HPZL = ?,JYXM = ?,BHGX = ?,JYJL = ? WHERE PID = ?";
+            sql = "UPDATE PDA_F1_RESULT SET HPHM = ?,HPZL = ?,JYXM = ?,BHGX = ?,JYJL = ? ,JYY = ? WHERE PID = ?";
 
         }else {
-            sql = "INSERT INTO PDA_F1_RESULT (HPHM,HPZL,JYXM,BHGX,JYJL,PID) VALUES (?,?,?,?,?,?)";
+            sql = "INSERT INTO PDA_F1_RESULT (HPHM,HPZL,JYXM,BHGX,JYJL,JYY ,PID ) VALUES (?,?,?,?,?,?,?)";
         }
         DbResult dbResult = ssmsHelper.insertAndUpdateWithPara(sql,params);
         L.d(String.valueOf(dbResult.isSucc()));
@@ -153,17 +160,27 @@ public class CURD_AJ implements ICURD {
         params.add(dc_jyxm);
         params.add(dc_bhgx);
         params.add(dc_pd);
+        params.add(FinalData.getOperator());
         params.add(car.getTestId());
 
         String searchSql = "SELECT COUNT(*) AS ct FROM PDA_DC_RESULT WHERE PID  = '"+car.getTestId()+"'";
         String sql = "";
         if (ssmsHelper.exist(searchSql,null)){
-            sql = "UPDATE PDA_DC_RESULT SET HPHM = ?,HPZL = ?,JYXM = ?,BHGX = ?,  JYJL = ? WHERE PID = ?";
+            sql = "UPDATE PDA_DC_RESULT SET HPHM = ?,HPZL = ?,JYXM = ?,BHGX = ?,  JYJL = ? ,JYY = ? WHERE PID = ?";
 
         }else {
-            sql = "INSERT INTO PDA_DC_RESULT (HPHM,HPZL,JYXM,BHGX,JYJL,PID) VALUES (?,?,?,?,?,?)";
+            sql = "INSERT INTO PDA_DC_RESULT (HPHM,HPZL,JYXM,BHGX,JYJL,JYY,PID) VALUES (?,?,?,?,?,?,?)";
         }
         DbResult dbResult = ssmsHelper.insertAndUpdateWithPara(sql,params);
+
+        //更新调度表状态
+        if (dbResult.isSucc()){
+            sql = "UPDATE CARTEST_VEHICLE SET DC_FLAG = 1 WHERE PID = ?";
+            List<Object> params1 = new ArrayList<>();
+            params1.add(car.getTestId());
+            dbResult = ssmsHelper.insertAndUpdateWithPara(sql,params1);
+        }
+
         return dbResult;
     }
 
@@ -184,7 +201,9 @@ public class CURD_AJ implements ICURD {
             c1_pd = "2";
         }
 
-        c1_bhgx = failList.stream().map(item->item.getItemId()+"-1").collect(Collectors.joining(","));
+        c1_bhgx = failList.stream().map(item->String.valueOf(item.getItemId())).collect(Collectors.joining(","));
+
+        TempBean tempBean = (TempBean)t;
 
         List<Object> params = new ArrayList<>();
         params.add(car.getPlateNo());
@@ -192,15 +211,18 @@ public class CURD_AJ implements ICURD {
         params.add(c1_jyxm);
         params.add(c1_bhgx);
         params.add(c1_pd);
+        params.add(tempBean.getVal1() == null ?"" :tempBean.getVal1());
+        params.add(tempBean.getVal2() == null ?"" :tempBean.getVal2());
+        params.add(FinalData.getOperator());
         params.add(car.getTestId());
 
         String searchSql = "SELECT COUNT(*) AS ct FROM PDA_C1_RESULT WHERE PID  = '"+car.getTestId()+"'";
         String sql = "";
         if (ssmsHelper.exist(searchSql,null)){
-            sql = "UPDATE PDA_C1_RESULT SET HPHM = ?,HPZL = ?,JYXM = ?,BHGX = ?,JYJL = ? WHERE PID  = ?";
+            sql = "UPDATE PDA_C1_RESULT SET HPHM = ?,HPZL = ?,JYXM = ?,BHGX = ?,JYJL = ?,REMARK = ?,SUB_BHGX = ?,JYY = ? WHERE PID  = ?";
 
         }else {
-            sql = "INSERT INTO PDA_C1_RESULT (HPHM,HPZL,JYXM,BHGX,JYJL,PID) VALUES (?,?,?,?,?,?)";
+            sql = "INSERT INTO PDA_C1_RESULT (HPHM,HPZL,JYXM,BHGX,JYJL,REMARK,SUB_BHGX,JYY,PID) VALUES (?,?,?,?,?,?,?,?,?)";
         }
         DbResult dbResult = ssmsHelper.insertAndUpdateWithPara(sql,params);
 
