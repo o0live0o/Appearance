@@ -31,7 +31,7 @@ public class CURD_IVS implements ICURD {
             dbResult.setMsg(map.get("EMPLOYEE_NAME"));
         } else {
             dbResult.setSucc(false);
-            dbResult.setMsg("登录失败");
+            dbResult.setMsg("登录失败,用户名或密码不正确！");
         }
         return dbResult;
     }
