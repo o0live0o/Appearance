@@ -66,7 +66,7 @@ public class DCActivity extends BaseActivity {
         mCar = getIntent().getParcelableExtra("carInfo");
         mCar.setStartTime(getTime());
         initBoard(mCar.getPlateNo(),mCar.getTestId(),mCar.getLineNumber());
-        startTimes();
+
         mList = ExteriorList.getDCList();
         mChekItemAdapter = new ChekItemAdapter(this,mList);
 
@@ -150,7 +150,8 @@ public class DCActivity extends BaseActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRV.setLayoutManager(linearLayoutManager);
         mRV.setAdapter(mChekItemAdapter);
-        new StatusTask().execute("动态底盘检查","1001");
+        startTimes();
+
     }
 
     public void onSubmit(View view) {
@@ -167,7 +168,18 @@ public class DCActivity extends BaseActivity {
             }
         }
         mEtRemark.setText(stringJoiner.toString());
+    }
 
+    public void onStart(View view) {
+        new StatusTask().execute("动态底盘检查","1001");
+    }
+
+    public void onCaputure(View view) {
+        new CaptureTask().execute("100");
+    }
+
+    public void onCaputure1(View view) {
+        new CaptureTask().execute("102");
     }
 
     class SubmitTask extends AsyncTask<Void,Void, DbResult> {
@@ -219,6 +231,27 @@ public class DCActivity extends BaseActivity {
             }else {
                 showToast("状态更新失败:"+dbResult.getMsg());
             }
+        }
+    }
+
+    class CaptureTask extends AsyncTask<String,Void,String>{
+        @Override
+        protected String doInBackground(String... strings) {
+            CURDHelper.insertOrUpdate(mCar,strings[0]);
+            return  "";
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgressDialog("","正在拍照……");
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            hideProgressDialog();
+
         }
     }
 }

@@ -16,7 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activitys.DispatchActivity"></activity>
+        <activity android:name=".activitys.DCToC1Activity"></activity>
+        <activity android:name=".activitys.C1ToDCActivity" />
+        <activity android:name=".activitys.DispatchActivity" />
         <activity android:name=".activitys.LogActivity" />
         <activity android:name=".activitys.WebserviceActivity" />
         <activity android:name=".activitys.HelpActivity" />

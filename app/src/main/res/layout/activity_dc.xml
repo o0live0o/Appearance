@@ -9,14 +9,45 @@
 
     <include layout="@layout/nav_bar"></include>
 
+    <include layout="@layout/head_board"></include>
 
-   <include layout="@layout/head_board"></include>
-
-    <Button
-        style="@style/loginBtn"
-        android:text="提 交"
-        android:background="@color/skyblue"
-        android:onClick="onSubmit"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/c1_btn_start"
+            style="@style/loginBtn"
+            android:text="开 始 "
+            android:layout_marginTop="5dp"
+            android:background="@color/skyblue"
+            android:layout_weight="1"
+            android:onClick="onStart"/>
+        <Button
+            android:id="@+id/c1_btn_capture_pre"
+            style="@style/loginBtn"
+            android:text="拍照前"
+            android:layout_marginTop="5dp"
+            android:background="@color/skyblue"
+            android:layout_weight="1"
+            android:onClick="onCaputure"/>
+        <Button
+            android:id="@+id/c1_btn_capture_"
+            style="@style/loginBtn"
+            android:text="拍照后"
+            android:layout_marginTop="5dp"
+            android:background="@color/skyblue"
+            android:layout_weight="1"
+            android:onClick="onCaputure1"/>
+        <Button
+            android:id="@+id/c1_btn_submit"
+            style="@style/loginBtn"
+            android:text="提 交"
+            android:layout_marginTop="5dp"
+            android:background="@color/skyblue"
+            android:layout_weight="1"
+            android:onClick="onSubmit"/>
+    </LinearLayout>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

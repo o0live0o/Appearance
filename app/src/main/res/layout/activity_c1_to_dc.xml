@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activitys.C1ToDCActivity">
+    <include layout="@layout/nav_bar"></include>
+
+    <include
+        layout="@layout/head_board"
+        ></include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/c1dc_btn_start"
+            style="@style/loginBtn"
+            android:text="开 始 "
+            android:layout_marginTop="5dp"
+            android:background="@color/skyblue"
+            android:layout_weight="1"
+            android:onClick="onStart"/>
+        <Button
+            android:id="@+id/c1dc_btn_capture"
+            style="@style/loginBtn"
+            android:text="拍 照"
+            android:layout_marginTop="5dp"
+            android:background="@color/skyblue"
+            android:layout_weight="1"
+            android:onClick="onCaputure"/>
+        <Button
+            android:id="@+id/c1dc_btn_submit"
+            style="@style/loginBtn"
+            android:text="提 交"
+            android:layout_marginTop="5dp"
+            android:background="@color/skyblue"
+            android:layout_weight="1"
+            android:onClick="onSubmit"/>
+    </LinearLayout>
+
+
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/lightblue"
+                android:onClick="onPre"
+                android:text="前进"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/lightblue"
+                android:onClick="onPre"
+                android:text="后退"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/lightblue"
+                android:onClick="onPre"
+                android:text="停车"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/lightblue"
+                android:onClick="onPre"
+                android:text="熄火"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/lightblue"
+                android:onClick="onPre"
+                android:text="左打方向盘"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/lightblue"
+                android:onClick="onPre"
+                android:text="回正"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/lightblue"
+                android:onClick="onPre"
+                android:text="右打方向盘"/>
+        </LinearLayout>
+    </HorizontalScrollView>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_marginLeft="@dimen/marginSize"
+        android:layout_marginRight="@dimen/marginSize">
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/c1dc_rv_checklist"></android.support.v7.widget.RecyclerView>
+    </ScrollView>
+
+    <EditText
+        android:id="@+id/c1dc_et_remark"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:textSize="15sp"
+        android:singleLine="false"
+        android:layout_marginLeft="@dimen/marginSize"
+        android:layout_marginRight="@dimen/marginSize"
+        android:paddingLeft="10dp"
+        android:paddingTop="3dp"
+        android:maxLines="10"
+        android:inputType="textMultiLine"
+        android:background="@drawable/background_edit"
+        android:hint="@string/check_remark"
+        android:gravity="top"
+        android:scrollHorizontally="false"/>
+
+
+</LinearLayout>

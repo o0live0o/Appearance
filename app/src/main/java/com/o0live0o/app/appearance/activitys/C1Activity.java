@@ -264,11 +264,11 @@ public class C1Activity extends BaseActivity {
 
             ResultBean resultBean = new ResultBean();
 
-
             String subItems = getSubItems();
             TempBean tempBean = new TempBean();
             tempBean.setVal1(strings[0]);
             tempBean.setVal2(subItems);
+            CURDHelper.sendStatus(mCar.getPlateNo() + "@" + "检测完成", mCar, "1002");
             return CURDHelper.saveC1(mList,mCar,tempBean);
         }
 
@@ -322,7 +322,7 @@ public class C1Activity extends BaseActivity {
     class SendService extends AsyncTask<String,Void,String>{
         @Override
         protected String doInBackground(String... strings) {
-            CURDHelper.insertOrUpdate(mCar);
+            CURDHelper.insertOrUpdate(mCar,"101");
             return  "";
         }
 
