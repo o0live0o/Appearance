@@ -147,6 +147,9 @@ public  class GenerateItem {
                 && m_car.isDB()) {
             flag = true;
         }
+
+        if (m_car.getVehicleType().equals("H31"))
+            flag = true;
         if (flag)
             list.add(11);
     }
