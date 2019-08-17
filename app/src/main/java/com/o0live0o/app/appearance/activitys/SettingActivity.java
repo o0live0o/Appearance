@@ -18,6 +18,7 @@ public class SettingActivity extends BaseActivity {
     private InputView mIvServer;
     private InputView mIvUser;
     private InputView mIvPwd;
+    private InputView mIvInstance;
 
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
@@ -35,6 +36,7 @@ public class SettingActivity extends BaseActivity {
         mIvPwd = findViewById(R.id.set_dbpwd);
         mIvUser = findViewById(R.id.set_dbuser);
         mIvServer = findViewById(R.id.set_server);
+        mIvInstance = findViewById(R.id.set_instance);
 
         pref = PreferenceManager.getDefaultSharedPreferences(MyApplication.getContext());
 
@@ -42,11 +44,12 @@ public class SettingActivity extends BaseActivity {
         String user = pref.getString("db_user",  this.getString(R.string.db_user));
         String pwd = pref.getString("db_pwd",  this.getString(R.string.db_pwd));
         String server = pref.getString("db_server",  this.getString(R.string.db_ip));
-
+        String instance = pref.getString("db_instance",  "");
         mIvDatabase.setInputStr(dataBase);
         mIvUser.setInputStr(user);
         mIvPwd.setInputStr(pwd);
         mIvServer.setInputStr(server);
+        mIvInstance.setInputStr(instance);
     }
 
     public void onSaveSettingClick(View view) {
@@ -55,18 +58,19 @@ public class SettingActivity extends BaseActivity {
             String user = mIvUser.getInputStr();
             String pwd = mIvPwd.getInputStr();
             String server = mIvServer.getInputStr();
-
+            String instance = mIvInstance.getInputStr();
             SSMSHelper.GetInstance().init(
                     dataBase,
                     server,
                     user,
-                    pwd,MyApplication.getContext());
+                    pwd,instance,MyApplication.getContext());
 
             editor = pref.edit();
             editor.putString("database",dataBase);
             editor.putString("db_user",user);
             editor.putString("db_pwd",pwd);
             editor.putString("db_server",server);
+            editor.putString("db_instance",instance);
             editor.apply();
 
             Toast.makeText(this,"保存成功",Toast.LENGTH_LONG).show();

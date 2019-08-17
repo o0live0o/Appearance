@@ -29,6 +29,7 @@ public class SSMSHelper {
     private static String DIP;
     private static String DUser;
     private static String DPwd;
+    private static String DInstance;
 
     private static Connection mConn;
     private PreparedStatement preparedStatement;
@@ -45,11 +46,12 @@ public class SSMSHelper {
     }
 
 
-    public void init(String dbname, String ip, String user, String pwd,Context context) {
+    public void init(String dbname, String ip, String user, String pwd,String instance, Context context) {
         DName = dbname;
         DIP = ip;
         DUser = user;
         DPwd = pwd;
+        DInstance = instance;
         mContext = context;
         //connectDB();
     }
@@ -62,7 +64,11 @@ public class SSMSHelper {
         JSONArray jsonArray = new JSONArray();
         try {
             Class.forName(JTDS_DRIVER);
-            mConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + DIP + ":1433/" + DName, DUser, DPwd);
+            String connectURL = "jdbc:jtds:sqlserver://"+DIP+":1433;databaseName="+DName;
+            if (DInstance != null && !DInstance.isEmpty()){
+                connectURL += ";instance="+DInstance;
+            }
+            mConn = DriverManager.getConnection(connectURL, DUser, DPwd);
             preparedStatement = mConn.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
             ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
@@ -102,7 +108,11 @@ public class SSMSHelper {
         int count = 0;
         try {
             Class.forName(JTDS_DRIVER);
-            mConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + DIP + ":1433/" + DName, DUser, DPwd);
+            String connectURL = "jdbc:jtds:sqlserver://"+DIP+":1433;databaseName="+DName;
+            if (DInstance != null && !DInstance.isEmpty()){
+                connectURL += ";instance="+DInstance;
+            }
+            mConn = DriverManager.getConnection(connectURL, DUser, DPwd);
 
             preparedStatement = mConn.prepareStatement(sql);
             if (params != null && !params.equals("")) {
@@ -133,7 +143,11 @@ public class SSMSHelper {
         int count = 0;
         try {
             Class.forName(JTDS_DRIVER);
-            mConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + DIP + ":1433/" + DName, DUser, DPwd);
+            String connectURL = "jdbc:jtds:sqlserver://"+DIP+":1433;databaseName="+DName;
+            if (DInstance != null && !DInstance.isEmpty()){
+                connectURL += ";instance="+DInstance;
+            }
+            mConn = DriverManager.getConnection(connectURL, DUser, DPwd);
 
             preparedStatement = mConn.prepareStatement(sql);
             if (params != null && !params.equals("")) {
@@ -162,21 +176,26 @@ public class SSMSHelper {
 
     public Map<String, String> searchSet(String sql, List<Object> params) {
         ResultSet resultSet = null;
+        Map<String, String> map = new HashMap<>();
         try {
             Class.forName(JTDS_DRIVER);
-            mConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + DIP + ":1433/" + DName, DUser, DPwd);
+            String connectURL = "jdbc:jtds:sqlserver://"+DIP+":1433;databaseName="+DName;
+            if (DInstance != null && !DInstance.isEmpty()){
+                connectURL += ";instance="+DInstance;
+            }
+            mConn = DriverManager.getConnection(connectURL, DUser, DPwd);
             preparedStatement = mConn.prepareStatement(sql);
             if (params != null && !params.equals("")) {
                 for (int i = 0; i < params.size(); i++) {
                     preparedStatement.setObject(i + 1, params.get(i));
                 }
             }
-            Map<String, String> map = new HashMap<>();
             resultSet = preparedStatement.executeQuery();
             return rowToMap(resultSet);
         } catch (Exception e) {
             e.printStackTrace();
-            showToast(e.getMessage());
+            map.put("error",e.getMessage());
+            //showToast(e.getMessage());
         } finally {
             try {
                 if (preparedStatement != null)
@@ -187,7 +206,7 @@ public class SSMSHelper {
                 e.printStackTrace();
             }
         }
-        return null;
+        return map;
     }
 
     private HashMap rowToMap(ResultSet rs) {
@@ -210,7 +229,11 @@ public class SSMSHelper {
     private void connectDB() {
         try {
             Class.forName(JTDS_DRIVER);
-            mConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + DIP + ":1433/" + DName, DUser, DPwd);
+            String connectURL = "jdbc:jtds:sqlserver://"+DIP+":1433;databaseName="+DName;
+            if (DInstance != null && !DInstance.isEmpty()){
+                connectURL += ";instance="+DInstance;
+            }
+            mConn = DriverManager.getConnection(connectURL, DUser, DPwd);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {

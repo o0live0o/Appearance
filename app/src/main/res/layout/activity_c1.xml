@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:background="@color/lightblue"
             android:onClick="onPre"
-            android:text="停车"/>
+            android:text="转动方向"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

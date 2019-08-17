@@ -68,6 +68,11 @@ public class LoginActivity extends  BaseActivity{
 //        }
         String user =ivUser.getInputStr();
         String pwd = ivPwd.getInputStr();
+        if (user.isEmpty())
+        {
+            showDialog("用户名不能为空！");
+            return;
+        }
         new LoginTask().execute(new String[]{user,pwd});
     }
 

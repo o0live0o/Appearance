@@ -36,6 +36,19 @@
     <View
         style="@style/line"></View>
     <com.o0live0o.app.appearance.views.InputView
+        android:id="@+id/set_instance"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/inputViewHeight"
+        android:layout_marginTop="@dimen/marginSize"
+        app:input_icon="@drawable/database"
+        app:input_hint="实例名"
+        app:is_pwd="false"
+        >
+    </com.o0live0o.app.appearance.views.InputView>
+
+    <View
+        style="@style/line"></View>
+    <com.o0live0o.app.appearance.views.InputView
         android:id="@+id/set_dbuser"
         android:layout_width="match_parent"
         android:layout_height="@dimen/inputViewHeight"

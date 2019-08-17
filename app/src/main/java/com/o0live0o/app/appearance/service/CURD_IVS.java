@@ -29,6 +29,11 @@ public class CURD_IVS implements ICURD {
         if (map != null && map.size() > 0 && map.containsKey("EMPLOYEE_NAME")) {
             dbResult.setSucc(true);
             dbResult.setMsg(map.get("EMPLOYEE_NAME"));
+        }
+        else if (map != null && map.size() > 0 && map.containsKey("error")){
+            dbResult.setSucc(false);
+            dbResult.setMsg(map.get("error"));
+
         } else {
             dbResult.setSucc(false);
             dbResult.setMsg("登录失败,用户名或密码不正确！");

@@ -38,6 +38,7 @@ public class MyApplication extends Application {
         String user = pref.getString("db_user",  this.getString(R.string.db_user));
         String pwd = pref.getString("db_pwd",  this.getString(R.string.db_pwd));
         String server = pref.getString("db_server",  this.getString(R.string.db_ip));
+        String instance = pref.getString("db_instance",  "");
 
         String web_url = pref.getString("web_url",getString(R.string.web_url));
         String stationNo = pref.getString("station_no",getString(R.string.web_station_no));
@@ -60,7 +61,7 @@ public class MyApplication extends Application {
                 dataBase,
                 server,
                 user,
-                pwd,context);
+                pwd,instance,context);
 
         WebServiceHelper.getInstance().init(web_url,web_org);
     }
