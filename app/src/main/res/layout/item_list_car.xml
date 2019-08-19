@@ -8,11 +8,7 @@
     android:paddingLeft="@dimen/marginSize"
     android:layout_marginTop="3dp">
 
-    <ImageView
-        android:id="@+id/car_item_logo"
-        android:layout_width="@dimen/itemPicSize"
-        android:layout_height="@dimen/itemPicSize"
-        android:src="@drawable/logo"/>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -20,26 +16,48 @@
         android:layout_marginTop="7dp">
 
         <TextView
-        android:id="@+id/car_item_plateNo"
-        style="@style/itemText"
-        android:text="粤A00000"
-        />
+            android:id="@+id/car_item_plateNo_lab"
+            style="@style/itemText"
+            android:text="号牌号码："
+            />
+        <TextView
+            android:id="@+id/car_item_plateNo"
+            style="@style/itemText"
+            android:layout_toRightOf="@id/car_item_plateNo_lab"
+            android:text="粤A00000"
+            />
         <TextView
             android:id="@+id/car_item_plateType"
             android:layout_alignParentRight="true"
             style="@style/itemText"
             android:text="小型汽车"
             />
+
+        <TextView
+            android:id="@+id/car_item_plateType_lab"
+            style="@style/itemText"
+            android:text="车架号："
+            android:layout_below="@id/car_item_plateType"
+            />
         <TextView
             android:id="@+id/car_item_vin"
             android:layout_below="@id/car_item_plateType"
+            android:layout_toRightOf="@id/car_item_plateType_lab"
             style="@style/itemText"
             android:text="LSN1234567890000"
+            />
+
+        <TextView
+            android:id="@+id/car_item_testId_lab"
+            style="@style/itemText"
+            android:text="流水号："
+            android:layout_below="@id/car_item_vin"
             />
         <TextView
             style="@style/itemText"
             android:id="@+id/car_item_testId"
             android:layout_below="@id/car_item_vin"
+            android:layout_toRightOf="@id/car_item_testId_lab"
             android:text="12345678901234567890"/>
 
     </RelativeLayout>
