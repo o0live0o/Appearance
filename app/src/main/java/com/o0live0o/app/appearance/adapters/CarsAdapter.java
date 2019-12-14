@@ -73,7 +73,7 @@ public class CarsAdapter extends RecyclerView.Adapter<CarsAdapter.ViewHolder> {
     class ViewHolder extends RecyclerView.ViewHolder{
 
         View itemView;
-        ImageView imageView;
+        ImageView  imageView;
         TextView tvPlateNo;
         TextView tvPlateType;
         TextView tvVIN;
