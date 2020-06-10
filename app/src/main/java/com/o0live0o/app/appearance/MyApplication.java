@@ -5,12 +5,18 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.blankj.utilcode.util.NetworkUtils;
 import com.o0live0o.app.appearance.data.FinalData;
+import com.o0live0o.app.appearance.service.NetHelper;
 import com.o0live0o.app.appearance.service.WebServiceHelper;
 import com.o0live0o.app.dbutils.SSMSHelper;
 
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static com.blankj.utilcode.util.TimeUtils.date2String;
+import static com.blankj.utilcode.util.TimeUtils.getNowDate;
 
 public class MyApplication extends Application {
 
@@ -55,6 +61,8 @@ public class MyApplication extends Application {
         FinalData.setWebserviceUrl(web_url);
         FinalData.setWebservicekey(web_key);
         FinalData.setJkxlh(web_jkxlh);
+        String s = date2String(getNowDate());
+        String s1 = NetworkUtils.getIPAddress(true);
 
         SSMSHelper.GetInstance().init(
                 dataBase,

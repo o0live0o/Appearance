@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:background="@drawable/backgroud_shap"
+    android:background="@drawable/backgroud_shap_white"
     android:paddingRight="@dimen/marginSize"
     android:paddingLeft="@dimen/marginSize"
     android:layout_marginTop="3dp">
@@ -15,49 +15,78 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp">
 
-        <TextView
-            android:id="@+id/car_item_plateNo_lab"
-            style="@style/itemText"
-            android:text="号牌号码："
-            />
+
         <TextView
             android:id="@+id/car_item_plateNo"
-            style="@style/itemText"
-            android:layout_toRightOf="@id/car_item_plateNo_lab"
+            style="@style/itemTextMin"
+            android:textColor="@color/red"
             android:text="粤A00000"
+            />
+        <TextView
+            android:id="@+id/car_item_times_lab"
+            style="@style/itemTextMin"
+            android:textColor="@color/blue"
+            android:layout_toRightOf="@id/car_item_plateNo"
+            android:text="   次数："
+            />
+        <TextView
+            android:id="@+id/car_item_times"
+            style="@style/itemTextMin"
+            android:textColor="@color/blue"
+            android:layout_toRightOf="@id/car_item_times_lab"
+            android:text="1"
             />
         <TextView
             android:id="@+id/car_item_plateType"
             android:layout_alignParentRight="true"
-            style="@style/itemText"
+            style="@style/itemTextMin"
             android:text="小型汽车"
             />
 
+        <View
+            android:id="@+id/line1"
+            android:layout_below="@id/car_item_plateType"
+            android:layout_height="1dp"
+            android:layout_width="match_parent"
+            android:background="@color/lightgray"></View>
         <TextView
             android:id="@+id/car_item_plateType_lab"
-            style="@style/itemText"
+            style="@style/itemTextMin"
             android:text="车架号："
-            android:layout_below="@id/car_item_plateType"
+            android:layout_below="@id/line1"
             />
         <TextView
             android:id="@+id/car_item_vin"
-            android:layout_below="@id/car_item_plateType"
+            android:layout_below="@id/line1"
             android:layout_toRightOf="@id/car_item_plateType_lab"
-            style="@style/itemText"
+            style="@style/itemTextMin"
             android:text="LSN1234567890000"
             />
 
         <TextView
             android:id="@+id/car_item_testId_lab"
-            style="@style/itemText"
+            style="@style/itemTextMin"
             android:text="流水号："
             android:layout_below="@id/car_item_vin"
             />
         <TextView
-            style="@style/itemText"
+            style="@style/itemTextMin"
             android:id="@+id/car_item_testId"
             android:layout_below="@id/car_item_vin"
             android:layout_toRightOf="@id/car_item_testId_lab"
+            android:text="12345678901234567890"/>
+
+        <TextView
+            android:id="@+id/car_item_testItem_lab"
+            style="@style/itemTextMin"
+            android:text="检验项目："
+            android:layout_below="@id/car_item_testId"
+            />
+        <TextView
+            style="@style/itemTextMin"
+            android:id="@+id/car_item_testItem"
+            android:layout_below="@id/car_item_testId"
+            android:layout_toRightOf="@id/car_item_testItem_lab"
             android:text="12345678901234567890"/>
 
     </RelativeLayout>

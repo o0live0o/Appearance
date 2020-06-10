@@ -258,14 +258,22 @@ public class CURD_AJ implements ICURD {
     //提车上线
     @Override
     public <T> DbResult onLine(CarBean car, T t) {
-
-        String sql = "UPDATE CARTEST_VEHICLE SET TEST_FLAG = 1,LINE_NUM = ? WHERE PID = ?";
-
+        DbResult dbResult = new DbResult();
+        dbResult.setSucc(false);
+        dbResult.setMsg("调用存储过程失败");
+        String proc = "{call PUB_SEND_CAR_ONLINE(?,?,?)}";
         List<Object> params = new ArrayList<>();
-        params.add(t);
         params.add(car.getTestId());
-
-        DbResult dbResult = ssmsHelper.insertAndUpdateWithPara(sql,params);
+        params.add(t);
+        params.add(FinalData.getOperator());
+        boolean succ = ssmsHelper.runProc(proc,params);
+        if (succ) {
+            String sql = "UPDATE CARTEST_VEHICLE SET TEST_FLAG = 1,LINE_NUM = ? WHERE PID = ?";
+            params.clear();
+            params.add(t);
+            params.add(car.getTestId());
+            dbResult = ssmsHelper.insertAndUpdateWithPara(sql, params);
+        }
         return dbResult;
     }
 

@@ -66,7 +66,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="联网设置"
-        android:layout_margin="@dimen/marginSize"
         android:textColor="@color/skyblue"
         android:gravity="center_horizontal"
         android:onClick="onSetWebServiceClick" />

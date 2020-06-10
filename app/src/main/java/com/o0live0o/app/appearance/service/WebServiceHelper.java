@@ -1,5 +1,6 @@
 package com.o0live0o.app.appearance.service;
 
+import com.blankj.utilcode.util.NetworkUtils;
 import com.o0live0o.app.appearance.bean.ResultBean;
 import com.o0live0o.app.appearance.data.FinalData;
 import com.o0live0o.app.appearance.log.L;
@@ -100,10 +101,22 @@ public class WebServiceHelper {
                 return resultBean;
             }
         Map<String, String> map = new HashMap<>();
-        map.put("jkid", jkid);
-        map.put("jczdm", FinalData.getStationNo());
-        map.put("key", FinalData.getWebservicekey());
-        map.put(xmlDec, xml);
+//        map.put("jkid", jkid);
+//        map.put("jczdm", FinalData.getStationNo());
+//        map.put("key", FinalData.getWebservicekey());
+//        map.put(xmlDec, xml);
+
+        map.put("xtlb","18");
+        map.put("jkxlh","791C090903061704001589CB869D8A878084F19F8E849DADFC98BC9BBB9BAD9FD0C5CFA2CFB5CDB3A3A8CAB1B7A2EEDAC1D8A3A9");
+        map.put("jkid",jkid);
+        map.put("cjsqbh","01");
+        map.put("dwjgdm","520100008650");
+        map.put("dwmc",FinalData.getWebservicekey());
+        map.put("yhbz","");
+        map.put("yhxm","");
+        map.put("zdbs", NetworkUtils.getIPAddress(true));
+        map.put("WriteXmlDoc",xml);
+
         try {
             resultBean = SendWebservice(map, method);
         } catch (IOException e) {

@@ -22,6 +22,9 @@ import com.o0live0o.app.appearance.views.LabelView;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.blankj.utilcode.util.TimeUtils.date2String;
+import static com.blankj.utilcode.util.TimeUtils.getNowDate;
+
 public class BaseActivity extends Activity {
 
     //导航条
@@ -99,9 +102,10 @@ public class BaseActivity extends Activity {
     }
 
     protected String getTime(){
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = new Date(System.currentTimeMillis());
-        return simpleDateFormat.format(date);
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        Date date = new Date(System.currentTimeMillis());
+//        return simpleDateFormat.format(date);
+       return date2String(getNowDate());
     }
 
     protected void showDialog(String msg){

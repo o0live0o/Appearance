@@ -45,7 +45,7 @@ public class SSMSHelper {
     }
 
 
-    public void init(String dbname, String ip, String user, String pwd,Context context) {
+    public void init(String dbname, String ip, String user, String pwd, Context context) {
         DName = dbname;
         DIP = ip;
         DUser = user;
@@ -220,15 +220,15 @@ public class SSMSHelper {
         }
     }
 
-    private void showToast(final String s){
-        new Thread(){
+    private void showToast(final String s) {
+        new Thread() {
             @Override
-            public void run(){
+            public void run() {
                 Looper.prepare();
                 new Handler().post(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(mContext,s,Toast.LENGTH_LONG).show();
+                        Toast.makeText(mContext, s, Toast.LENGTH_LONG).show();
                     }
                 });
                 Looper.loop();
@@ -236,6 +236,33 @@ public class SSMSHelper {
         }.start();
     }
 
+    public boolean runProc(String proc, List<Object> params) {
+        boolean succ = false;
+        try {
+            Class.forName(JTDS_DRIVER);
+            mConn = DriverManager.getConnection("jdbc:jtds:sqlserver://" + DIP + ":1433/" + DName, DUser, DPwd);
 
+            preparedStatement = mConn.prepareCall(proc);
+            if (params != null && !params.equals("")) {
+                for (int i = 0; i < params.size(); i++) {
+                    preparedStatement.setObject(i + 1, params.get(i));
+                }
+            }
+            succ = preparedStatement.execute();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            showToast(e.getMessage());
+        } finally {
+            try {
+                preparedStatement.close();
+                mConn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                showToast(e.getMessage());
+            }
+        }
+        return succ;
+    }
 }
 

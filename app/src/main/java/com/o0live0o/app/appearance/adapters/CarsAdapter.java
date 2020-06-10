@@ -83,7 +83,7 @@ public class CarsAdapter extends RecyclerView.Adapter<CarsAdapter.ViewHolder> {
             super(itemView);
             this.itemView = itemView;
 
-            imageView = itemView.findViewById(R.id.car_item_logo);
+            //imageView = itemView.findViewById(R.id.car_item_logo);
             tvPlateType = itemView.findViewById(R.id.car_item_plateType);
             tvPlateNo = itemView.findViewById(R.id.car_item_plateNo);
             tvVIN = itemView.findViewById(R.id.car_item_vin);

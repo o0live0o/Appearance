@@ -46,6 +46,7 @@ public class CarListAdapter extends RecyclerView.Adapter<CarListAdapter.ViewHold
         viewHolder.tvPlateType.setText(car.getPlateType());
         viewHolder.tvTestId.setText(car.getTestId());
         viewHolder.tvVIN.setText(car.getVin());
+        viewHolder.tvTimes.setText(car.getTestTimes());
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,16 +79,18 @@ public class CarListAdapter extends RecyclerView.Adapter<CarListAdapter.ViewHold
         TextView tvPlateType;
         TextView tvVIN;
         TextView tvTestId;
+        TextView tvTimes;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             this.itemView = itemView;
 
-            imageView = itemView.findViewById(R.id.car_item_logo);
+            //imageView = itemView.findViewById(R.id.car_item_logo);
             tvPlateType = itemView.findViewById(R.id.car_item_plateType);
             tvPlateNo = itemView.findViewById(R.id.car_item_plateNo);
             tvVIN = itemView.findViewById(R.id.car_item_vin);
             tvTestId = itemView.findViewById(R.id.car_item_testId);
+            tvTimes = itemView.findViewById(R.id.car_item_times);
         }
     }
 }

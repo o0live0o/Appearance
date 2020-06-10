@@ -36,6 +36,7 @@
         android:layout_height="wrap_content"
         app:input_headtext="检测站编号：">
     </com.o0live0o.app.appearance.views.InputWithHeadView>
+
     <View
         style="@style/line"></View>
     <com.o0live0o.app.appearance.views.InputWithHeadView
@@ -43,7 +44,7 @@
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:input_headtext="Key：">
+        app:input_headtext="检测站名称：">
     </com.o0live0o.app.appearance.views.InputWithHeadView>
     <View
         style="@style/line"></View>

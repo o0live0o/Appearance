@@ -36,6 +36,8 @@ public class LoginActivity extends  BaseActivity{
         setContentView(R.layout.activity_login);
         initNavBar(false, this.getString(R.string.login_title),false);
         init();
+        ivUser.setInputStr("王晨");
+        ivPwd.setInputStr("123");
     }
 
     public void onLoginClick(View view) {
@@ -46,7 +48,6 @@ public class LoginActivity extends  BaseActivity{
         } catch (Exception e) {
             e.printStackTrace();
         }
-        L.d(s);
 //        Vehicle_18C55 vehicle_18C55 = new Vehicle_18C55();
 //          XStream xStream = new XStream(new DomDriver());
 //        xStream.ignoreUnknownElements();
